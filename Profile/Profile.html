@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - Quản lý Avatar</title>
+  <link rel="stylesheet" href="Profile.css">
+</head>
+<body>
+  <div class="profile-container">
+    <header class="profile-header">
+      <a href="../test.html" class="back-btn">
+        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Quay lại
+      </a>
+      <h1>Quản lý Avatar</h1>
+    </header>
+
+    <!-- Current Avatar -->
+    <section class="current-avatar-section">
+      <h2>Avatar hiện tại</h2>
+      <div class="current-avatar-wrapper">
+        <img id="currentAvatar" src="" alt="Avatar hiện tại" class="current-avatar">
+      </div>
+    </section>
+
+    <!-- Import New Image -->
+    <section class="import-section">
+      <h2>Thêm ảnh mới</h2>
+      <div class="import-wrapper">
+        <input type="file" id="importInput" accept="image/*" hidden>
+        <button id="importBtn" class="btn btn-primary">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Import ảnh
+        </button>
+        <p class="hint">Chấp nhận jpg, png, webp (tối đa 1.5MB)</p>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="gallery-section">
+      <h2>Thư viện ảnh <span id="imageCount">(0)</span></h2>
+      <div id="gallery" class="gallery"></div>
+      <p id="emptyGallery" class="empty-text">Chưa có ảnh nào. Hãy import ảnh mới!</p>
+    </section>
+
+    <!-- Rename -->
+    <section class="rename-section">
+      <h2>Đổi tên người dùng</h2>
+      <div class="rename-wrapper">
+        <input type="text" id="nameInput" class="name-input" placeholder="Nhập tên mới">
+        <button id="renameBtn" class="btn btn-secondary">Đổi tên</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="Profile.js"></script>
+</body>
+</html>
+</body>
+</html>
