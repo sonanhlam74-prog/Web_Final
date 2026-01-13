@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Navigation
-  profileBtn?.addEventListener('click', () => navigate('Profile/Profile.html'));
+  profileBtn?.addEventListener('click', () => navigate('D:\Code\\24IT1\\Test html&CSS\\Profile\\Profile2.html'));
   logoutBtn?.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
