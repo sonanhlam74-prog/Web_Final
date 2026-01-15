@@ -57,7 +57,52 @@
       </div>
     </section>
   </div>
+  <!--Sex-->
+  <section class="sex-section">
+    <h2>Chọn giới tính</h2>
+    <div class="sex-wrapper">
+      <select id="sexSelect" class="sex-select">
+        <option value="" disabled selected>Chọn giới tính</option>
+        <option value="male">Nam</option>
+        <option value="female">Nữ</option>
+        <option value="other">Khác</option>
+      </select>
+      <button id="sexBtn" class="btn btn-secondary">Cập nhật giới tính</button>
+    </div>
+  </section>
+  <!--Email-->
+  <section class="email-section">
+    <h2>Đổi email đăng ký</h2>
+    <div class="email-wrapper">
+      <input type="email" id="emailInput" class="email-input" placeholder="Nhập email mới">
+      <button id="emailBtn" class="btn btn-secondary">Đổi email</button>
+  </section>
+  <!--Phone number-->
+  <section class="phone-section">
+    <h2>Đổi số điện thoại</h2>
+    <div class="phone-wrapper">
+      <input type="tel" id="phoneInput" class="phone-input" placeholder="Nhập số điện thoại mới">
+      <button id="phoneBtn" class="btn btn-secondary">Đổi số điện thoại</button>
+    </div>
+  </section>
+  <!--Birthday-->
+  <section class="birthday-section">
+    <h2>Đổi ngày sinh</h2>
+    <div class="birthday-wrapper">
+      <input type="date" id="birthdayInput" class="birthday-input" placeholder="Nhập ngày sinh mới">
+      <button id="birthdayBtn" class="btn btn-secondary">Đổi ngày sinh</button>
+    </div>
+  </section>
+  <!-- Address -->
+  <section class="address-section">
+    <h2>Đổi địa chỉ</h2>
+    <div class="address-wrapper">
+      <input type="text" id="addressInput" class="address-input" placeholder="Nhập địa chỉ mới">
+      <button id="addressBtn" class="btn btn-secondary">Đổi địa chỉ</button>
+    </div>
+  </section>
 
+  <script src="../login&register/AccountSystem/auth.js"></script>
   <script src="Profile.js"></script>
 </body>
 </html>

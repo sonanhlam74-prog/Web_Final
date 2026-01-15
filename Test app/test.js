@@ -41,9 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const navigate = (url) => (window.location.href = encodeURI(url));
 
-  // Avatar: load from localStorage
-  const savedAvatar = localStorage.getItem(AVATAR_STORAGE_KEY);
+  // Avatar: prefer current account avatar
+  const currentUser = window.Auth?.getCurrentUser?.() || null;
+  const savedAvatar = currentUser?.avatar || localStorage.getItem(AVATAR_STORAGE_KEY);
   if (savedAvatar) setAvatar(savedAvatar);
+  // Keep key in sync when switching accounts
+  if (currentUser?.avatar) {
+    try {
+      localStorage.setItem(AVATAR_STORAGE_KEY, currentUser.avatar);
+    } catch {
+      // ignore
+    }
+  }
 
   // UserName: load from localStorage
   const savedName = localStorage.getItem(NAME_STORAGE_KEY);
@@ -87,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
           localStorage.setItem(AVATAR_STORAGE_KEY, dataUrl);
           setAvatar(dataUrl);
+          window.Auth?.setCurrentUserAvatar?.(dataUrl);
         } catch {
           alert('Không thể lưu ảnh (có thể do dung lượng localStorage).');
         }

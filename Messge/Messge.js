@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Require login for this page
+  if (window.Auth) {
+    window.Auth.requireLogin({ redirectTo: '../login&register/Login/login_site.html' });
+  }
+
   const NAME_STORAGE_KEY = 'userName';
   const AVATAR_STORAGE_KEY = 'avatarImage';
   const MESSAGES_KEY = 'demoMessages';
@@ -24,10 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const loadMe = () => {
-    const name = localStorage.getItem(NAME_STORAGE_KEY) || 'Người dùng';
+    const currentUser = window.Auth?.getCurrentUser?.() || null;
+    const name = currentUser?.displayName || localStorage.getItem(NAME_STORAGE_KEY) || 'Người dùng';
     if (meName) meName.textContent = name;
 
-    const avatar = localStorage.getItem(AVATAR_STORAGE_KEY);
+    const avatar = currentUser?.avatar || localStorage.getItem(AVATAR_STORAGE_KEY);
     if (meAvatar) {
       if (avatar) {
         meAvatar.src = avatar;
@@ -35,6 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Tiny inline fallback (purple circle) to avoid broken image icon
         meAvatar.src = 'data:image/svg+xml;utf8,' +
           encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs><rect width="80" height="80" rx="40" fill="url(#g)"/></svg>');
+      }
+    }
+
+    // Keep compatibility key in sync
+    if (currentUser?.avatar) {
+      try {
+        localStorage.setItem(AVATAR_STORAGE_KEY, currentUser.avatar);
+      } catch {
+        // ignore
       }
     }
   };

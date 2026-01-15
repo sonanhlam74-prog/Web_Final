@@ -9,6 +9,13 @@
   const MAX_FAILS = 5;
   const LOCK_MS = 2 * 60 * 1000; // 2 minutes
 
+    const DEFAULT_AVATAR =
+  'https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_uY-eteostdWLqKYG2-4kktArf-mOI1uoK0gxkh_VGxk2iFSwnli1Clzdmv6JpBUT1v1l1z_PW2CwOLSodMU4GTC4nwyzRGFosU0XMVNw1iY79vAQCD6aeg8KpafIqK7bKH9Xl8KQNd56PQms0kLA=w919-h516-p-k-no-nu';
+
+
+  const COMPAT_NAME_KEY = 'userName';
+  const COMPAT_AVATAR_KEY = 'avatarImage';
+  
   function nowMs() {
     return Date.now();
   }
@@ -34,6 +41,28 @@
 
   function normalizeEmail(email) {
     return String(email || '').trim().toLowerCase();
+  }
+
+  function validatePasswordComplexity(password, label) {
+    const p = String(password || '');
+    const name = label || 'Mật khẩu';
+
+    if (PASSWORD_MIN_LEN > 0 && p.length < PASSWORD_MIN_LEN) {
+      return { ok: false, code: 'weak_password', message: `${name} tối thiểu ${PASSWORD_MIN_LEN} ký tự.` };
+    }
+    if (/\s/.test(p)) {
+      return { ok: false, code: 'invalid_password', message: `${name} không được chứa khoảng trắng.` };
+    }
+    if (!/[a-z]/.test(p)) {
+      return { ok: false, code: 'invalid_password', message: `${name} phải có ít nhất 1 chữ thường.` };
+    }
+    if (!/[A-Z]/.test(p)) {
+      return { ok: false, code: 'invalid_password', message: `${name} phải có ít nhất 1 chữ in hoa.` };
+    }
+    if (!/[0-9]/.test(p)) {
+      return { ok: false, code: 'invalid_password', message: `${name} phải có ít nhất 1 chữ số.` };
+    }
+    return { ok: true };
   }
 
   function isValidEmail(email) {
@@ -183,11 +212,9 @@
       return { ok: false, code: 'invalid_email', message: 'Email không hợp lệ.' };
     }
 
-    if (password.length < PASSWORD_MIN_LEN) {
-      return { ok: false, code: 'weak_password', message: `Mật khẩu tối thiểu ${PASSWORD_MIN_LEN} ký tự.` };
-    }
-
-    if (findUserByEmail(email)) {
+    const pwCheck = validatePasswordComplexity(password, 'Mật khẩu');
+    if (!pwCheck.ok) return pwCheck;
+      if (findUserByEmail(email)) {
       return { ok: false, code: 'email_exists', message: 'Email này đã được đăng ký.' };
     }
 
@@ -198,6 +225,7 @@
       email,
       passwordHash,
       displayName: email.split('@')[0] || 'Người dùng',
+      avatar: DEFAULT_AVATAR,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -207,7 +235,7 @@
     setUsers(users);
     clearLock(email);
 
-    return { ok: true, user: { id: user.id, email: user.email, displayName: user.displayName } };
+    return { ok: true, user: { id: user.id, email: user.email, displayName: user.displayName, avatar: user.avatar } };
   }
 
   async function login(params) {
@@ -224,7 +252,7 @@
       return { ok: false, code: 'locked', message: `Bạn nhập sai quá nhiều lần. Thử lại sau ${seconds}s.` };
     }
 
-    const user = findUserByEmail(email);
+    let user = findUserByEmail(email);
     if (!user) {
       registerFail(email);
       return { ok: false, code: 'invalid_credentials', message: 'Sai email hoặc mật khẩu.' };
@@ -238,6 +266,23 @@
 
     clearLock(email);
 
+    // Ensure avatar is always present (older saved accounts may have null)
+    if (!user.avatar) {
+      const users = getUsers();
+      const idx = users.findIndex((u) => u.id === user.id);
+      if (idx !== -1) {
+        users[idx] = {
+          ...users[idx],
+          avatar: DEFAULT_AVATAR,
+          updatedAt: new Date().toISOString(),
+        };
+        setUsers(users);
+        user = users[idx];
+      } else {
+        user = { ...user, avatar: DEFAULT_AVATAR };
+      }
+    }
+
     setSession({
       token: randomId('s'),
       userId: user.id,
@@ -245,7 +290,15 @@
       loginAt: new Date().toISOString(),
     });
 
-    return { ok: true, user: { id: user.id, email: user.email, displayName: user.displayName } };
+    // Keep compatibility with existing UI that reads from localStorage
+    try {
+      localStorage.setItem(COMPAT_NAME_KEY, user.displayName || 'Người dùng');
+      localStorage.setItem(COMPAT_AVATAR_KEY, user.avatar || DEFAULT_AVATAR);
+    } catch {
+      // ignore
+    }
+
+    return { ok: true, user: { id: user.id, email: user.email, displayName: user.displayName, avatar: user.avatar } };
   }
 
   function logout() {
@@ -261,9 +314,8 @@
     const oldPassword = String(params?.oldPassword || '');
     const newPassword = String(params?.newPassword || '');
 
-    if (newPassword.length < PASSWORD_MIN_LEN) {
-      return { ok: false, code: 'weak_password', message: `Mật khẩu mới tối thiểu ${PASSWORD_MIN_LEN} ký tự.` };
-    }
+    const pwCheck = validatePasswordComplexity(newPassword, 'Mật khẩu mới');
+    if (!pwCheck.ok) return pwCheck;
 
     const oldHash = await sha256Hex(oldPassword);
     if (oldHash !== currentUser.passwordHash) {
@@ -288,6 +340,62 @@
     return { ok: true, message: 'Đổi mật khẩu thành công.' };
   }
 
+  function updateCurrentUserProfile(params) {
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+      return { ok: false, code: 'not_logged_in', message: 'Bạn chưa đăng nhập.' };
+    }
+
+    const users = getUsers();
+    const idx = users.findIndex((u) => u.id === currentUser.id);
+    if (idx === -1) {
+      return { ok: false, code: 'user_missing', message: 'Không tìm thấy tài khoản.' };
+    }
+
+    const nextDisplayName =
+      params?.displayName !== undefined ? String(params.displayName || '').trim() : users[idx].displayName;
+    const nextAvatar =
+      params?.avatar !== undefined ? String(params.avatar || '').trim() || DEFAULT_AVATAR : users[idx].avatar;
+
+    users[idx] = {
+      ...users[idx],
+      displayName: nextDisplayName || users[idx].displayName || 'Người dùng',
+      avatar: nextAvatar || DEFAULT_AVATAR,
+      updatedAt: new Date().toISOString(),
+    };
+    setUsers(users);
+
+    // Keep compatibility with existing UI that reads from localStorage
+    try {
+      localStorage.setItem(COMPAT_NAME_KEY, users[idx].displayName || 'Người dùng');
+      localStorage.setItem(COMPAT_AVATAR_KEY, users[idx].avatar || DEFAULT_AVATAR);
+    } catch {
+      // ignore
+    }
+
+    return {
+      ok: true,
+      user: {
+        id: users[idx].id,
+        email: users[idx].email,
+        displayName: users[idx].displayName,
+        avatar: users[idx].avatar,
+      },
+    };
+  }
+
+  function setCurrentUserAvatar(avatar) {
+    return updateCurrentUserProfile({ avatar });
+  }
+
+  function getDefaultAvatar() {
+    return DEFAULT_AVATAR;
+  }
+  function getCurrentAvatarUser() {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return null;
+    return currentUser.avatar || null;
+  }
   global.Auth = {
     register,
     login,
@@ -295,6 +403,12 @@
     changePassword,
     getCurrentUser,
     requireLogin,
+    updateCurrentUserProfile,
+    setCurrentUserAvatar,
+    getDefaultAvatar,
+    getCurrentUser,
+    requireLogin,
+    getCurrentAvatarUser,
     // exposed for debugging
     _keys: { USERS_KEY, SESSION_KEY, LOCKS_KEY },
   };

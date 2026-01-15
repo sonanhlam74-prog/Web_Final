@@ -1,8 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Constants - same keys as test.js
-  const AVATAR_STORAGE_KEY = 'avatarImage';
-  const GALLERY_STORAGE_KEY = 'avatarGallery';
-  const DEFAULT_AVATAR = 'https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_uY-eteostdWLqKYG2-4kktArf-mOI1uoK0gxkh_VGxk2iFSwnli1Clzdmv6JpBUT1v1l1z_PW2CwOLSodMU4GTC4nwyzRGFosU0XMVNw1iY79vAQCD6aeg8KpafIqK7bKH9Xl8KQNd56PQms0kLA=w919-h516-p-k-no-nu';
+  // Require login for this page
+  if (window.Auth) {
+    window.Auth.requireLogin({ redirectTo: '../login&register/Login/login_site.html' });
+  }
+
+  const currentUser = window.Auth?.getCurrentUser?.() || null;
+
+  // Compatibility keys (used by other pages)
+  const COMPAT_AVATAR_KEY = 'avatarImage';
+  const COMPAT_NAME_KEY = 'userName';
+  const LEGACY_GALLERY_KEY = 'avatarGallery';
+
+  // Per-account keys
+  const USER_AVATAR_KEY = currentUser ? `avatarImage:${currentUser.id}` : COMPAT_AVATAR_KEY;
+  const USER_GALLERY_KEY = currentUser ? `avatarGallery:${currentUser.id}` : LEGACY_GALLERY_KEY;
+  const USER_NAME_KEY = currentUser ? `userName:${currentUser.id}` : COMPAT_NAME_KEY;
+  const USER_SEX_KEY = currentUser ? `userSex:${currentUser.id}` : 'userSex';
+
+  const DEFAULT_AVATAR = window.Auth?.getDefaultAvatar?.() ||
+    'https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_uY-eteostdWLqKYG2-4kktArf-mOI1uoK0gxkh_VGxk2iFSwnli1Clzdmv6JpBUT1v1l1z_PW2CwOLSodMU4GTC4nwyzRGFosU0XMVNw1iY79vAQCD6aeg8KpafIqK7bKH9Xl8KQNd56PQms0kLA=w919-h516-p-k-no-nu';
 
   // DOM Elements
   const $ = (id) => document.getElementById(id);
@@ -19,16 +35,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Load data from localStorage
   const loadData = () => {
-    // Load current avatar
-    currentAvatarSrc = localStorage.getItem(AVATAR_STORAGE_KEY) || DEFAULT_AVATAR;
+    // Load current avatar (prefer Auth user.avatar)
+    currentAvatarSrc =
+      currentUser?.avatar ||
+      localStorage.getItem(USER_AVATAR_KEY) ||
+      localStorage.getItem(COMPAT_AVATAR_KEY) ||
+      DEFAULT_AVATAR;
     currentAvatar.src = currentAvatarSrc;
 
     // Load gallery
     try {
-      const saved = localStorage.getItem(GALLERY_STORAGE_KEY);
+      const saved = localStorage.getItem(USER_GALLERY_KEY);
       galleryImages = saved ? JSON.parse(saved) : [];
     } catch {
       galleryImages = [];
+    }
+
+    // Migrate legacy shared gallery into per-user (only if per-user gallery is empty)
+    if (currentUser && galleryImages.length === 0) {
+      try {
+        const legacy = localStorage.getItem(LEGACY_GALLERY_KEY);
+        const parsed = legacy ? JSON.parse(legacy) : [];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          galleryImages = parsed;
+          localStorage.setItem(USER_GALLERY_KEY, JSON.stringify(galleryImages));
+        }
+      } catch {
+        // ignore
+      }
     }
 
     renderGallery();
@@ -37,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Save gallery to localStorage
   const saveGallery = () => {
     try {
-      localStorage.setItem(GALLERY_STORAGE_KEY, JSON.stringify(galleryImages));
+      localStorage.setItem(USER_GALLERY_KEY, JSON.stringify(galleryImages));
     } catch {
       alert('Không thể lưu thư viện ảnh (có thể do dung lượng localStorage).');
     }
@@ -48,10 +82,19 @@ document.addEventListener('DOMContentLoaded', () => {
     currentAvatarSrc = src;
     currentAvatar.src = src;
     try {
-      localStorage.setItem(AVATAR_STORAGE_KEY, src);
+      localStorage.setItem(USER_AVATAR_KEY, src);
+      localStorage.setItem(COMPAT_AVATAR_KEY, src);
     } catch {
       alert('Không thể lưu avatar.');
     }
+
+    // Persist to account (Auth)
+    try {
+      window.Auth?.setCurrentUserAvatar?.(src);
+    } catch {
+      // ignore
+    }
+
     renderGallery(); // Re-render to update selected state
   };
 
@@ -157,12 +200,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const NAME_STORAGE_KEY = 'userName';
 
   const loadName = () => {
-    nameInput.value = localStorage.getItem(NAME_STORAGE_KEY) || '';
+    nameInput.value =
+      currentUser?.displayName ||
+      localStorage.getItem(USER_NAME_KEY) ||
+      localStorage.getItem(COMPAT_NAME_KEY) ||
+      '';
   };
 
   const saveName = (name) => {
     try {
-      localStorage.setItem(NAME_STORAGE_KEY, name);
+      localStorage.setItem(USER_NAME_KEY, name);
+      localStorage.setItem(COMPAT_NAME_KEY, name);
+      window.Auth?.updateCurrentUserProfile?.({ displayName: name });
       alert('Đổi tên thành công!');
     } catch {
       alert('Không thể lưu tên người dùng.');
@@ -173,7 +222,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const newName = nameInput.value.trim();
     newName ? saveName(newName) : alert('Tên không được để trống.');
   });
+  //=== End Rename Feature ===
+  //=== Sex Feature ===
+  const sexInput = $('sexInput');
+  const sexBtn = $('sexBtn');
+  const SEX_STORAGE_KEY = 'userSex';
 
+  const loadSex = () => {
+    sexInput.value =
+      localStorage.getItem(SEX_STORAGE_KEY) || '';
+  };
+  const saveSex = (sex) => {
+    try {
+      localStorage.setItem(SEX_STORAGE_KEY, sex);
+      alert('Đổi giới tính thành công!');
+    } catch {
+      alert('Không thể lưu giới tính.');
+    }
+  };
   // Initialize
   loadData();
   loadName();
