@@ -59,6 +59,18 @@ body {
   margin-bottom: 15px;
 }
 
+.form-message {
+  margin: 0 0 12px 0;
+  min-height: 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #b91c1c;
+}
+
+.form-message.is-success {
+  color: #065f46;
+}
+
 .field {
   display: grid;
   gap: 6px;

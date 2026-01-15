@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="register.css">
+    <title>Document</title>
+</head>
+<body>
+    <main class="page">
+        <div class="form-container" role="region" aria-label="Đăng kí">
+            <p class="title">Đăng kí</p>
+            <p id="registerMessage" class="form-message" aria-live="polite"></p>
+            <form class="form" id="registerForm" action="#" method="post">
+                <label class="field">
+                    <span class="field-label">Hãy nhập mail đăng kí</span>
+                    <input type="email" name="email" class="input" placeholder="name@example.com" autocomplete="email" required>
+                </label>
+                <label class="field">
+                    <span class="field-label">Hãy nhập mật khẩu</span>
+                    <input type="password" name="password" class="input" placeholder="••••••••" autocomplete="new-password" required>
+                </label>
+                <label class="field">
+                    <span class="field-label">Xác nhận mật khẩu</span>
+                    <input type="password" name="confirmPassword" class="input" placeholder="••••••••" autocomplete="new-password" required>
+                </label>
+                <button type="submit" class="submit-button">Đăng kí</button>
+                <p class="redirect-text">Bạn đã có tài khoản? <a href="../Login/login_site.html" class="redirect-link">Đăng nhập</a></p>
+            </form>
+        </div>
+    </main>
+
+    <script src="../AccountSystem/auth.js" defer></script>
+    <script src="register.js" defer></script>
+</body>
+</html>
