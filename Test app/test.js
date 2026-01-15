@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Require login for this page
+  if (window.Auth) {
+    window.Auth.requireLogin({ redirectTo: '../login&register/Login/login_site.html' });
+  }
+
   // Constants
   const AVATAR_STORAGE_KEY = 'avatarImage';
   const NAME_STORAGE_KEY = 'userName';
@@ -17,6 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const profileBtn = $('profileBtn');
   const logoutBtn = $('logoutBtn');
   const userNameEl = $('userName');
+  const userEmailEl = document.querySelector('.user-email');
+  const messageBtn = $('messageBtn');
+  const settingBtn = $('settingBtn');
 
   let isMenuOpen = false;
 
@@ -40,6 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // UserName: load from localStorage
   const savedName = localStorage.getItem(NAME_STORAGE_KEY);
   if (savedName && userNameEl) userNameEl.textContent = savedName;
+
+  // Email: load from auth session
+  if (window.Auth) {
+    const currentUser = window.Auth.getCurrentUser();
+    if (currentUser) {
+      if (userNameEl && !savedName) userNameEl.textContent = currentUser.displayName || 'Người dùng';
+      if (userEmailEl) userEmailEl.textContent = currentUser.email || 'user@example.com';
+    }
+  }
 
   // Avatar upload
   if (avatarEditBtn && avatarFileInput) {
@@ -111,13 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Navigation
-  profileBtn?.addEventListener('click', () => navigate('D:\Code\\24IT1\\Test html&CSS\\Profile\\Profile2.html'));
+  profileBtn?.addEventListener('click', () => navigate('../Profile/Profile.html'));
+  settingBtn?.addEventListener('click', () => navigate('../Setting/settingpage.html'));
   logoutBtn?.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate('login&register/Login/login_site.html');
+    window.Auth?.logout?.();
+    navigate('../login&register/Login/login_site.html');
   });
 
+  messageBtn?.addEventListener('click', () => navigate('../Messge/Messge.html'));
+  
   // Page switching
   const pages = ['page 1', 'page 2', 'page 3'].map($);
   const btns = ['btnPage1', 'btnPage2', 'btnPage3'].map($);

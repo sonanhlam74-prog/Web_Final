@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+    <link rel="stylesheet" href="Messge.css">
+</head>
+<body>
+    <div class="page">
+        <header class="topbar">
+            <a class="back" href="../Test app/test.html" aria-label="Quay lại trang chủ">←</a>
+            <div class="title">
+                <h1>Tin nhắn</h1>
+                <p class="subtitle">Chat demo (lưu trong localStorage)</p>
+            </div>
+
+            <div class="me">
+                <img id="meAvatar" class="me-avatar" alt="Avatar" />
+                <div class="me-meta">
+                    <div id="meName" class="me-name">Người dùng</div>
+                    <div class="me-hint">Online</div>
+                </div>
+            </div>
+        </header>
+
+        <main class="content">
+            <section class="chat">
+                <div class="chat-header">
+                    <div class="chat-with">
+                        <div class="dot"></div>
+                        <div>
+                            <div class="chat-name">Hỗ trợ</div>
+                            <div class="chat-status">Trả lời nhanh • 24/7</div>
+                        </div>
+                    </div>
+                    <button id="clearBtn" class="ghost" type="button">Xoá chat</button>
+                </div>
+
+                <div id="messages" class="messages" aria-live="polite"></div>
+
+                <form id="composer" class="composer" autocomplete="off">
+                    <input id="messageInput" class="input" type="text" placeholder="Nhập tin nhắn... (Enter để gửi)" />
+                    <button class="send" type="submit">Gửi</button>
+                </form>
+            </section>
+
+            <aside class="side">
+                <div class="card">
+                    <h2>Gợi ý</h2>
+                    <ul>
+                        <li>Nhấn Enter để gửi.</li>
+                        <li>Tin nhắn được lưu trong localStorage.</li>
+                        <li>Avatar + tên lấy từ trang Home/Profile.</li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script src="Messge.js" defer></script>
+</body>
+</html>
