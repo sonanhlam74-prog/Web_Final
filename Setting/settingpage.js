@@ -1,10 +1,7 @@
-const searchInput = document.getElementById("Mysearch");
-const sideNav = document.getElementById("sideNav");
-const sideNavEmpty = document.getElementById("sideNavEmpty");
-const navToggle = document.getElementById("navToggle");
 const changePasswordForm = document.getElementById('changePasswordForm');
 const passwordMessage = document.getElementById('passwordMessage');
-const passwordsLink = document.getElementById('passwordsLink');
+const infoName = document.getElementById('infoName');
+const infoEmail = document.getElementById('infoEmail');
 
 function setPasswordMessage(text, kind) {
     if (!passwordMessage) return;
@@ -12,54 +9,22 @@ function setPasswordMessage(text, kind) {
     passwordMessage.classList.toggle('is-success', kind === 'success');
 }
 
-function setNavOpen(isOpen) {
-    if (!sideNav || !navToggle) return;
-
-    sideNav.classList.toggle("side-nav--open", isOpen);
-    navToggle.setAttribute("aria-expanded", String(isOpen));
+// Populate account info card
+function loadAccountInfo() {
+    if (!window.Auth) return;
+    const user = window.Auth.getCurrentUser?.();
+    if (!user) return;
+    if (infoName)  infoName.textContent  = user.displayName || 'Người dùng';
+    if (infoEmail) infoEmail.textContent = user.email       || '—';
 }
 
-function filterSideNavLinks(query) {
-    if (!sideNav) return;
-
-    const links = sideNav.querySelectorAll("a");
-    const normalized = (query || "").trim().toLowerCase();
-    let visibleCount = 0;
-
-    links.forEach((link) => {
-        const text = (link.textContent || "").toLowerCase();
-        const isVisible = normalized.length === 0 || text.includes(normalized);
-        link.hidden = !isVisible;
-        if (isVisible) visibleCount += 1;
-    });
-
-    if (sideNavEmpty) {
-        sideNavEmpty.hidden = visibleCount !== 0;
-    }
-}
-
-if (navToggle) {
-    navToggle.addEventListener("click", () => {
-        const isOpen = !!sideNav?.classList.contains("side-nav--open");
-        setNavOpen(!isOpen);
-    });
-}
-
-if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-        filterSideNavLinks(e.target.value);
-    });
-}
-
-// Require login for settings page
+// Require login
 if (window.Auth) {
     window.Auth.requireLogin({ redirectTo: '../login&register/Login/login_site.html' });
 }
 
-// Focus the password panel when clicking "Passwords"
-passwordsLink?.addEventListener('click', (e) => {
-    e.preventDefault();
-    document.getElementById('content')?.focus?.();
+document.addEventListener('DOMContentLoaded', () => {
+    loadAccountInfo();
 });
 
 if (changePasswordForm) {
@@ -72,8 +37,8 @@ if (changePasswordForm) {
         }
 
         const fd = new FormData(changePasswordForm);
-        const oldPassword = String(fd.get('oldPassword') || '');
-        const newPassword = String(fd.get('newPassword') || '');
+        const oldPassword        = String(fd.get('oldPassword')        || '');
+        const newPassword        = String(fd.get('newPassword')        || '');
         const confirmNewPassword = String(fd.get('confirmNewPassword') || '');
 
         if (newPassword !== confirmNewPassword) {
@@ -89,6 +54,3 @@ if (changePasswordForm) {
         setPasswordMessage(result.message || 'Đổi mật khẩu thành công.', 'success');
     });
 }
-
-// Initial state
-filterSideNavLinks(searchInput?.value || "");

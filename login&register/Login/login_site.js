@@ -1,10 +1,43 @@
 const loginForm = document.getElementById('loginForm');
 const loginMessage = document.getElementById('loginMessage');
+const togglePassword = document.getElementById('togglePassword');
+const passwordInput = document.getElementById('passwordInput');
+const forgotPasswordLink = document.getElementById('forgotPasswordLink');
 
 function setMessage(text, kind) {
   if (!loginMessage) return;
   loginMessage.textContent = text || '';
   loginMessage.classList.toggle('is-success', kind === 'success');
+}
+
+// Forgot password link handler
+if (forgotPasswordLink) {
+  forgotPasswordLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log('Forgot password link clicked');
+    window.location.href = '../ForgotPassword/ForgotPassword.html';
+  });
+}
+
+// Toggle password visibility
+if (togglePassword && passwordInput) {
+  togglePassword.addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    const isPassword = passwordInput.type === 'password';
+    passwordInput.type = isPassword ? 'text' : 'password';
+    
+    // Toggle icon visibility
+    const eyeIcon = togglePassword.querySelector('.eye-icon');
+    const eyeSlashIcon = togglePassword.querySelector('.eye-slash-icon');
+    
+    if (eyeIcon) {
+      eyeIcon.classList.toggle('hidden', !isPassword);
+    }
+    if (eyeSlashIcon) {
+      eyeSlashIcon.classList.toggle('hidden', isPassword);
+    }
+  });
 }
 
 // If user just registered, show a hint
@@ -56,7 +89,6 @@ if (loginForm) {
 document.querySelectorAll('.page-link-label').forEach((a) => {
   a.addEventListener('click', (e) => {
     e.preventDefault();
-    setMessage('Chức năng quên mật khẩu chưa có. Hãy đổi mật khẩu trong Settings sau khi đăng nhập.', 'error');
   });
 });
 

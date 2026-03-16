@@ -9,8 +9,7 @@
   const MAX_FAILS = 5;
   const LOCK_MS = 2 * 60 * 1000; // 2 minutes
 
-    const DEFAULT_AVATAR =
-  'https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_uY-eteostdWLqKYG2-4kktArf-mOI1uoK0gxkh_VGxk2iFSwnli1Clzdmv6JpBUT1v1l1z_PW2CwOLSodMU4GTC4nwyzRGFosU0XMVNw1iY79vAQCD6aeg8KpafIqK7bKH9Xl8KQNd56PQms0kLA=w919-h516-p-k-no-nu';
+  const DEFAULT_AVATAR = '../../Photo/person.png';
 
 
   const COMPAT_NAME_KEY = 'userName';
@@ -409,6 +408,12 @@
     getCurrentUser,
     requireLogin,
     getCurrentAvatarUser,
+    findUserByEmail,
+    getUsers,
+    setUsers,
+    sha256Hex,
+    validatePasswordComplexity,
+    clearLock,
     // exposed for debugging
     _keys: { USERS_KEY, SESSION_KEY, LOCKS_KEY },
   };

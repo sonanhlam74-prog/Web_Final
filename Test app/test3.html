@@ -3,85 +3,346 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thống kê – Task Manager</title>
   <link rel="stylesheet" href="test.css">
-  <title>Contact</title>
+  <link rel="stylesheet" href="tasks.css">
+  <link rel="stylesheet" href="../sidebar.css">
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
 <body>
-  <div class="overlay" id="overlay"></div>
+  <!-- Sidebar -->
+  <div class="side-bar" id="sidebar">
+    <div class="logo-details">
+      <i class='bx bx-task sidebar-logo-icon'></i>
+      <span class="logo_name">Task Manager</span>
+      <i class='bx bx-menu' id="btn"></i>
+    </div>
+    <div class="sidebar-profile">
+      <div class="sidebar-avatar">
+        <img id="sidebarAvatar" src="https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff" alt="Avatar">
+      </div>
+      <div class="sidebar-user-info">
+        <span class="sidebar-user-name" id="sidebarUserName">Người dùng</span>
+        <span class="sidebar-user-email" id="sidebarUserEmail">user@example.com</span>
+      </div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <ul class="nav-list">
+      <li>
+        <i class="bx bx-search"></i>
+        <input type="text" id="sidebarSearch" placeholder="Tìm kiếm...">
+        <span class="tooltip">Tìm kiếm</span>
+      </li>
+      <li>
+        <a href="test.html">
+          <i class='bx bx-home-alt-2'></i>
+          <span class="links_name">Trang chủ</span>
+        </a>
+        <span class="tooltip">Trang chủ</span>
+      </li>
+      <li>
+        <a href="test2.html">
+          <i class='bx bx-task'></i>
+          <span class="links_name">Công việc</span>
+        </a>
+        <span class="tooltip">Công việc</span>
+      </li>
+      <li>
+        <a href="test3.html">
+          <i class='bx bx-bar-chart-alt-2'></i>
+          <span class="links_name">Thống kê</span>
+        </a>
+        <span class="tooltip">Thống kê</span>
+      </li>
+      <li>
+        <a href="test4.html">
+          <i class='bx bx-envelope'></i>
+          <span class="links_name">Liên hệ</span>
+        </a>
+        <span class="tooltip">Liên hệ</span>
+      </li>
+      <li>
+        <a href="../Profile/Profile.html">
+          <i class='bx bx-user-circle'></i>
+          <span class="links_name">Hồ sơ</span>
+        </a>
+        <span class="tooltip">Hồ sơ</span>
+      </li>
+      <li>
+        <a href="../Setting/settingpage.html">
+          <i class='bx bx-cog'></i>
+          <span class="links_name">Cài đặt</span>
+        </a>
+        <span class="tooltip">Cài đặt</span>
+      </li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <ul class="nav-list sidebar-bottom">
+      <li>
+        <a href="#" id="sidebarThemeBtn">
+          <i class='bx bx-sun' id="sidebarThemeIcon"></i>
+          <span class="links_name" id="sidebarThemeLabel">Light Mode</span>
+        </a>
+        <span class="tooltip" id="sidebarThemeTooltip">Light Mode</span>
+      </li>
+      <li>
+        <a href="#" id="sidebarLogoutBtn">
+          <i class='bx bx-log-out'></i>
+          <span class="links_name">Đăng xuất</span>
+        </a>
+        <span class="tooltip">Đăng xuất</span>
+      </li>
+    </ul>
+  </div>
+  <div class="overlay hidden" id="overlay"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+  <!-- ═══════════ Header ═══════════ -->
   <header class="site-header">
     <nav class="header-nav">
       <div class="site-logo">
-        <h1 alt="Cỏ 4 lá" id="siteLogo" title="Logo placeholder">🍀</h1>
+        <label class="hamburger" for="hamburgerCheck" aria-label="Mở menu">
+          <input type="checkbox" id="hamburgerCheck">
+          <svg viewBox="0 0 32 32">
+            <path class="line line-top-bottom" d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"></path>
+            <path class="line" d="M7 16 27 16"></path>
+          </svg>
+        </label>
       </div>
-
       <div class="nav-links-container">
-        <a class="nav-link" href="test.html">Home</a>
-        <a class="nav-link" href="test2.html">About</a>
-        <a class="nav-link active" href="test3.html">Contact</a>
-        <a class="nav-link" href="test4.html">Help</a>
+        <a class="nav-link" href="test.html">🏠 Home</a>
+        <a class="nav-link" href="test2.html">📋 Tasks</a>
+        <a class="nav-link active" href="test3.html">📊 Thống kê</a>
+        <a class="nav-link" href="test4.html">📞 Liên hệ</a>
       </div>
 
-      <div class="menu-container">
-        <div class="menu-wrapper">
-          <button id="avatarBtn" class="avatar-btn">
-            <img src="https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_uY-eteostdWLqKYG2-4kktArf-mOI1uoK0gxkh_VGxk2iFSwnli1Clzdmv6JpBUT1v1l1z_PW2CwOLSodMU4GTC4nwyzRGFosU0XMVNw1iY79vAQCD6aeg8KpafIqK7bKH9Xl8KQNd56PQms0kLA=w919-h516-p-k-no-nu" alt="Avatar" class="avatar-icon">
-            <span class="ping-wrapper">
-              <span class="ping-animation"></span>
-              <span class="ping-dot"></span>
-            </span>
-          </button>
-
-          <div id="menu" class="menu opacity-0 scale-95 pointer-events-none">
-            <div class="menu-content">
-              <div id="userInfo" class="user-info opacity-0 -translate-x-4">
-                <div>
-                  <h3 id="userName" class="user-name">Người dùng</h3>
-                  <p class="user-email">user@example.com</p>
-                </div>
-                <button id="closeBtn" class="close-btn">
-                  <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                  </svg>
-                </button>
-              </div>
-
-              <div class="divider"></div>
-
-              <div id="menuItems" class="menu-items">
-                <button class="menu-item">
-                  <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                  </svg>
-                  <span class="menu-text">Trang chủ</span>
-                </button>
-
-                <button class="menu-item" id="profileBtn">
-                  <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                  </svg>
-                  <span class="menu-text">Hồ sơ</span>
-                </button>
-
-                <button class="menu-item" id="logoutBtn">
-                  <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"/>
-                  </svg>
-                  <span class="menu-text">Đăng xuất</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </nav>
   </header>
 
-  <main style="padding: 24px;">
-    <h2>Contact</h2>
-    <p>Trang Contact (placeholder) để tránh link bị lỗi.</p>
+  <!-- ═══════════ Main ═══════════ -->
+  <main class="main-content">
+    <section class="content-section stats-page">
+
+      <div class="tasks-header">
+        <h1><i class='bx bx-bar-chart-alt-2'></i> Thống kê công việc</h1>
+        <a class="btn btn-primary" href="test2.html"><i class='bx bx-task'></i> Quản lý Tasks</a>
+      </div>
+
+      <!-- ── Overview Cards ── -->
+      <div class="stats-grid" id="statsGrid">
+        <div class="stats-card card-total">
+          <div class="stat-icon">📋</div>
+          <div class="stat-number" id="statTotalNum">0</div>
+          <div class="stat-label">Tổng công việc</div>
+        </div>
+        <div class="stats-card card-done">
+          <div class="stat-icon">✅</div>
+          <div class="stat-number" id="statDoneNum">0</div>
+          <div class="stat-label">Hoàn thành</div>
+        </div>
+        <div class="stats-card card-pending">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-number" id="statPendingNum">0</div>
+          <div class="stat-label">Đang chờ</div>
+        </div>
+        <div class="stats-card card-overdue">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-number" id="statOverdueNum">0</div>
+          <div class="stat-label">Quá hạn</div>
+        </div>
+        <div class="stats-card card-high">
+          <div class="stat-icon">🔴</div>
+          <div class="stat-number" id="statHighNum">0</div>
+          <div class="stat-label">Ưu tiên Cao</div>
+        </div>
+        <div class="stats-card card-medium">
+          <div class="stat-icon">🟡</div>
+          <div class="stat-number" id="statMedNum">0</div>
+          <div class="stat-label">Ưu tiên Trung bình</div>
+        </div>
+        <div class="stats-card card-low">
+          <div class="stat-icon">🟢</div>
+          <div class="stat-number" id="statLowNum">0</div>
+          <div class="stat-label">Ưu tiên Thấp</div>
+        </div>
+      </div>
+
+      <!-- ── Completion bar chart ── -->
+      <div class="chart-section">
+        <h2><i class='bx bx-pie-chart-alt-2'></i> Tỉ lệ hoàn thành</h2>
+        <div class="bar-chart" id="statusChart">
+          <div class="bar-row">
+            <span class="bar-label">✅ Hoàn thành</span>
+            <div class="bar-track">
+              <div class="bar-fill" id="barDone" style="width:0%; background:#22c55e;">
+                <span id="barDonePct"></span>
+              </div>
+            </div>
+            <span class="bar-value" id="barDoneVal">0</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">⏳ Đang chờ</span>
+            <div class="bar-track">
+              <div class="bar-fill" id="barPending" style="width:0%; background:#f59e0b;">
+                <span id="barPendingPct"></span>
+              </div>
+            </div>
+            <span class="bar-value" id="barPendingVal">0</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">⚠️ Quá hạn</span>
+            <div class="bar-track">
+              <div class="bar-fill" id="barOverdue" style="width:0%; background:#ef4444;">
+                <span id="barOverduePct"></span>
+              </div>
+            </div>
+            <span class="bar-value" id="barOverdueVal">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Priority bar chart ── -->
+      <div class="chart-section">
+        <h2><i class='bx bx-align-left'></i> Phân bố theo Ưu tiên</h2>
+        <div class="bar-chart" id="priorityChart">
+          <div class="bar-row">
+            <span class="bar-label">🔴 Cao</span>
+            <div class="bar-track">
+              <div class="bar-fill" id="barHigh" style="width:0%; background:#ef4444;">
+                <span id="barHighPct"></span>
+              </div>
+            </div>
+            <span class="bar-value" id="barHighVal">0</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">🟡 Trung bình</span>
+            <div class="bar-track">
+              <div class="bar-fill" id="barMed" style="width:0%; background:#f59e0b;">
+                <span id="barMedPct"></span>
+              </div>
+            </div>
+            <span class="bar-value" id="barMedVal">0</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">🟢 Thấp</span>
+            <div class="bar-track">
+              <div class="bar-fill" id="barLow" style="width:0%; background:#22c55e;">
+                <span id="barLowPct"></span>
+              </div>
+            </div>
+            <span class="bar-value" id="barLowVal">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── About ── -->
+      <div class="about-section">
+        <h2><i class='bx bx-info-circle'></i> Về ứng dụng</h2>
+        <p>
+          <strong>Task Manager</strong> là ứng dụng quản lý công việc cá nhân được xây dựng bằng
+          HTML5, CSS3 và JavaScript thuần (ES6+).
+        </p>
+        <p>
+          Toàn bộ dữ liệu được lưu trong <strong>LocalStorage</strong> của trình duyệt, giúp
+          dữ liệu tồn tại sau khi reload trang mà không cần backend.
+        </p>
+        <p>
+          Ứng dụng hỗ trợ đầy đủ CRUD (Thêm / Xem / Sửa / Xóa), tìm kiếm nhanh,
+          lọc theo trạng thái & ưu tiên, sắp xếp theo deadline, xuất/nhập JSON,
+          giao diện Dark Mode và hoàn toàn Responsive.
+        </p>
+        <p style="margin-top:0.5rem;">
+          <strong>Sinh viên:</strong> [Tên sinh viên] &nbsp;|&nbsp;
+          <strong>Lớp:</strong> 24IT1 &nbsp;|&nbsp;
+          <strong>Trường:</strong> CMC University
+        </p>
+      </div>
+
+    </section>
   </main>
 
-  <script src="test.js"></script>
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>© 2026 Task Manager – CMC University. All rights reserved.</p>
+  </footer>
+
+  <script src="../login&register/AccountSystem/auth.js"></script>
+  <script src="../sidebar.js"></script>
+  <script>
+    // Re-use TASKS_KEY constant from shared localStorage
+    const TASKS_KEY = 'taskManager_tasks';
+    const THEME_KEY = 'taskManager_theme';
+
+    function getTasks() {
+      try { return JSON.parse(localStorage.getItem(TASKS_KEY)) || []; } catch { return []; }
+    }
+
+    function getTodayStr() {
+      return new Date().toISOString().split('T')[0];
+    }
+
+    function isOverdue(deadline, status) {
+      return status !== 'Done' && deadline && deadline < getTodayStr();
+    }
+
+    function pct(n, total) {
+      return total === 0 ? 0 : Math.round((n / total) * 100);
+    }
+
+    function setBar(barId, pctId, valId, n, total, minWidth = 4) {
+      const p = pct(n, total);
+      const bar = document.getElementById(barId);
+      if (bar) bar.style.width = (n === 0 ? '0' : Math.max(p, minWidth)) + '%';
+      const pctEl = document.getElementById(pctId);
+      if (pctEl) pctEl.textContent = n > 0 ? p + '%' : '';
+      const valEl = document.getElementById(valId);
+      if (valEl) valEl.textContent = n;
+    }
+
+    function renderStats() {
+      const tasks   = getTasks();
+      const total   = tasks.length;
+      const done    = tasks.filter(t => t.status === 'Done').length;
+      const pending = tasks.filter(t => t.status === 'Pending').length;
+      const overdue = tasks.filter(t => isOverdue(t.deadline, t.status)).length;
+      const high    = tasks.filter(t => t.priority === 'High').length;
+      const med     = tasks.filter(t => t.priority === 'Medium').length;
+      const low     = tasks.filter(t => t.priority === 'Low').length;
+
+      // Cards
+      const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+      set('statTotalNum',   total);
+      set('statDoneNum',    done);
+      set('statPendingNum', pending);
+      set('statOverdueNum', overdue);
+      set('statHighNum',    high);
+      set('statMedNum',     med);
+      set('statLowNum',     low);
+
+      // Status bars
+      setBar('barDone',    'barDonePct',    'barDoneVal',    done,    total);
+      setBar('barPending', 'barPendingPct', 'barPendingVal', pending, total);
+      setBar('barOverdue', 'barOverduePct', 'barOverdueVal', overdue, total);
+
+      // Priority bars
+      setBar('barHigh', 'barHighPct', 'barHighVal', high, total);
+      setBar('barMed',  'barMedPct',  'barMedVal',  med,  total);
+      setBar('barLow',  'barLowPct',  'barLowVal',  low,  total);
+    }
+
+    // ── Theme ──
+    function initTheme() {
+      const isDark = localStorage.getItem(THEME_KEY) === 'dark';
+      document.body.classList.toggle('dark-mode', isDark);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.Auth) {
+        window.Auth.requireLogin?.({ redirectTo: '../login&register/Login/login_site.html' });
+      }
+      initTheme();
+      renderStats();
+    });
+  </script>
 </body>
 </html>

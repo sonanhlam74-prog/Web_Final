@@ -3,106 +3,258 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile - Quản lý Avatar</title>
+  <title>Hồ sơ – Task Manager</title>
+  <link rel="stylesheet" href="../Test app/test.css">
+  <link rel="stylesheet" href="../Test app/tasks.css">
+  <link rel="stylesheet" href="../sidebar.css">
   <link rel="stylesheet" href="Profile.css">
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
 <body>
-  <div class="profile-container">
-    <header class="profile-header">
-      <a href="../Test app/test.html" class="back-btn">
-        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-        </svg>
-        Quay lại
-      </a>
-      <h1>Quản lý Avatar</h1>
-    </header>
 
-    <!-- Current Avatar -->
-    <section class="current-avatar-section">
-      <h2>Avatar hiện tại</h2>
-      <div class="current-avatar-wrapper">
-        <img id="currentAvatar" src="" alt="Avatar hiện tại" class="current-avatar">
+  <!-- Sidebar -->
+  <div class="side-bar" id="sidebar">
+    <div class="logo-details">
+      <i class='bx bx-task sidebar-logo-icon'></i>
+      <span class="logo_name">Task Manager</span>
+      <i class='bx bx-menu' id="btn"></i>
+    </div>
+    <div class="sidebar-profile">
+      <div class="sidebar-avatar">
+        <img id="sidebarAvatar" src="https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff" alt="Avatar">
       </div>
-    </section>
-
-    <!-- Import New Image -->
-    <section class="import-section">
-      <h2>Thêm ảnh mới</h2>
-      <div class="import-wrapper">
-        <input type="file" id="importInput" accept="image/*" hidden>
-        <button id="importBtn" class="btn btn-primary">
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
-          Import ảnh
-        </button>
-        <p class="hint">Chấp nhận jpg, png, webp (tối đa 1.5MB)</p>
+      <div class="sidebar-user-info">
+        <span class="sidebar-user-name" id="sidebarUserName">Người dùng</span>
+        <span class="sidebar-user-email" id="sidebarUserEmail">user@example.com</span>
       </div>
-    </section>
-
-    <!-- Gallery -->
-    <section class="gallery-section">
-      <h2>Thư viện ảnh <span id="imageCount">(0)</span></h2>
-      <div id="gallery" class="gallery"></div>
-      <p id="emptyGallery" class="empty-text">Chưa có ảnh nào. Hãy import ảnh mới!</p>
-    </section>
-
-    <!-- Rename -->
-    <section class="rename-section">
-      <h2>Đổi tên người dùng</h2>
-      <div class="rename-wrapper">
-        <input type="text" id="nameInput" class="name-input" placeholder="Nhập tên mới">
-        <button id="renameBtn" class="btn btn-secondary">Đổi tên</button>
-      </div>
-    </section>
+    </div>
+    <div class="sidebar-divider"></div>
+    <ul class="nav-list">
+      <li>
+        <i class="bx bx-search"></i>
+        <input type="text" id="sidebarSearch" placeholder="Tìm kiếm...">
+        <span class="tooltip">Tìm kiếm</span>
+      </li>
+      <li>
+        <a href="../Test app/test.html">
+          <i class='bx bx-home-alt-2'></i>
+          <span class="links_name">Trang chủ</span>
+        </a>
+        <span class="tooltip">Trang chủ</span>
+      </li>
+      <li>
+        <a href="../Test app/test2.html">
+          <i class='bx bx-task'></i>
+          <span class="links_name">Công việc</span>
+        </a>
+        <span class="tooltip">Công việc</span>
+      </li>
+      <li>
+        <a href="../Test app/test3.html">
+          <i class='bx bx-bar-chart-alt-2'></i>
+          <span class="links_name">Thống kê</span>
+        </a>
+        <span class="tooltip">Thống kê</span>
+      </li>
+      <li>
+        <a href="../Test app/test4.html">
+          <i class='bx bx-envelope'></i>
+          <span class="links_name">Liên hệ</span>
+        </a>
+        <span class="tooltip">Liên hệ</span>
+      </li>
+      <li>
+        <a href="Profile.html">
+          <i class='bx bx-user-circle'></i>
+          <span class="links_name">Hồ sơ</span>
+        </a>
+        <span class="tooltip">Hồ sơ</span>
+      </li>
+      <li>
+        <a href="../Setting/settingpage.html">
+          <i class='bx bx-cog'></i>
+          <span class="links_name">Cài đặt</span>
+        </a>
+        <span class="tooltip">Cài đặt</span>
+      </li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <ul class="nav-list sidebar-bottom">
+      <li>
+        <a href="#" id="sidebarThemeBtn">
+          <i class='bx bx-sun' id="sidebarThemeIcon"></i>
+          <span class="links_name" id="sidebarThemeLabel">Light Mode</span>
+        </a>
+        <span class="tooltip" id="sidebarThemeTooltip">Light Mode</span>
+      </li>
+      <li>
+        <a href="#" id="sidebarLogoutBtn">
+          <i class='bx bx-log-out'></i>
+          <span class="links_name">Đăng xuất</span>
+        </a>
+        <span class="tooltip">Đăng xuất</span>
+      </li>
+    </ul>
   </div>
-  <!--Sex-->
-  <section class="sex-section">
-    <h2>Chọn giới tính</h2>
-    <div class="sex-wrapper">
-      <select id="sexSelect" class="sex-select">
-        <option value="" disabled selected>Chọn giới tính</option>
-        <option value="male">Nam</option>
-        <option value="female">Nữ</option>
-        <option value="other">Khác</option>
-      </select>
-      <button id="sexBtn" class="btn btn-secondary">Cập nhật giới tính</button>
-    </div>
-  </section>
-  <!--Email-->
-  <section class="email-section">
-    <h2>Đổi email đăng ký</h2>
-    <div class="email-wrapper">
-      <input type="email" id="emailInput" class="email-input" placeholder="Nhập email mới">
-      <button id="emailBtn" class="btn btn-secondary">Đổi email</button>
-  </section>
-  <!--Phone number-->
-  <section class="phone-section">
-    <h2>Đổi số điện thoại</h2>
-    <div class="phone-wrapper">
-      <input type="tel" id="phoneInput" class="phone-input" placeholder="Nhập số điện thoại mới">
-      <button id="phoneBtn" class="btn btn-secondary">Đổi số điện thoại</button>
-    </div>
-  </section>
-  <!--Birthday-->
-  <section class="birthday-section">
-    <h2>Đổi ngày sinh</h2>
-    <div class="birthday-wrapper">
-      <input type="date" id="birthdayInput" class="birthday-input" placeholder="Nhập ngày sinh mới">
-      <button id="birthdayBtn" class="btn btn-secondary">Đổi ngày sinh</button>
-    </div>
-  </section>
-  <!-- Address -->
-  <section class="address-section">
-    <h2>Đổi địa chỉ</h2>
-    <div class="address-wrapper">
-      <input type="text" id="addressInput" class="address-input" placeholder="Nhập địa chỉ mới">
-      <button id="addressBtn" class="btn btn-secondary">Đổi địa chỉ</button>
-    </div>
-  </section>
+
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="header-nav">
+      <div class="site-logo">
+        <label class="hamburger">
+          <input type="checkbox">
+          <svg viewBox="0 0 32 32">
+            <path class="line line-top-bottom"
+              d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22">
+            </path>
+            <path class="line" d="M7 16 27 16"></path>
+          </svg>
+        </label>
+      </div>
+      <div class="nav-links-container">
+        <a class="nav-link" href="../Test app/test.html">🏠 Home</a>
+        <a class="nav-link" href="../Test app/test2.html">📋 Tasks</a>
+        <a class="nav-link" href="../Test app/test3.html">📊 Thống kê</a>
+        <a class="nav-link" href="../Test app/test4.html">📞 Liên hệ</a>
+        <a class="nav-link active" href="Profile.html">👤 Hồ sơ</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <section class="content-section">
+
+      <!-- ── Profile Hero Card ── -->
+      <div class="profile-hero">
+        <div class="profile-hero-left">
+          <div class="hero-avatar-wrap">
+            <img id="currentAvatar"
+              src="https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff"
+              alt="Avatar" class="hero-avatar">
+            <label class="hero-avatar-change" for="importInput" title="Đổi ảnh">
+              <i class='bx bx-camera'></i>
+            </label>
+            <input type="file" id="importInput" accept="image/*" hidden>
+          </div>
+        </div>
+        <div class="profile-hero-right">
+          <h1 id="heroName" class="hero-name">Người dùng</h1>
+          <div class="hero-meta">
+            <span id="heroEmail"><i class='bx bx-envelope'></i> <em id="heroEmailText">user@example.com</em></span>
+            <span id="heroPhone"><i class='bx bx-phone'></i> <em id="heroPhoneText">—</em></span>
+          </div>
+          <div class="hero-badges">
+            <span class="hero-badge" id="heroBadgeSex"><i class='bx bx-user'></i> —</span>
+            <span class="hero-badge" id="heroBadgeBirthday"><i class='bx bx-calendar'></i> —</span>
+            <span class="hero-badge" id="heroBadgeAddress"><i class='bx bx-map-pin'></i> —</span>
+          </div>
+          <button id="importBtn" class="btn-import">
+            <i class='bx bx-upload'></i> Import ảnh
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Two-column edit grid ── -->
+      <div class="profile-grid">
+
+        <!-- Left: avatar gallery -->
+        <div class="pcard">
+          <div class="pcard-header">
+            <i class='bx bx-images'></i>
+            <h2>Thư viện ảnh <span id="imageCount" class="count-badge">0</span></h2>
+          </div>
+          <p class="field-hint">Nhấn ảnh để đặt làm avatar &middot; jpg / png / webp &middot; tối đa 1.5 MB</p>
+          <div id="gallery" class="gallery pcard-gallery"></div>
+          <p id="emptyGallery" class="empty-text">Chưa có ảnh nào. Nhấn "Import ảnh" để thêm!</p>
+        </div>
+
+        <!-- Right: personal info form -->
+        <div class="pcard">
+          <div class="pcard-header">
+            <i class='bx bx-edit-alt'></i>
+            <h2>Thông tin cá nhân</h2>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="nameInput">
+              <i class='bx bx-user'></i> Tên hiển thị
+            </label>
+            <div class="field-row">
+              <input type="text" id="nameInput" class="field-input" placeholder="Nhập tên mới" maxlength="80">
+              <button id="renameBtn" class="btn btn-save">Lưu</button>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="sexSelect">
+              <i class='bx bx-venus-mars'></i> Giới tính
+            </label>
+            <div class="field-row">
+              <select id="sexSelect" class="field-input">
+                <option value="" disabled selected>Chọn giới tính</option>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
+                <option value="other">Khác</option>
+              </select>
+              <button id="sexBtn" class="btn btn-save">Lưu</button>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="emailInput">
+              <i class='bx bx-envelope'></i> Email
+            </label>
+            <div class="field-row">
+              <input type="email" id="emailInput" class="field-input" placeholder="Nhập email mới">
+              <button id="emailBtn" class="btn btn-save">Lưu</button>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="phoneInput">
+              <i class='bx bx-phone'></i> Số điện thoại
+            </label>
+            <div class="field-row">
+              <input type="tel" id="phoneInput" class="field-input" placeholder="Nhập số điện thoại">
+              <button id="phoneBtn" class="btn btn-save">Lưu</button>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="birthdayInput">
+              <i class='bx bx-calendar'></i> Ngày sinh
+            </label>
+            <div class="field-row">
+              <input type="date" id="birthdayInput" class="field-input">
+              <button id="birthdayBtn" class="btn btn-save">Lưu</button>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="addressInput">
+              <i class='bx bx-map-pin'></i> Địa chỉ
+            </label>
+            <div class="field-row">
+              <input type="text" id="addressInput" class="field-input" placeholder="Nhập địa chỉ">
+              <button id="addressBtn" class="btn btn-save">Lưu</button>
+            </div>
+          </div>
+
+        </div><!-- /pcard right -->
+      </div><!-- /profile-grid -->
+
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 Task Manager – CMC University. All rights reserved.</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="../login&register/AccountSystem/auth.js"></script>
+  <script src="../sidebar.js"></script>
   <script src="Profile.js"></script>
 </body>
 </html>

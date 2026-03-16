@@ -1,67 +1,211 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
-    <link rel="stylesheet" href="settingpage.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cài đặt – Task Manager</title>
+  <link rel="stylesheet" href="../Test app/test.css">
+  <link rel="stylesheet" href="../Test app/tasks.css">
+  <link rel="stylesheet" href="../sidebar.css">
+  <link rel="stylesheet" href="settingpage.css">
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
 <body>
-    <header class="top-nav">
-       
 
-        <div class="top-left-logo" aria-label="Settings">
-            <span class="material-symbols-outlined" aria-hidden="true">settings</span>
-            <p>Settings</p>
-        </div>
-        
-        <form class="middle-search-bar" role="search" aria-label="Search settings" autocomplete="off">
-            <label class="sr-only" for="Mysearch">Search settings</label>
-            <input type="search" placeholder="Search settings" id="Mysearch" title="Type a category" >
-        </form>
-    </header>
+  <!-- Sidebar -->
+  <div class="side-bar" id="sidebar">
+    <div class="logo-details">
+      <i class='bx bx-task sidebar-logo-icon'></i>
+      <span class="logo_name">Task Manager</span>
+      <i class='bx bx-menu' id="btn"></i>
+    </div>
+    <div class="sidebar-profile">
+      <div class="sidebar-avatar">
+        <img id="sidebarAvatar" src="https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff" alt="Avatar">
+      </div>
+      <div class="sidebar-user-info">
+        <span class="sidebar-user-name" id="sidebarUserName">Người dùng</span>
+        <span class="sidebar-user-email" id="sidebarUserEmail">user@example.com</span>
+      </div>
+    </div>
+    <div class="sidebar-divider"></div>
+    <ul class="nav-list">
+      <li>
+        <i class="bx bx-search"></i>
+        <input type="text" id="sidebarSearch" placeholder="Tìm kiếm...">
+        <span class="tooltip">Tìm kiếm</span>
+      </li>
+      <li>
+        <a href="../Test app/test.html">
+          <i class='bx bx-home-alt-2'></i>
+          <span class="links_name">Trang chủ</span>
+        </a>
+        <span class="tooltip">Trang chủ</span>
+      </li>
+      <li>
+        <a href="../Test app/test2.html">
+          <i class='bx bx-task'></i>
+          <span class="links_name">Công việc</span>
+        </a>
+        <span class="tooltip">Công việc</span>
+      </li>
+      <li>
+        <a href="../Test app/test3.html">
+          <i class='bx bx-bar-chart-alt-2'></i>
+          <span class="links_name">Thống kê</span>
+        </a>
+        <span class="tooltip">Thống kê</span>
+      </li>
+      <li>
+        <a href="../Test app/test4.html">
+          <i class='bx bx-envelope'></i>
+          <span class="links_name">Liên hệ</span>
+        </a>
+        <span class="tooltip">Liên hệ</span>
+      </li>
+      <li>
+        <a href="../Profile/Profile.html">
+          <i class='bx bx-user-circle'></i>
+          <span class="links_name">Hồ sơ</span>
+        </a>
+        <span class="tooltip">Hồ sơ</span>
+      </li>
+      <li>
+        <a href="settingpage.html">
+          <i class='bx bx-cog'></i>
+          <span class="links_name">Cài đặt</span>
+        </a>
+        <span class="tooltip">Cài đặt</span>
+      </li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <ul class="nav-list sidebar-bottom">
+      <li>
+        <a href="#" id="sidebarThemeBtn">
+          <i class='bx bx-sun' id="sidebarThemeIcon"></i>
+          <span class="links_name" id="sidebarThemeLabel">Light Mode</span>
+        </a>
+        <span class="tooltip" id="sidebarThemeTooltip">Light Mode</span>
+      </li>
+      <li>
+        <a href="#" id="sidebarLogoutBtn">
+          <i class='bx bx-log-out'></i>
+          <span class="links_name">Đăng xuất</span>
+        </a>
+        <span class="tooltip">Đăng xuất</span>
+      </li>
+    </ul>
+  </div>
 
-    <nav class="side-nav side-nav--open" id="sideNav" aria-label="Settings categories">
-        <a href="#"><span class="material-symbols-outlined" aria-hidden="true">person</span> You</a>
-        <a href="#" id="passwordsLink"><span class="material-symbols-outlined" aria-hidden="true">password</span> Passwords</a>
-        <a href="#"><span class="material-symbols-outlined" aria-hidden="true">shield</span> Privacy and security</a>
-        <a href="#"><span class="material-symbols-outlined" aria-hidden="true">language</span> Languages</a>
-        <a href="#"><span class="material-symbols-outlined" aria-hidden="true">download</span> Download</a>
-        <a href="#"><span class="material-symbols-outlined" aria-hidden="true">build</span> System</a>
-        <a href="#"><span class="material-symbols-outlined" aria-hidden="true">autorenew</span> Reset settings</a>
-        <a href="#"><span class="material-symbols-outlined" aria-hidden="true">info</span> About</a>
-        <p class="side-nav__empty" id="sideNavEmpty" hidden>No results</p>
+  <!-- Header -->
+  <header class="site-header">
+    <nav class="header-nav">
+      <div class="site-logo">
+        <label class="hamburger">
+          <input type="checkbox">
+          <svg viewBox="0 0 32 32">
+            <path class="line line-top-bottom"
+              d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22">
+            </path>
+            <path class="line" d="M7 16 27 16"></path>
+          </svg>
+        </label>
+      </div>
+      <div class="nav-links-container">
+        <a class="nav-link" href="../Test app/test.html">🏠 Home</a>
+        <a class="nav-link" href="../Test app/test2.html">📋 Tasks</a>
+        <a class="nav-link" href="../Test app/test3.html">📊 Thống kê</a>
+        <a class="nav-link" href="../Test app/test4.html">📞 Liên hệ</a>
+        <a class="nav-link" href="../Profile/Profile.html">👤 Hồ sơ</a>
+        <a class="nav-link active" href="settingpage.html">⚙️ Cài đặt</a>
+      </div>
     </nav>
+  </header>
 
-    <main class="content" id="content" tabindex="-1">
-        <h1 class="sr-only">Settings</h1>
+  <!-- Main Content -->
+  <main class="main-content">
+    <section class="content-section">
 
-        <section class="panel" aria-label="Đổi mật khẩu">
-            <h2 class="panel__title">Đổi mật khẩu</h2>
-            <p id="passwordMessage" class="form-message" aria-live="polite"></p>
+      <!-- Page hero -->
+      <div class="settings-hero">
+        <div class="settings-hero-icon">
+          <i class='bx bx-cog'></i>
+        </div>
+        <div>
+          <h1 class="settings-hero-title">Cài đặt</h1>
+          <p class="settings-hero-sub">Quản lý tài khoản và tùy chọn của bạn</p>
+        </div>
+      </div>
 
-            <form id="changePasswordForm" class="form" autocomplete="off">
-                <label class="field">
-                    <span class="field-label">Mật khẩu hiện tại</span>
-                    <input class="input" type="password" name="oldPassword" required>
-                </label>
+      <!-- Settings grid -->
+      <div class="settings-grid">
 
-                <label class="field">
-                    <span class="field-label">Mật khẩu mới</span>
-                    <input class="input" type="password" name="newPassword" required>
-                </label>
+        <!-- Change password -->
+        <div class="pcard" id="passwordPanel">
+          <div class="pcard-header">
+            <i class='bx bx-lock-alt'></i>
+            <h2>Đổi mật khẩu</h2>
+          </div>
 
-                <label class="field">
-                    <span class="field-label">Xác nhận mật khẩu mới</span>
-                    <input class="input" type="password" name="confirmNewPassword" required>
-                </label>
+          <p id="passwordMessage" class="settings-msg" aria-live="polite"></p>
 
-                <button class="btn" type="submit">Cập nhật mật khẩu</button>
-            </form>
-        </section>
-    </main>
-    <script src="../login&register/AccountSystem/auth.js"></script>
-    <script src="settingpage.js"></script>
+          <form id="changePasswordForm" autocomplete="off">
+            <div class="field-group">
+              <label class="field-label" for="oldPassword">
+                <i class='bx bx-key'></i> Mật khẩu hiện tại
+              </label>
+              <input class="field-input" type="password" id="oldPassword" name="oldPassword" placeholder="Nhập mật khẩu hiện tại" required>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="newPassword">
+                <i class='bx bx-lock-open-alt'></i> Mật khẩu mới
+              </label>
+              <input class="field-input" type="password" id="newPassword" name="newPassword" placeholder="Tối thiểu 6 ký tự" required>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="confirmNewPassword">
+                <i class='bx bx-check-shield'></i> Xác nhận mật khẩu mới
+              </label>
+              <input class="field-input" type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Nhập lại mật khẩu mới" required>
+            </div>
+
+            <div class="field-group">
+              <button class="btn btn-primary" type="submit">
+                <i class='bx bx-save'></i> Cập nhật mật khẩu
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Account info (read-only) -->
+        <div class="pcard">
+          <div class="pcard-header">
+            <i class='bx bx-user'></i>
+            <h2>Tài khoản</h2>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i class='bx bx-id-card'></i> Tên hiển thị</label>
+            <p class="settings-info-value" id="infoName">—</p>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><i class='bx bx-envelope'></i> Email</label>
+            <p class="settings-info-value" id="infoEmail">—</p>
+          </div>
+          <div class="settings-note">
+            <i class='bx bx-info-circle'></i>
+            Để chỉnh sửa thông tin cá nhân, hãy vào trang
+            <a href="../Profile/Profile.html">Hồ sơ</a>.
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="../login&register/AccountSystem/auth.js"></script>
+  <script src="../sidebar.js"></script>
+  <script src="settingpage.js"></script>
 </body>
 </html>
