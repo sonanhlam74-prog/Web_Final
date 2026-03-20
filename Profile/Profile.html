@@ -4,257 +4,720 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hồ sơ – Task Manager</title>
-  <link rel="stylesheet" href="../Test app/test.css">
-  <link rel="stylesheet" href="../Test app/tasks.css">
-  <link rel="stylesheet" href="../sidebar.css">
-  <link rel="stylesheet" href="Profile.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+  <style>
+    :root {
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --danger: #dc3545;
+      --success: #28a745;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .navbar-custom {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .navbar-custom .navbar-brand {
+      color: white !important;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .nav-link {
+      color: rgba(255,255,255,0.8) !important;
+      transition: all 0.3s;
+      padding: 8px 15px !important;
+      border-radius: 8px;
+      margin: 0 5px;
+    }
+
+    .nav-link:hover {
+      color: white !important;
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    .profile-header {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 150px;
+      margin: 0 auto;
+    }
+
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 4px solid var(--primary);
+      object-fit: cover;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .avatar-overlay {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: var(--primary);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 3px solid white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .avatar-overlay:hover {
+      background: var(--secondary);
+      transform: scale(1.1);
+    }
+
+    .avatar-overlay i {
+      color: white;
+      font-size: 20px;
+    }
+
+    .profile-info {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .profile-name {
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+      margin: 15px 0;
+    }
+
+    .profile-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 15px 0;
+    }
+
+    .meta-badge {
+      background: #f8f9fa;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 3px solid var(--primary);
+    }
+
+    .card-form {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .card-title i {
+      color: var(--primary);
+      font-size: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-label i {
+      color: var(--primary);
+      font-size: 18px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .input-group .form-control {
+      flex: 1;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .input-group .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      outline: none;
+    }
+
+    .btn-save {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-save:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-save:active {
+      transform: translateY(0);
+    }
+
+    .btn-danger-custom {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-danger-custom:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 15px;
+    }
+
+    .gallery-item {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 3px solid transparent;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-overlay i {
+      color: white;
+      font-size: 24px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+
+    .empty-state i {
+      font-size: 48px;
+      color: #ddd;
+      margin-bottom: 15px;
+    }
+
+    .toast-message {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      animation: slideInRight 0.3s ease;
+    }
+
+    @keyframes slideInRight {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .toast-message.success {
+      border-left: 4px solid var(--success);
+      color: var(--success);
+    }
+
+    .toast-message.error {
+      border-left: 4px solid var(--danger);
+      color: var(--danger);
+    }
+
+    .file-input-hidden {
+      display: none;
+    }
+
+    .btn-import-file {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-import-file:hover {
+      background: #20c997;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .input-group {
+        flex-direction: column;
+      }
+
+      .input-group .btn-save {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 <body>
-
-  <!-- Sidebar -->
-  <div class="side-bar" id="sidebar">
-    <div class="logo-details">
-      <i class='bx bx-task sidebar-logo-icon'></i>
-      <span class="logo_name">Task Manager</span>
-      <i class='bx bx-menu' id="btn"></i>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../Test app/test.html">
+        <i class='bx bx-task'></i> Task Manager
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle Navigation Menu">
+        <span class="navbar-toggler-icon" style="filter: brightness(0) invert(1);"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../Test app/test.html" title="Quay lại trang chủ">🏠 Trang chủ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../Test app/test2.html" title="Xem công việc">📋 Công việc</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../Messge/Messge.html" title="Tin nhắn">💬 Tin nhắn</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="Profile.html" title="Quản lý hồ sơ cá nhân">👤 Hồ sơ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../Setting/settingpage.html" title="Cài đặt ứng dụng">⚙️ Cài đặt</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="sidebar-profile">
-      <div class="sidebar-avatar">
-        <img id="sidebarAvatar" src="https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff" alt="Avatar">
-      </div>
-      <div class="sidebar-user-info">
-        <span class="sidebar-user-name" id="sidebarUserName">Người dùng</span>
-        <span class="sidebar-user-email" id="sidebarUserEmail">user@example.com</span>
-      </div>
-    </div>
-    <div class="sidebar-divider"></div>
-    <ul class="nav-list">
-      <li>
-        <i class="bx bx-search"></i>
-        <input type="text" id="sidebarSearch" placeholder="Tìm kiếm...">
-        <span class="tooltip">Tìm kiếm</span>
-      </li>
-      <li>
-        <a href="../Test app/test.html">
-          <i class='bx bx-home-alt-2'></i>
-          <span class="links_name">Trang chủ</span>
-        </a>
-        <span class="tooltip">Trang chủ</span>
-      </li>
-      <li>
-        <a href="../Test app/test2.html">
-          <i class='bx bx-task'></i>
-          <span class="links_name">Công việc</span>
-        </a>
-        <span class="tooltip">Công việc</span>
-      </li>
-      <li>
-        <a href="../Test app/test3.html">
-          <i class='bx bx-bar-chart-alt-2'></i>
-          <span class="links_name">Thống kê</span>
-        </a>
-        <span class="tooltip">Thống kê</span>
-      </li>
-      <li>
-        <a href="../Test app/test4.html">
-          <i class='bx bx-envelope'></i>
-          <span class="links_name">Liên hệ</span>
-        </a>
-        <span class="tooltip">Liên hệ</span>
-      </li>
-      <li>
-        <a href="Profile.html">
-          <i class='bx bx-user-circle'></i>
-          <span class="links_name">Hồ sơ</span>
-        </a>
-        <span class="tooltip">Hồ sơ</span>
-      </li>
-      <li>
-        <a href="../Setting/settingpage.html">
-          <i class='bx bx-cog'></i>
-          <span class="links_name">Cài đặt</span>
-        </a>
-        <span class="tooltip">Cài đặt</span>
-      </li>
-    </ul>
-    <div class="sidebar-divider"></div>
-    <ul class="nav-list sidebar-bottom">
-      <li>
-        <a href="#" id="sidebarThemeBtn">
-          <i class='bx bx-sun' id="sidebarThemeIcon"></i>
-          <span class="links_name" id="sidebarThemeLabel">Light Mode</span>
-        </a>
-        <span class="tooltip" id="sidebarThemeTooltip">Light Mode</span>
-      </li>
-      <li>
-        <a href="#" id="sidebarLogoutBtn">
-          <i class='bx bx-log-out'></i>
-          <span class="links_name">Đăng xuất</span>
-        </a>
-        <span class="tooltip">Đăng xuất</span>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Header -->
-  <header class="site-header">
-    <nav class="header-nav">
-      <div class="site-logo">
-        <label class="hamburger">
-          <input type="checkbox">
-          <svg viewBox="0 0 32 32">
-            <path class="line line-top-bottom"
-              d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22">
-            </path>
-            <path class="line" d="M7 16 27 16"></path>
-          </svg>
-        </label>
-      </div>
-      <div class="nav-links-container">
-        <a class="nav-link" href="../Test app/test.html">🏠 Home</a>
-        <a class="nav-link" href="../Test app/test2.html">📋 Tasks</a>
-        <a class="nav-link" href="../Test app/test3.html">📊 Thống kê</a>
-        <a class="nav-link" href="../Test app/test4.html">📞 Liên hệ</a>
-        <a class="nav-link active" href="Profile.html">👤 Hồ sơ</a>
-      </div>
-    </nav>
-  </header>
+  </nav>
 
   <!-- Main Content -->
-  <main class="main-content">
-    <section class="content-section">
+  <div class="container-lg py-5">
+    <!-- Profile Header -->
+    <div class="profile-header text-center">
+      <div class="avatar-wrapper">
+        <img id="currentAvatar" class="profile-avatar" src="https://ui-avatars.com/api/?name=User&background=667eea&color=fff" alt="Avatar của người dùng">
+        <div class="avatar-overlay" id="avatarOverlay" title="Nhấn để thay đổi ảnh đại diện">
+          <i class='bx bx-camera'></i>
+        </div>
+      </div>
 
-      <!-- ── Profile Hero Card ── -->
-      <div class="profile-hero">
-        <div class="profile-hero-left">
-          <div class="hero-avatar-wrap">
-            <img id="currentAvatar"
-              src="https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff"
-              alt="Avatar" class="hero-avatar">
-            <label class="hero-avatar-change" for="importInput" title="Đổi ảnh">
-              <i class='bx bx-camera'></i>
-            </label>
-            <input type="file" id="importInput" accept="image/*" hidden>
+      <div class="profile-info">
+        <h1 class="profile-name" id="profileName">Người dùng</h1>
+        <div class="profile-meta">
+          <div class="meta-badge">
+            <i class='bx bx-envelope'></i>
+            <span id="profileEmail">user@example.com</span>
+          </div>
+          <div class="meta-badge">
+            <i class='bx bx-phone'></i>
+            <span id="profilePhone">Chưa cập nhật</span>
           </div>
         </div>
-        <div class="profile-hero-right">
-          <h1 id="heroName" class="hero-name">Người dùng</h1>
-          <div class="hero-meta">
-            <span id="heroEmail"><i class='bx bx-envelope'></i> <em id="heroEmailText">user@example.com</em></span>
-            <span id="heroPhone"><i class='bx bx-phone'></i> <em id="heroPhoneText">—</em></span>
-          </div>
-          <div class="hero-badges">
-            <span class="hero-badge" id="heroBadgeSex"><i class='bx bx-user'></i> —</span>
-            <span class="hero-badge" id="heroBadgeBirthday"><i class='bx bx-calendar'></i> —</span>
-            <span class="hero-badge" id="heroBadgeAddress"><i class='bx bx-map-pin'></i> —</span>
-          </div>
-          <button id="importBtn" class="btn-import">
-            <i class='bx bx-upload'></i> Import ảnh
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid-2">
+      <!-- Gallery Card -->
+      <div class="card-form">
+        <h3 class="card-title">
+          <i class='bx bx-images'></i> Thư viện ảnh
+          <span class="badge bg-primary ms-auto" id="imageCount">0</span>
+        </h3>
+        <p class="text-muted small mb-3">
+          <i class='bx bx-info-circle'></i> Nhấn ảnh để đặt làm avatar • Định dạng: jpg, png, webp • Tối đa: 1.5 MB
+        </p>
+        <div id="gallery" class="gallery"></div>
+        <div id="emptyGallery" class="empty-state">
+          <i class='bx bx-image-alt'></i>
+          <p>Chưa có ảnh nào trong thư viện</p>
+          <button class="btn-import-file" id="openFileInput" type="button" title="Nhập tệp ảnh từ máy tính">
+            <i class='bx bx-upload'></i> Thêm ảnh
           </button>
         </div>
       </div>
 
-      <!-- ── Two-column edit grid ── -->
-      <div class="profile-grid">
+      <!-- Form Card -->
+      <div class="card-form">
+        <h3 class="card-title">
+          <i class='bx bx-edit-alt'></i> Thông tin cá nhân
+        </h3>
 
-        <!-- Left: avatar gallery -->
-        <div class="pcard">
-          <div class="pcard-header">
-            <i class='bx bx-images'></i>
-            <h2>Thư viện ảnh <span id="imageCount" class="count-badge">0</span></h2>
+        <!-- Name -->
+        <div class="form-group">
+          <label class="form-label" for="nameInput">
+            <i class='bx bx-user'></i> Tên hiển thị
+          </label>
+          <div class="input-group">
+            <input type="text" id="nameInput" class="form-control" placeholder="Nhập tên mới" maxlength="80" aria-label="Tên hiển thị">
+            <button class="btn-save" id="nameBtn" type="button" title="Lưu tên mới">
+              <i class='bx bx-check'></i> Lưu
+            </button>
           </div>
-          <p class="field-hint">Nhấn ảnh để đặt làm avatar &middot; jpg / png / webp &middot; tối đa 1.5 MB</p>
-          <div id="gallery" class="gallery pcard-gallery"></div>
-          <p id="emptyGallery" class="empty-text">Chưa có ảnh nào. Nhấn "Import ảnh" để thêm!</p>
         </div>
 
-        <!-- Right: personal info form -->
-        <div class="pcard">
-          <div class="pcard-header">
-            <i class='bx bx-edit-alt'></i>
-            <h2>Thông tin cá nhân</h2>
+        <!-- Email -->
+        <div class="form-group">
+          <label class="form-label" for="emailInput">
+            <i class='bx bx-envelope'></i> Email
+          </label>
+          <div class="input-group">
+            <input type="email" id="emailInput" class="form-control" placeholder="Nhập email mới" aria-label="Địa chỉ email">
+            <button class="btn-save" id="emailBtn" type="button" title="Lưu email mới">
+              <i class='bx bx-check'></i> Lưu
+            </button>
           </div>
+        </div>
 
-          <div class="field-group">
-            <label class="field-label" for="nameInput">
-              <i class='bx bx-user'></i> Tên hiển thị
-            </label>
-            <div class="field-row">
-              <input type="text" id="nameInput" class="field-input" placeholder="Nhập tên mới" maxlength="80">
-              <button id="renameBtn" class="btn btn-save">Lưu</button>
-            </div>
+        <!-- Phone -->
+        <div class="form-group">
+          <label class="form-label" for="phoneInput">
+            <i class='bx bx-phone'></i> Số điện thoại
+          </label>
+          <div class="input-group">
+            <input type="tel" id="phoneInput" class="form-control" placeholder="Nhập số điện thoại" aria-label="Số điện thoại">
+            <button class="btn-save" id="phoneBtn" type="button" title="Lưu số điện thoại">
+              <i class='bx bx-check'></i> Lưu
+            </button>
           </div>
+        </div>
 
-          <div class="field-group">
-            <label class="field-label" for="sexSelect">
-              <i class='bx bx-venus-mars'></i> Giới tính
-            </label>
-            <div class="field-row">
-              <select id="sexSelect" class="field-input">
-                <option value="" disabled selected>Chọn giới tính</option>
-                <option value="male">Nam</option>
-                <option value="female">Nữ</option>
-                <option value="other">Khác</option>
-              </select>
-              <button id="sexBtn" class="btn btn-save">Lưu</button>
-            </div>
+        <!-- Gender -->
+        <div class="form-group">
+          <label class="form-label" for="sexSelect">
+            <i class='bx bx-venus-mars'></i> Giới tính
+          </label>
+          <div class="input-group">
+            <select id="sexSelect" class="form-control" aria-label="Lựa chọn giới tính">
+              <option value="" selected disabled>Chọn giới tính</option>
+              <option value="male">Nam</option>
+              <option value="female">Nữ</option>
+              <option value="other">Khác</option>
+            </select>
+            <button class="btn-save" id="sexBtn" type="button" title="Lưu giới tính">
+              <i class='bx bx-check'></i> Lưu
+            </button>
           </div>
+        </div>
 
-          <div class="field-group">
-            <label class="field-label" for="emailInput">
-              <i class='bx bx-envelope'></i> Email
-            </label>
-            <div class="field-row">
-              <input type="email" id="emailInput" class="field-input" placeholder="Nhập email mới">
-              <button id="emailBtn" class="btn btn-save">Lưu</button>
-            </div>
+        <!-- Birthday -->
+        <div class="form-group">
+          <label class="form-label" for="birthdayInput">
+            <i class='bx bx-calendar'></i> Ngày sinh
+          </label>
+          <div class="input-group">
+            <input type="date" id="birthdayInput" class="form-control" aria-label="Chọn ngày sinh">
+            <button class="btn-save" id="birthdayBtn" type="button" title="Lưu ngày sinh">
+              <i class='bx bx-check'></i> Lưu
+            </button>
           </div>
+        </div>
 
-          <div class="field-group">
-            <label class="field-label" for="phoneInput">
-              <i class='bx bx-phone'></i> Số điện thoại
-            </label>
-            <div class="field-row">
-              <input type="tel" id="phoneInput" class="field-input" placeholder="Nhập số điện thoại">
-              <button id="phoneBtn" class="btn btn-save">Lưu</button>
-            </div>
+        <!-- Address -->
+        <div class="form-group">
+          <label class="form-label" for="addressInput">
+            <i class='bx bx-map-pin'></i> Địa chỉ
+          </label>
+          <div class="input-group">
+            <input type="text" id="addressInput" class="form-control" placeholder="Nhập địa chỉ" aria-label="Địa chỉ">
+            <button class="btn-save" id="addressBtn" type="button" title="Lưu địa chỉ">
+              <i class='bx bx-check'></i> Lưu
+            </button>
           </div>
+        </div>
 
-          <div class="field-group">
-            <label class="field-label" for="birthdayInput">
-              <i class='bx bx-calendar'></i> Ngày sinh
-            </label>
-            <div class="field-row">
-              <input type="date" id="birthdayInput" class="field-input">
-              <button id="birthdayBtn" class="btn btn-save">Lưu</button>
-            </div>
-          </div>
+        <!-- File Input -->
+        <input type="file" id="fileInput" class="file-input-hidden" accept="image/*" aria-label="Chọn tệp ảnh">
+      </div>
+    </div>
+  </div>
 
-          <div class="field-group">
-            <label class="field-label" for="addressInput">
-              <i class='bx bx-map-pin'></i> Địa chỉ
-            </label>
-            <div class="field-row">
-              <input type="text" id="addressInput" class="field-input" placeholder="Nhập địa chỉ">
-              <button id="addressBtn" class="btn btn-save">Lưu</button>
-            </div>
-          </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      const STORAGE_KEY = 'user_profile';
+      const GALLERY_KEY = 'user_gallery';
 
-        </div><!-- /pcard right -->
-      </div><!-- /profile-grid -->
+      // Load profile
+      function loadProfile() {
+        const profile = localStorage.getItem(STORAGE_KEY);
+        if (profile) {
+          const data = JSON.parse(profile);
+          $('#profileName').text(data.name || 'Người dùng');
+          $('#profileEmail').text(data.email || 'user@example.com');
+          $('#profilePhone').text(data.phone || 'Chưa cập nhật');
+          $('#nameInput').val(data.name || '');
+          $('#emailInput').val(data.email || '');
+          $('#phoneInput').val(data.phone || '');
+          $('#sexSelect').val(data.sex || '');
+          $('#birthdayInput').val(data.birthday || '');
+          $('#addressInput').val(data.address || '');
+          updateAvatar(data.name);
+        }
+      }
 
-    </section>
-  </main>
+      // Update avatar
+      function updateAvatar(name) {
+        const avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'User')}&background=667eea&color=fff`;
+        $('#currentAvatar').attr('src', avatar);
+      }
 
-  <footer class="site-footer">
-    <p>© 2026 Task Manager – CMC University. All rights reserved.</p>
-  </footer>
+      // Load gallery
+      function loadGallery() {
+        const gallery = localStorage.getItem(GALLERY_KEY);
+        const container = $('#gallery');
+        container.html('');
 
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+        if (gallery) {
+          const images = JSON.parse(gallery);
+          $('#imageCount').text(images.length);
+          $('#emptyGallery').toggle(images.length === 0);
 
-  <script src="../login&register/AccountSystem/auth.js"></script>
-  <script src="../sidebar.js"></script>
-  <script src="Profile.js"></script>
+          images.forEach((img, index) => {
+            const html = `
+              <div class="gallery-item" data-index="${index}" title="Nhấn để đặt làm avatar">
+                <img src="${img}" alt="Ảnh trong thư viện (#${index + 1})">
+                <div class="gallery-overlay">
+                  <i class='bx bx-check-circle'></i>
+                </div>
+              </div>
+            `;
+            container.append(html);
+          });
+        } else {
+          $('#emptyGallery').show();
+          $('#imageCount').text('0');
+        }
+      }
+
+      // Show toast
+      function showToast(message, type = 'success') {
+        const toast = $(`<div class="toast-message ${type}"><strong>${message}</strong></div>`);
+        $('body').append(toast);
+        setTimeout(() => toast.fadeOut(() => toast.remove()), 3000);
+      }
+
+      // File input click
+      $('#avatarOverlay, #openFileInput').on('click', function() {
+        $('#fileInput').click();
+      });
+
+      // Handle file selection
+      $('#fileInput').on('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (file.size > 1.5 * 1024 * 1024) {
+          showToast('Tệp quá lớn (tối đa 1.5 MB)', 'error');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const base64 = event.target.result;
+          let gallery = localStorage.getItem(GALLERY_KEY);
+          gallery = gallery ? JSON.parse(gallery) : [];
+          gallery.push(base64);
+          localStorage.setItem(GALLERY_KEY, JSON.stringify(gallery));
+          loadGallery();
+          showToast('Thêm ảnh thành công!');
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // Gallery item click
+      $(document).on('click', '.gallery-item', function() {
+        const index = $(this).data('index');
+        const gallery = JSON.parse(localStorage.getItem(GALLERY_KEY));
+        $('#currentAvatar').attr('src', gallery[index]);
+        showToast('Đã đặt ảnh làm avatar');
+      });
+
+      // Save buttons
+      $('#nameBtn').on('click', function() {
+        const name = $('#nameInput').val().trim();
+        if (!name) {
+          showToast('Vui lòng nhập tên', 'error');
+          return;
+        }
+        updateProfile({ name });
+        showToast('Cập nhật tên thành công!');
+      });
+
+      $('#emailBtn').on('click', function() {
+        const email = $('#emailInput').val().trim();
+        if (!email) {
+          showToast('Vui lòng nhập email', 'error');
+          return;
+        }
+        updateProfile({ email });
+        showToast('Cập nhật email thành công!');
+      });
+
+      $('#phoneBtn').on('click', function() {
+        const phone = $('#phoneInput').val().trim();
+        updateProfile({ phone: phone || '' });
+        showToast('Cập nhật số điện thoại thành công!');
+      });
+
+      $('#sexBtn').on('click', function() {
+        const sex = $('#sexSelect').val();
+        if (!sex) {
+          showToast('Vui lòng chọn giới tính', 'error');
+          return;
+        }
+        updateProfile({ sex });
+        showToast('Cập nhật giới tính thành công!');
+      });
+
+      $('#birthdayBtn').on('click', function() {
+        const birthday = $('#birthdayInput').val();
+        updateProfile({ birthday: birthday || '' });
+        showToast('Cập nhật ngày sinh thành công!');
+      });
+
+      $('#addressBtn').on('click', function() {
+        const address = $('#addressInput').val().trim();
+        updateProfile({ address: address || '' });
+        showToast('Cập nhật địa chỉ thành công!');
+      });
+
+      // Update profile helper
+      function updateProfile(updates) {
+        const profile = localStorage.getItem(STORAGE_KEY);
+        const data = profile ? JSON.parse(profile) : {};
+        Object.assign(data, updates);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        loadProfile();
+      }
+
+      // Initialize
+      loadProfile();
+      loadGallery();
+    });
+  </script>
 </body>
 </html>

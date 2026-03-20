@@ -3,33 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="register.css">
-    <title>Document</title>
+    <title>Đăng ký</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #555;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            width: 100%;
+            padding: 12px;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #6a3a8f 100%);
+        }
+        .redirect-text {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        .redirect-text a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .redirect-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <main class="page">
-        <div class="form-container" role="region" aria-label="Đăng kí">
-            <p class="title">Đăng kí</p>
-            <p id="registerMessage" class="form-message" aria-live="polite"></p>
-            <form class="form" id="registerForm" action="#" method="post">
-                <label class="field">
-                    <span class="field-label">Hãy nhập mail đăng kí</span>
-                    <input type="email" name="email" class="input" placeholder="name@example.com" autocomplete="email" required>
-                </label>
-                <label class="field">
-                    <span class="field-label">Hãy nhập mật khẩu</span>
-                    <input type="password" name="password" class="input" placeholder="••••••••" autocomplete="new-password" required>
-                </label>
-                <label class="field">
-                    <span class="field-label">Xác nhận mật khẩu</span>
-                    <input type="password" name="confirmPassword" class="input" placeholder="••••••••" autocomplete="new-password" required>
-                </label>
-                <button type="submit" class="submit-button">Đăng kí</button>
-                <p class="redirect-text">Bạn đã có tài khoản? <a href="../Login/login_site.html" class="redirect-link">Đăng nhập</a></p>
+    <main>
+        <div class="form-container" role="region" aria-label="Đăng ký">
+            <p class="title">Đăng ký</p>
+            <p id="registerMessage" class="alert alert-info" role="alert" style="display: none;"></p>
+            <form id="registerForm" action="#" method="post">
+                <div class="mb-3">
+                    <label class="form-label" for="email">Hãy nhập mail đăng ký</label>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="name@example.com" autocomplete="email" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="password">Hãy nhập mật khẩu</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="••••••••" autocomplete="new-password" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="confirmPassword">Xác nhận mật khẩu</label>
+                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="••••••••" autocomplete="new-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">Đăng ký</button>
+                <p class="redirect-text">Bạn đã có tài khoản? <a href="../Login/login_site.html">Đăng nhập</a></p>
             </form>
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../AccountSystem/auth.js" defer></script>
     <script src="register.js" defer></script>
 </body>

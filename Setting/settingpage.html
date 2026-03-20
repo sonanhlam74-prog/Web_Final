@@ -4,208 +4,546 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cài đặt – Task Manager</title>
-  <link rel="stylesheet" href="../Test app/test.css">
-  <link rel="stylesheet" href="../Test app/tasks.css">
-  <link rel="stylesheet" href="../sidebar.css">
-  <link rel="stylesheet" href="settingpage.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+  <style>
+    :root {
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --danger: #dc3545;
+      --success: #28a745;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .navbar-custom {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .navbar-custom .navbar-brand {
+      color: white !important;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .nav-link {
+      color: rgba(255,255,255,0.8) !important;
+      transition: all 0.3s;
+      padding: 8px 15px !important;
+      border-radius: 8px;
+      margin: 0 5px;
+    }
+
+    .nav-link:hover {
+      color: white !important;
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+      background: rgba(255,255,255,0.3);
+      color: white !important;
+    }
+
+    .page-header {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .page-header-icon {
+      font-size: 48px;
+      color: var(--primary);
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+      margin: 0;
+    }
+
+    .page-subtitle {
+      color: #999;
+      font-size: 14px;
+      margin: 5px 0 0 0;
+    }
+
+    .settings-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .card-title i {
+      color: var(--primary);
+      font-size: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-label i {
+      color: var(--primary);
+      font-size: 18px;
+    }
+
+    .form-control {
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      outline: none;
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .btn-submit:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-logout {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-logout:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+    }
+
+    .info-section {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .info-label i {
+      color: var(--primary);
+      font-size: 16px;
+    }
+
+    .info-value {
+      color: #333;
+      font-size: 15px;
+      margin-left: 24px;
+    }
+
+    .note-box {
+      background: #e7f3ff;
+      border-left: 4px solid var(--primary);
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      color: #0066cc;
+      font-size: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .note-box i {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .note-box a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .note-box a:hover {
+      text-decoration: underline;
+    }
+
+    .alert-message {
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .alert-message.success {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+      display: block;
+    }
+
+    .alert-message.error {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+      display: block;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    @media (max-width: 768px) {
+      .page-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-
-  <!-- Sidebar -->
-  <div class="side-bar" id="sidebar">
-    <div class="logo-details">
-      <i class='bx bx-task sidebar-logo-icon'></i>
-      <span class="logo_name">Task Manager</span>
-      <i class='bx bx-menu' id="btn"></i>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../Test app/test.html">
+        <i class='bx bx-task'></i> Task Manager
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle Navigation Menu">
+        <span class="navbar-toggler-icon" style="filter: brightness(0) invert(1);"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../Test app/test.html" title="Quay lại trang chủ">🏠 Trang chủ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../Test app/test2.html" title="Xem công việc">📋 Công việc</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../Messge/Messge.html" title="Tin nhắn">💬 Tin nhắn</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../Profile/Profile.html" title="Quản lý hồ sơ cá nhân">👤 Hồ sơ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="settingpage.html" title="Cài đặt ứng dụng">⚙️ Cài đặt</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="sidebar-profile">
-      <div class="sidebar-avatar">
-        <img id="sidebarAvatar" src="https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff" alt="Avatar">
-      </div>
-      <div class="sidebar-user-info">
-        <span class="sidebar-user-name" id="sidebarUserName">Người dùng</span>
-        <span class="sidebar-user-email" id="sidebarUserEmail">user@example.com</span>
-      </div>
-    </div>
-    <div class="sidebar-divider"></div>
-    <ul class="nav-list">
-      <li>
-        <i class="bx bx-search"></i>
-        <input type="text" id="sidebarSearch" placeholder="Tìm kiếm...">
-        <span class="tooltip">Tìm kiếm</span>
-      </li>
-      <li>
-        <a href="../Test app/test.html">
-          <i class='bx bx-home-alt-2'></i>
-          <span class="links_name">Trang chủ</span>
-        </a>
-        <span class="tooltip">Trang chủ</span>
-      </li>
-      <li>
-        <a href="../Test app/test2.html">
-          <i class='bx bx-task'></i>
-          <span class="links_name">Công việc</span>
-        </a>
-        <span class="tooltip">Công việc</span>
-      </li>
-      <li>
-        <a href="../Test app/test3.html">
-          <i class='bx bx-bar-chart-alt-2'></i>
-          <span class="links_name">Thống kê</span>
-        </a>
-        <span class="tooltip">Thống kê</span>
-      </li>
-      <li>
-        <a href="../Test app/test4.html">
-          <i class='bx bx-envelope'></i>
-          <span class="links_name">Liên hệ</span>
-        </a>
-        <span class="tooltip">Liên hệ</span>
-      </li>
-      <li>
-        <a href="../Profile/Profile.html">
-          <i class='bx bx-user-circle'></i>
-          <span class="links_name">Hồ sơ</span>
-        </a>
-        <span class="tooltip">Hồ sơ</span>
-      </li>
-      <li>
-        <a href="settingpage.html">
-          <i class='bx bx-cog'></i>
-          <span class="links_name">Cài đặt</span>
-        </a>
-        <span class="tooltip">Cài đặt</span>
-      </li>
-    </ul>
-    <div class="sidebar-divider"></div>
-    <ul class="nav-list sidebar-bottom">
-      <li>
-        <a href="#" id="sidebarThemeBtn">
-          <i class='bx bx-sun' id="sidebarThemeIcon"></i>
-          <span class="links_name" id="sidebarThemeLabel">Light Mode</span>
-        </a>
-        <span class="tooltip" id="sidebarThemeTooltip">Light Mode</span>
-      </li>
-      <li>
-        <a href="#" id="sidebarLogoutBtn">
-          <i class='bx bx-log-out'></i>
-          <span class="links_name">Đăng xuất</span>
-        </a>
-        <span class="tooltip">Đăng xuất</span>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Header -->
-  <header class="site-header">
-    <nav class="header-nav">
-      <div class="site-logo">
-        <label class="hamburger">
-          <input type="checkbox">
-          <svg viewBox="0 0 32 32">
-            <path class="line line-top-bottom"
-              d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22">
-            </path>
-            <path class="line" d="M7 16 27 16"></path>
-          </svg>
-        </label>
-      </div>
-      <div class="nav-links-container">
-        <a class="nav-link" href="../Test app/test.html">🏠 Home</a>
-        <a class="nav-link" href="../Test app/test2.html">📋 Tasks</a>
-        <a class="nav-link" href="../Test app/test3.html">📊 Thống kê</a>
-        <a class="nav-link" href="../Test app/test4.html">📞 Liên hệ</a>
-        <a class="nav-link" href="../Profile/Profile.html">👤 Hồ sơ</a>
-        <a class="nav-link active" href="settingpage.html">⚙️ Cài đặt</a>
-      </div>
-    </nav>
-  </header>
+  </nav>
 
   <!-- Main Content -->
-  <main class="main-content">
-    <section class="content-section">
+  <div class="container-lg py-5">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-icon">
+        <i class='bx bx-cog'></i>
+      </div>
+      <div>
+        <h1 class="page-title">Cài đặt</h1>
+        <p class="page-subtitle">Quản lý tài khoản và tùy chọn của bạn</p>
+      </div>
+    </div>
 
-      <!-- Page hero -->
-      <div class="settings-hero">
-        <div class="settings-hero-icon">
-          <i class='bx bx-cog'></i>
-        </div>
-        <div>
-          <h1 class="settings-hero-title">Cài đặt</h1>
-          <p class="settings-hero-sub">Quản lý tài khoản và tùy chọn của bạn</p>
+    <!-- Settings Grid -->
+    <div class="grid-2">
+      <!-- Change Password Card -->
+      <div class="settings-card">
+        <h3 class="card-title">
+          <i class='bx bx-lock-alt'></i> Đổi mật khẩu
+        </h3>
+
+        <div id="passwordMessage" class="alert-message" role="alert"></div>
+
+        <form id="changePasswordForm" autocomplete="off">
+          <div class="form-group">
+            <label class="form-label" for="oldPassword">
+              <i class='bx bx-key'></i> Mật khẩu hiện tại
+            </label>
+            <input 
+              class="form-control" 
+              type="password" 
+              id="oldPassword" 
+              name="oldPassword" 
+              placeholder="Nhập mật khẩu hiện tại" 
+              aria-label="Mật khẩu hiện tại"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newPassword">
+              <i class='bx bx-lock-open-alt'></i> Mật khẩu mới
+            </label>
+            <input 
+              class="form-control" 
+              type="password" 
+              id="newPassword" 
+              name="newPassword" 
+              placeholder="Tối thiểu 6 ký tự" 
+              aria-label="Mật khẩu mới"
+              required
+            >
+            <small class="text-muted">
+              <i class='bx bx-info-circle'></i> Mật khẩu phải có ít nhất 6 ký tự
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="confirmNewPassword">
+              <i class='bx bx-check-shield'></i> Xác nhận mật khẩu mới
+            </label>
+            <input 
+              class="form-control" 
+              type="password" 
+              id="confirmNewPassword" 
+              name="confirmNewPassword" 
+              placeholder="Nhập lại mật khẩu mới" 
+              aria-label="Xác nhận mật khẩu mới"
+              required
+            >
+          </div>
+
+          <button class="btn-submit" type="submit" title="Cập nhật mật khẩu mới">
+            <i class='bx bx-save'></i> Cập nhật mật khẩu
+          </button>
+        </form>
+
+        <div class="note-box">
+          <i class='bx bx-info-circle'></i>
+          <span>Đảm bảo mật khẩu của bạn khó đoán và không được chia sẻ với ai khác.</span>
         </div>
       </div>
 
-      <!-- Settings grid -->
-      <div class="settings-grid">
+      <!-- Account Info Card -->
+      <div class="settings-card">
+        <h3 class="card-title">
+          <i class='bx bx-user'></i> Thông tin tài khoản
+        </h3>
 
-        <!-- Change password -->
-        <div class="pcard" id="passwordPanel">
-          <div class="pcard-header">
-            <i class='bx bx-lock-alt'></i>
-            <h2>Đổi mật khẩu</h2>
+        <div class="info-section">
+          <div class="info-label">
+            <i class='bx bx-id-card'></i> Tên hiển thị
           </div>
-
-          <p id="passwordMessage" class="settings-msg" aria-live="polite"></p>
-
-          <form id="changePasswordForm" autocomplete="off">
-            <div class="field-group">
-              <label class="field-label" for="oldPassword">
-                <i class='bx bx-key'></i> Mật khẩu hiện tại
-              </label>
-              <input class="field-input" type="password" id="oldPassword" name="oldPassword" placeholder="Nhập mật khẩu hiện tại" required>
-            </div>
-
-            <div class="field-group">
-              <label class="field-label" for="newPassword">
-                <i class='bx bx-lock-open-alt'></i> Mật khẩu mới
-              </label>
-              <input class="field-input" type="password" id="newPassword" name="newPassword" placeholder="Tối thiểu 6 ký tự" required>
-            </div>
-
-            <div class="field-group">
-              <label class="field-label" for="confirmNewPassword">
-                <i class='bx bx-check-shield'></i> Xác nhận mật khẩu mới
-              </label>
-              <input class="field-input" type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Nhập lại mật khẩu mới" required>
-            </div>
-
-            <div class="field-group">
-              <button class="btn btn-primary" type="submit">
-                <i class='bx bx-save'></i> Cập nhật mật khẩu
-              </button>
-            </div>
-          </form>
+          <div class="info-value" id="infoName">—</div>
         </div>
 
-        <!-- Account info (read-only) -->
-        <div class="pcard">
-          <div class="pcard-header">
-            <i class='bx bx-user'></i>
-            <h2>Tài khoản</h2>
+        <div class="info-section">
+          <div class="info-label">
+            <i class='bx bx-envelope'></i> Email
           </div>
-          <div class="field-group">
-            <label class="field-label"><i class='bx bx-id-card'></i> Tên hiển thị</label>
-            <p class="settings-info-value" id="infoName">—</p>
-          </div>
-          <div class="field-group">
-            <label class="field-label"><i class='bx bx-envelope'></i> Email</label>
-            <p class="settings-info-value" id="infoEmail">—</p>
-          </div>
-          <div class="settings-note">
-            <i class='bx bx-info-circle'></i>
-            Để chỉnh sửa thông tin cá nhân, hãy vào trang
-            <a href="../Profile/Profile.html">Hồ sơ</a>.
-          </div>
+          <div class="info-value" id="infoEmail">—</div>
         </div>
 
+        <div class="info-section">
+          <div class="info-label">
+            <i class='bx bx-calendar'></i> Ngày tham gia
+          </div>
+          <div class="info-value" id="infoCreatedDate">—</div>
+        </div>
+
+        <div class="note-box">
+          <i class='bx bx-info-circle'></i>
+          <span>Để chỉnh sửa thông tin cá nhân của bạn, vui lòng vào trang <a href="../Profile/Profile.html">Hồ sơ</a></span>
+        </div>
+
+        <button class="btn-logout" id="logoutBtn" type="button" title="Đăng xuất khỏi tài khoản">
+          <i class='bx bx-log-out'></i> Đăng xuất
+        </button>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../login&register/AccountSystem/auth.js"></script>
-  <script src="../sidebar.js"></script>
-  <script src="settingpage.js"></script>
+  <script>
+    $(document).ready(function() {
+      const USER_KEY = 'user_profile';
+
+      // Load user info
+      function loadUserInfo() {
+        const profile = localStorage.getItem(USER_KEY);
+        if (profile) {
+          const user = JSON.parse(profile);
+          $('#infoName').text(user.name || 'Người dùng');
+          $('#infoEmail').text(user.email || 'user@example.com');
+        } else {
+          // Default info
+          $('#infoName').text('Người dùng');
+          $('#infoEmail').text('user@example.com');
+        }
+
+        // Show created date
+        const createdDate = localStorage.getItem('user_created_date');
+        if (createdDate) {
+          const date = new Date(createdDate).toLocaleDateString('vi-VN');
+          $('#infoCreatedDate').text(date);
+        } else {
+          $('#infoCreatedDate').text(new Date().toLocaleDateString('vi-VN'));
+        }
+      }
+
+      // Show alert
+      function showAlert(message, type = 'success') {
+        const $alert = $('#passwordMessage');
+        $alert
+          .removeClass('success error')
+          .addClass(type)
+          .text(message)
+          .fadeIn();
+
+        setTimeout(() => {
+          $alert.fadeOut();
+        }, 3000);
+      }
+
+      // Handle password change
+      $('#changePasswordForm').on('submit', function(e) {
+        e.preventDefault();
+
+        const oldPassword = $('#oldPassword').val().trim();
+        const newPassword = $('#newPassword').val().trim();
+        const confirmPassword = $('#confirmNewPassword').val().trim();
+
+        // Validation
+        if (!oldPassword) {
+          showAlert('Vui lòng nhập mật khẩu hiện tại', 'error');
+          return;
+        }
+
+        if (!newPassword || newPassword.length < 6) {
+          showAlert('Mật khẩu mới phải có ít nhất 6 ký tự', 'error');
+          return;
+        }
+
+        if (newPassword !== confirmPassword) {
+          showAlert('Mật khẩu xác nhận không khớp', 'error');
+          return;
+        }
+
+        if (oldPassword === newPassword) {
+          showAlert('Mật khẩu mới phải khác mật khẩu cũ', 'error');
+          return;
+        }
+
+        // Simulate password change
+        // In real app, this would verify old password with backend
+        showAlert('Mật khẩu đã được thay đổi thành công!', 'success');
+        
+        // Store in localStorage (for demo purposes)
+        const profile = localStorage.getItem(USER_KEY);
+        if (profile) {
+          const user = JSON.parse(profile);
+          user.password = btoa(newPassword); // Simple encoding for demo
+          localStorage.setItem(USER_KEY, JSON.stringify(user));
+        }
+
+        // Clear form
+        $('#changePasswordForm')[0].reset();
+      });
+
+      // Handle logout
+      $('#logoutBtn').on('click', function() {
+        if (confirm('Bạn có chắc muốn đăng xuất?')) {
+          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem(USER_KEY);
+          window.location.href = '../login&register/Login/login_site.html';
+        }
+      });
+
+      // Initialize
+      loadUserInfo();
+    });
+  </script>
 </body>
 </html>
