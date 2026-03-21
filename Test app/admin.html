@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Quản Trị - Hệ Thống Quản Lý Công Việc</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        :root {
+            --bg-body: #f4f7f6;
+            --text-muted: #6c757d;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* --- Stats Cards (6 ô trên cùng) --- */
+        .stat-card {
+            background: #fff;
+            border-radius: 15px; /* Bo góc mềm mại */
+            padding: 25px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Hiệu ứng mượt */
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 1. HIỆU ỨNG HOVER: Nổi lên và đổ bóng */
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 2. HIỆU ỨNG MOUSECLICK: Thu nhỏ nhẹ khi nhấn */
+        .stat-card:active, .btn:active {
+            transform: scale(0.95);
+            transition: transform 0.1s;
+        }
+
+        .stat-card h6 {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-card h2 {
+            font-weight: 800;
+            font-size: 36px;
+            margin-bottom: 0;
+            color: #343a40;
+        }
+
+        /* --- Định dạng màu sắc vạch bên trái giống ảnh --- */
+        .card-primary { border-left: 5px solid #0d6efd !important; }
+        .card-success { border-left: 5px solid #198754 !important; }
+        .card-info    { border-left: 5px solid #0dcaf0 !important; }
+        .card-danger  { border-left: 5px solid #dc3545 !important; }
+        .card-warning { border-left: 5px solid #ffc107 !important; }
+        .card-secondary { border-left: 5px solid #6c757d !important; }
+
+        /* --- Recent Tasks Table --- */
+        .recent-tasks-card {
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        .table thead th {
+            background-color: #f8fafc;
+            color: #495057;
+            font-size: 13px;
+            text-transform: none;
+            font-weight: 600;
+            border-bottom: none;
+            padding: 15px;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<div class="p-4" style="background-color: #f8fafc; min-height: 100vh;">
+    
+<div class="d-flex justify-content-center gap-2 mb-4">
+    <a href="test.html" id="btnHome" class="btn btn-primary rounded-pill px-4 shadow-sm active text-decoration-none"><i class='bx bxs-home'></i> Home</a>
+    <button id="btnTasks" class="btn btn-primary rounded-pill px-4 shadow-sm active"><i class='bx bxs-spreadsheet'></i> Tasks</button>
+    <a href="stats.html" id="btnStats" class="btn btn-primary rounded-pill px-4 shadow-sm text-decoration-none text-white"><i class='bx bxs-bar-chart-alt-2'></i> Thống kê</a>
+</div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="stat-card border-blue" title="Tổng số tất cả công việc">
+                <div class="stat-label"><i class='bx bx-list-ul'></i> Tổng công việc</div>
+                <div class="stat-value" id="totalTasks">0</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card border-green" title="Công việc đã hoàn thành">
+                <div class="stat-label text-success"><i class='bx bx-check-circle'></i> Hoàn thành</div>
+                <div class="stat-value" id="completedTasks">0</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card border-cyan" title="Công việc đang trong hàng đợi">
+                <div class="stat-label text-info"><i class='bx bx-time'></i> Đang chờ</div>
+                <div class="stat-value" id="pendingTasks">0</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card border-red" title="Công việc đã quá hạn xử lý">
+                <div class="stat-label text-danger"><i class='bx bx-error-alt'></i> Quá hạn</div>
+                <div class="stat-value" id="overdueTasks">0</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card border-orange" title="Công việc quan trọng mức độ Cao">
+                <div class="stat-label text-warning"><i class='bx bx-up-arrow-alt'></i> Ưu tiên Cao</div>
+                <div class="stat-value" id="highPriority">0</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card border-teal" title="Công việc quan trọng mức độ Trung bình">
+                <div class="stat-label text-secondary"><i class='bx bx-minus'></i> Ưu tiên Trung</div>
+                <div class="stat-value" id="mediumPriority">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <button class="btn btn-primary px-3 shadow-sm me-2" title="Thêm một công việc mới"><i class='bx bx-plus'></i> Thêm task mới</button>
+        <a href="stats.html" class="btn btn-outline-primary px-3 shadow-sm text-decoration-none" title="Đi tới trang thống kê chi tiết"><i class='bx bx-bar-chart'></i> Xem thống kê</a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+            <h5 class="fw-bold mb-4"><i class='bx bx-time-five'></i> Công việc gần đây</h5>
+            <div class="table-responsive">
+                <table class="table align-middle text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="py-3">Tiêu đề</th>
+                            <th>Ưu tiên</th>
+                            <th>Deadline</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentTasksList">
+                        </tbody>
+                </table>
+                <div id="noTasksMsg" class="text-center py-5 text-muted">
+                    Chưa có công việc nào
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bundle.min.js"></script>
+    <script src="tasks.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
