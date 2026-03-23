@@ -1,5 +1,10 @@
-$(document).ready(function () {
+// Require Admin Login
+const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+if (!currentUser || currentUser.role !== 'admin') {
+    window.location.href = 'login.html';
+}
 
+$(document).ready(function () {
     function updateAdminDashboard(filterStatus = 'all') {
         const tasks = TaskService.getAll(); //Lấy dữ liệu từ LocalStorage
         const today = new Date().toISOString().split('T')[0];
