@@ -124,4 +124,62 @@ $(document).ready(function() {
             $btn.html(`Xem thêm <i class='bx bx-right-arrow-alt'></i>`);
         }
     });
+
+    // 6. Search Functionality
+    const $searchInput = $('#mainSearchInput');
+    const $clearBtn = $('#clearSearchBtn');
+    
+    if ($searchInput.length) {
+        $searchInput.on('input', function() {
+            const query = $(this).val().toLowerCase().trim();
+            if (query) {
+                $('section').each(function() {
+                    let hasVisible = false;
+                    const $section = $(this);
+                    
+                    $section.find('.more-flowers').removeClass('d-none');
+                    $section.find('.xem-them-btn').hide();
+                    
+                    $section.find('.product-card').each(function() {
+                        const $card = $(this);
+                        const title = $card.find('h5').text().toLowerCase();
+                        if (title.includes(query)) {
+                            $card.closest('[class*="col-"]').show();
+                            hasVisible = true;
+                        } else {
+                            $card.closest('[class*="col-"]').hide();
+                        }
+                    });
+
+                    if (hasVisible) {
+                        $section.show();
+                    } else {
+                        $section.hide();
+                    }
+                });
+            } else {
+                resetSearch();
+            }
+        });
+
+        $clearBtn.on('click', function() {
+            $searchInput.val('');
+            resetSearch();
+        });
+
+        // 7. Click on Tag Suggestions
+        $('.flower-tag').on('click', function(e) {
+            e.preventDefault();
+            const tagText = $(this).text().trim();
+            $searchInput.val(tagText);
+            $searchInput.trigger('input');
+        });
+
+        function resetSearch() {
+            $('section').show();
+            $('section [class*="col-"]').show();
+            $('section .more-flowers').addClass('d-none');
+            $('.xem-them-btn').show().html(`Xem thêm <i class='bx bx-right-arrow-alt'></i>`);
+        }
+    }
 });
