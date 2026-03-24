@@ -92,7 +92,7 @@
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin: -1.5rem 0 2rem;
+      margin: 2rem 0;
       flex-wrap: wrap;
     }
 
@@ -317,15 +317,11 @@
       </div>
 
       <div class="d-flex align-items-center gap-4">
-        <div class="badge-rank">
-          <img src="https://img.icons8.com/color/48/pot.png" width="20" alt="pot">
-          <span>Đồng</span>
-        </div>
         <span class="d-none d-md-block fw-medium">Chào mừng bạn!</span>
       </div>
 
       <div class="d-flex align-items-center gap-2">
-        <a href="admin.html" id="adminBtn" class="btn btn-light rounded-pill border d-flex align-items-center gap-2">
+        <a href="admin.html" id="adminBtn" class="btn btn-light rounded-pill border d-none align-items-center gap-2">
           <i class='bx bxs-user-detail'></i> Quản trị
         </a>
         <a href="checkout.html" class="position-relative ms-2 text-decoration-none">
@@ -802,8 +798,8 @@
         <div class="modal-body">
           <form id="changeAvatarForm">
             <div class="mb-3">
-              <label class="form-label small fw-semibold">Đường dẫn ảnh (URL)</label>
-              <input type="url" class="form-control" id="newAvatarUrl" required placeholder="https://example.com/image.jpg">
+              <label class="form-label small fw-semibold">Chọn file ảnh</label>
+              <input type="file" accept="image/*" class="form-control" id="newAvatarFile" required>
             </div>
             <button type="submit" class="btn btn-primary w-100 rounded-pill" style="background:#8b5cf6; border-color:#8b5cf6;">Cập nhật Avatar</button>
           </form>

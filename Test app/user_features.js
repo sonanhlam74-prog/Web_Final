@@ -33,9 +33,9 @@ $(document).ready(function() {
 
     // 2. Setup UI based on role and rank context
     if (currentUser.role !== 'admin') {
-        $('#adminBtn').hide();
+        $('#adminBtn').addClass('d-none').removeClass('d-flex');
     } else {
-        $('#adminBtn').show();
+        $('#adminBtn').removeClass('d-none').addClass('d-flex');
     }
 
     // Avatar and Greeting
@@ -99,13 +99,18 @@ $(document).ready(function() {
     // 4. Change Avatar
     $('#changeAvatarForm').on('submit', function(e) {
         e.preventDefault();
-        const newUrl = $('#newAvatarUrl').val().trim();
-        if (newUrl) {
-            currentUser.avatar = newUrl;
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            $('#userAvatarImg, #profileAvatar').attr('src', newUrl);
-            $('#changeAvatarModal').modal('hide');
-            $('#newAvatarUrl').val('');
+        const fileInput = $('#newAvatarFile')[0];
+        if (fileInput && fileInput.files && fileInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Image = e.target.result;
+                currentUser.avatar = base64Image;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                $('#userAvatarImg, #profileAvatar').attr('src', base64Image);
+                $('#changeAvatarModal').modal('hide');
+                fileInput.value = '';
+            };
+            reader.readAsDataURL(fileInput.files[0]);
         }
     });
 
