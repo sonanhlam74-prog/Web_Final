@@ -144,7 +144,7 @@
 
   // Sự kiện đăng nhập
   loginBtn.addEventListener('click', () => {
-    window.location.href = '../Login/login_site.html';
+    window.location.href = '../Login/login.html';
   });
 
   // Khởi tạo trang

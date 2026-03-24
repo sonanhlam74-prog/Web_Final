@@ -34,7 +34,7 @@ if (registerForm) {
     setMessage('Đăng ký thành công! Đang chuyển sang trang đăng nhập...', 'success');
 
     setTimeout(() => {
-      window.location.href = '../Login/login_site.html?registered=1';
+      window.location.href = '../Login/login.html?registered=1';
     }, 700);
   });
 }

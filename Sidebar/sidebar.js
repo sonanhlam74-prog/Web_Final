@@ -44,7 +44,7 @@ function syncSidebarThemeBtn() {
 document.addEventListener('DOMContentLoaded', () => {
 
   // ── Mark active nav item ─────────────────────────────────────
-  const page = location.pathname.replace(/\\/g, '/').split('/').pop() || 'test.html';
+  const page = location.pathname.replace(/\\/g, '/').split('/').pop() || 'main.html';
   document.querySelectorAll('.side-bar .nav-list a[href]').forEach(a => {
     const href = a.getAttribute('href').split('/').pop();
     if (href === page) a.classList.add('active');
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('sidebarLogoutBtn')?.addEventListener('click', (e) => {
     e.preventDefault();
     window.Auth?.logout?.();
-    window.location.href = '../login&register/Login/login_site.html';
+    window.location.href = '../login&register/Login/login.html';
   });
 
 });
