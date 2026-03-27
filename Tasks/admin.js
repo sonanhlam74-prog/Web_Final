@@ -23,15 +23,37 @@ $(document).ready(function () {
 
         if (tasks.length > 0) {
             $empty.addClass('d-none');
-            const recent = [...tasks].reverse().slice(0, 5); // Lấy 5 task mới nhất
-            $list.html(recent.map(t => `
+            // Út tiên cái nào đặt trước là để trước (sort by createdAt ascending)
+            const recent = [...tasks].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+            $list.html(recent.map(t => {
+                const statusOptions = ['Pending', 'Delivering', 'Done', 'Cancelled'];
+                const getStatusBadgeClass = (status) => {
+                    if (status === 'Done') return 'bg-success';
+                    if (status === 'Delivering') return 'bg-primary';
+                    if (status === 'Cancelled') return 'bg-danger';
+                    return 'bg-info text-dark';
+                };
+                const getStatusLabel = (status) => {
+                    const labels = { 'Pending': 'Chờ xử lý', 'Delivering': 'Đang giao', 'Done': 'Hoàn thành', 'Cancelled': 'Đã hủy' };
+                    return labels[status] || status;
+                };
+
+                const createdAtDate = new Date(t.createdAt);
+                const displayTime = isNaN(createdAtDate.getTime()) ? t.deadline : createdAtDate.toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
+
+                return `
                 <tr>
                     <td class="fw-bold text-start">${t.title}</td>
-                    <td><span class="badge ${t.priority === 'High' ? 'bg-danger' : 'bg-warning text-dark'}">${t.priority}</span></td>
-                    <td class="text-muted">${t.deadline}</td>
-                    <td><span class="badge ${t.status === 'Done' ? 'bg-success' : 'bg-info'}">${t.status}</span></td>
+                    <td><span class="badge ${t.priority === 'High' ? 'bg-danger' : (t.priority === 'Medium' ? 'bg-warning text-dark' : 'bg-secondary')}">${t.priority}</span></td>
+                    <td class="text-muted" style="font-size: 0.9rem;">${displayTime}</td>
+                    <td>
+                        <select class="form-select form-select-sm status-select fw-bold text-white border-0 ${getStatusBadgeClass(t.status)}" data-id="${t.id}" style="width: auto; display: inline-block; padding: 4px 28px 4px 12px; border-radius: 50rem;">
+                            ${statusOptions.map(opt => `<option value="${opt}" ${t.status === opt ? 'selected' : ''} class="text-dark bg-white">${getStatusLabel(opt)}</option>`).join('')}
+                        </select>
+                    </td>
                 </tr>
-            `).join(''));
+                `;
+            }).join(''));
         } else {
             $empty.removeClass('d-none');
             $list.empty();
@@ -40,6 +62,14 @@ $(document).ready(function () {
 
     // Chạy ngay khi load
     updateAdminDashboard();
+
+    // Lắng nghe thay đổi trạng thái
+    $(document).on('change', '.status-select', function() {
+        const id = $(this).data('id');
+        const newStatus = $(this).val();
+        TaskService.update(id, { status: newStatus });
+        updateAdminDashboard();
+    });
 
     // Hiệu ứng click cho tất cả button (đã yêu cầu)
     $('.btn').on('click', function () {

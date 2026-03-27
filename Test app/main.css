@@ -286,3 +286,49 @@ body {
   transform: translateY(-3px);
   box-shadow: 0 6px 15px rgba(139, 92, 246, 0.4);
 }
+
+/* User Avatar Dropdown Caret - Hide default, show on click */
+#userMenuButton::after {
+  display: none !important;
+}
+
+#userMenuButton.show::after {
+  display: inline-block !important;
+}
+
+/* Custom Stylish Toast */
+.custom-toast {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 92, 246, 0.2) !important;
+  box-shadow: 0 10px 40px -10px rgba(139, 92, 246, 0.25) !important;
+  color: #1e293b !important;
+}
+
+.custom-toast .btn-close {
+  filter: none; /* remove white filter */
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.custom-toast .btn-close:hover {
+  opacity: 1;
+}
+
+/* Footer Hover Effects */
+.footer-link-hover {
+  transition: all 0.2s ease;
+}
+.footer-link-hover:hover {
+  color: #ffffff !important;
+  text-decoration: underline !important;
+}
+
+.footer-social-hover {
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+.footer-social-hover:hover {
+  color: #ffffff !important;
+  transform: translateY(-3px);
+}

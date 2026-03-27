@@ -208,10 +208,12 @@ SĐT: ${phone}
 Tổng tiền: ${totalText}`;
 
             if (typeof TaskService !== 'undefined') {
+                const now = new Date();
+                const deadlineStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                 TaskService.add({
                     title: 'Đơn hàng mới: ' + name,
                     description: description,
-                    deadline: new Date().toISOString().split('T')[0],
+                    deadline: deadlineStr,
                     priority: 'High'
                 });
             } else {

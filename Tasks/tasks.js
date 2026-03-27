@@ -104,7 +104,7 @@ function getTodayStr() {
 }
 
 function isOverdue(deadline, status) {
-  if (!deadline || status === 'Done') return false;
+  if (!deadline || status === 'Done' || status === 'Cancelled' || status === 'Delivering') return false;
   return deadline < getTodayStr();
 }
 
@@ -195,8 +195,8 @@ function renderTasks() {
         </div>
         <div class="task-tags">
           <span class="tag ${PRIORITY_CLASS[task.priority] || ''}">${PRIORITY_LABEL[task.priority] || task.priority}</span>
-          <span class="tag ${task.status === 'Done' ? 'status-done' : 'status-pending'}">
-            ${task.status === 'Done' ? '✅ Hoàn thành' : '⏳ Đang chờ'}
+          <span class="tag ${task.status === 'Done' ? 'status-done' : (task.status === 'Delivering' ? 'bg-primary text-white' : (task.status === 'Cancelled' ? 'bg-danger text-white' : 'status-pending'))}">
+            ${task.status === 'Done' ? '✅ Hoàn thành' : (task.status === 'Delivering' ? '🚚 Đang giao' : (task.status === 'Cancelled' ? '❌ Đã hủy' : '⏳ Chờ xử lý'))}
           </span>
           ${isOverdue(task.deadline, task.status) ? '<span class="tag status-overdue">⚠️ Quá hạn</span>' : ''}
         </div>

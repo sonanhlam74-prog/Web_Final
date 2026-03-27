@@ -14,24 +14,57 @@ $(document).ready(function () {
         return new Intl.NumberFormat('vi-VN').format(num) + ' VND';
     }
 
-    function renderStats() {
+    function renderStats(timeframe = 'week') {
         const allTasks = TaskService.getAll();
         
-        // Filter tasks that look like orders (from our checkout logic)
-        // Or we can just include all tasks, but orders usually have "Đơn hàng" in title.
-        const orders = allTasks.filter(t => t.title.toLowerCase().includes('đơn hàng') || parseRevenue(t.description) > 0);
+        let filteredOrders = allTasks.filter(t => t.title.toLowerCase().includes('đơn hàng') || parseRevenue(t.description) > 0);
         
+        // Timeframe filtering
+        const now = new Date();
+        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const startOfWeek = new Date(startOfDay);
+        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay() + (startOfWeek.getDay() === 0 ? -6 : 1)); // Monday as start
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+        filteredOrders = filteredOrders.filter(order => {
+            if (!order.createdAt) return true; // Fallback
+            const orderDate = new Date(order.createdAt);
+            if (timeframe === 'today') return orderDate >= startOfDay;
+            if (timeframe === 'week') return orderDate >= startOfWeek;
+            if (timeframe === 'month') return orderDate >= startOfMonth;
+            return true; // 'all'
+        });
+
+        const orders = filteredOrders;
+
         let totalRevenue = 0;
         let completed = 0;
         let pending = 0;
+        let cancelled = 0;
+        let delivering = 0;
+        
+        // Revenue grouping for bar chart
+        const revenueByKey = {};
 
         orders.forEach(order => {
-            totalRevenue += parseRevenue(order.description);
-            if (order.status === 'Done') {
-                completed++;
-            } else {
-                pending++;
+            const rev = parseRevenue(order.description);
+            totalRevenue += rev;
+            if (order.status === 'Done') completed++;
+            else if (order.status === 'Cancelled') cancelled++;
+            else if (order.status === 'Delivering') delivering++;
+            else pending++;
+
+            // Chart grouping
+            let key = 'N/A';
+            if (order.createdAt) {
+                const od = new Date(order.createdAt);
+                if (timeframe === 'today') {
+                    key = od.getHours() + ':00';
+                } else {
+                    key = od.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
+                }
             }
+            revenueByKey[key] = (revenueByKey[key] || 0) + rev;
         });
 
         // Update Summary Cards
@@ -39,6 +72,9 @@ $(document).ready(function () {
         $('#totalOrders').text(orders.length);
         $('#completedOrders').text(completed);
         $('#pendingOrders').text(pending);
+
+        // Update Charts
+        updateCharts({pending, delivering, completed, cancelled}, revenueByKey, timeframe);
 
         // Render Table
         const $tbody = $('#ordersTableBody');
@@ -60,7 +96,7 @@ $(document).ready(function () {
             if (order.description) {
                 const custMatch = order.description.match(/Khách hàng:\s*(.*)/);
                 if (custMatch && custMatch[1]) {
-                    customerInfo = custMatch[1];
+                    customerInfo = custMatch[1].split('\n')[0];
                 } else {
                     customerInfo = order.title;
                 }
@@ -69,6 +105,17 @@ $(document).ready(function () {
             }
 
             const dateStr = order.createdAt ? new Date(order.createdAt).toLocaleDateString('vi-VN', { hour: '2-digit', minute:'2-digit' }) : (order.deadline || 'N/A');
+            
+            const getStatusBadgeClass = (status) => {
+                if (status === 'Done') return 'bg-success bg-opacity-10 text-success border border-success';
+                if (status === 'Delivering') return 'bg-primary bg-opacity-10 text-primary border border-primary';
+                if (status === 'Cancelled') return 'bg-danger bg-opacity-10 text-danger border border-danger';
+                return 'bg-warning bg-opacity-10 text-warning border border-warning';
+            };
+            const getStatusLabel = (status) => {
+                const labels = { 'Pending': 'Chờ xử lý', 'Delivering': 'Đang giao', 'Done': 'Hoàn thành', 'Cancelled': 'Đã hủy' };
+                return labels[status] || status;
+            };
 
             return `
                 <tr>
@@ -80,8 +127,8 @@ $(document).ready(function () {
                     </td>
                     <td class="fw-bold text-primary">${formatPrice(revenue)}</td>
                     <td>
-                        <span class="badge ${order.status === 'Done' ? 'bg-success bg-opacity-10 text-success border border-success' : 'bg-warning bg-opacity-10 text-warning border border-warning'} w-100" style="padding: 6px 12px; border-radius: 6px;">
-                            ${order.status === 'Done' ? 'Hoàn thành' : 'Đang chờ'}
+                        <span class="badge ${getStatusBadgeClass(order.status)} w-100" style="padding: 6px 12px; border-radius: 6px;">
+                            ${getStatusLabel(order.status)}
                         </span>
                     </td>
                 </tr>
@@ -91,7 +138,80 @@ $(document).ready(function () {
         $tbody.html(rowsHtml);
     }
 
-    renderStats();
+    let pieChartInstance = null;
+    let barChartInstance = null;
+
+    function updateCharts(statusData, revenueData, timeframe) {
+        // Pie Chart setup
+        const pieCtx = document.getElementById('statusPieChart').getContext('2d');
+        if (pieChartInstance) pieChartInstance.destroy();
+        
+        const hasData = statusData.pending > 0 || statusData.delivering > 0 || statusData.completed > 0 || statusData.cancelled > 0;
+        
+        pieChartInstance = new Chart(pieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Chờ xử lý', 'Đang giao', 'Hoàn thành', 'Đã hủy'],
+                datasets: [{
+                    data: hasData ? [statusData.pending, statusData.delivering, statusData.completed, statusData.cancelled] : [1],
+                    backgroundColor: hasData ? ['#f59e0b', '#3b82f6', '#10b981', '#ef4444'] : ['#e2e8f0'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } },
+                    tooltip: { enabled: hasData }
+                }
+            }
+        });
+
+        // Bar Chart setup
+        const barCtx = document.getElementById('revenueBarChart').getContext('2d');
+        if (barChartInstance) barChartInstance.destroy();
+
+        // Sort revenue data keys chronological
+        const labels = Object.keys(revenueData).sort((a,b) => {
+            if (timeframe === 'today') return parseInt(a) - parseInt(b); // sort by hour
+            return a.localeCompare(b); // basically sort vi-VN datestrings lexicographically (approximated for demo)
+        });
+        const values = labels.map(l => revenueData[l]);
+
+        barChartInstance = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: labels.length ? labels : ['Chưa có dữ liệu'],
+                datasets: [{
+                    label: 'Doanh thu (VND)',
+                    data: labels.length ? values : [0],
+                    backgroundColor: '#8b5cf6',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, ticks: { callback: (value) => value.toLocaleString('vi-VN') } },
+                    x: { grid: { display: false } }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
+
+    // Default load
+    renderStats('week');
+
+    // Filter change
+    $('#timeframeSelect').change(function() {
+        renderStats($(this).val());
+    });
 
     $('#btnExportStats').click(function() {
         alert("Tính năng xuất báo cáo Excel đang được phát triển!");
