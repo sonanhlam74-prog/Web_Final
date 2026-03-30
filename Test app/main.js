@@ -115,3 +115,14 @@ function showToast(message) {
 }
 
 window.showToast = showToast;
+
+const userDropdown = document.querySelector('.dropdown');
+if (userDropdown) {
+  userDropdown.addEventListener('shown.bs.dropdown', function () {
+    userDropdown.classList.add('active');
+  });
+
+  userDropdown.addEventListener('hidden.bs.dropdown', function () {
+    userDropdown.classList.remove('active');
+  });
+}

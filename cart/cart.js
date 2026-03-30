@@ -188,8 +188,13 @@ $(document).ready(function() {
             const address = $('#checkout-address').val().trim();
             const agree = $('#agreeTerms').is(':checked');
 
-            if (!name || !phone || !address) {
-                alert('Vui lòng điền đầy đủ thông tin giao hàng!');
+            if (!name || !phone || !address ) {
+                $('.required').each(function() {
+                    if (!$(this).val().trim()) {
+                        $(this).addClass('is-invalid');
+                        
+                    }
+                });
                 return;
             }
 

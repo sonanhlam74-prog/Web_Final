@@ -108,6 +108,21 @@ function isOverdue(deadline, status) {
   return deadline < getTodayStr();
 }
 
+function calculatePriority(deadline) {
+  if (!deadline) return 'Low';
+  
+  const today = new Date(getTodayStr());
+  const dueDate = new Date(deadline);
+  
+  // Calculate difference in days
+  const timeDiff = dueDate - today;
+  const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+  
+  if (daysDiff <= 1) return 'High';      // 1 day or less
+  if (daysDiff <= 3) return 'Medium';    // 1-3 days
+  return 'Low';                           // More than 3 days
+}
+
 const PRIORITY_LABEL = { High: '🔴 Cao', Medium: '🟡 Trung bình', Low: '🟢 Thấp' };
 const PRIORITY_CLASS  = { High: 'priority-high', Medium: 'priority-medium', Low: 'priority-low' };
 
@@ -182,6 +197,7 @@ function renderTasks() {
   list.innerHTML = tasks.map(task => {
     const overdueCls = isOverdue(task.deadline, task.status) ? 'task-overdue' : '';
     const doneCls    = task.status === 'Done' ? 'task-done' : '';
+    const calculatedPriority = calculatePriority(task.deadline);
     return `
     <div class="task-card ${doneCls} ${overdueCls}" data-id="${escapeHtml(task.id)}">
       <div class="task-card-header">
@@ -194,7 +210,7 @@ function renderTasks() {
           <h3 class="task-title ${task.status === 'Done' ? 'done-text' : ''}">${escapeHtml(task.title)}</h3>
         </div>
         <div class="task-tags">
-          <span class="tag ${PRIORITY_CLASS[task.priority] || ''}">${PRIORITY_LABEL[task.priority] || task.priority}</span>
+          <span class="tag ${PRIORITY_CLASS[calculatedPriority] || ''}">${PRIORITY_LABEL[calculatedPriority] || calculatedPriority}</span>
           <span class="tag ${task.status === 'Done' ? 'status-done' : (task.status === 'Delivering' ? 'bg-primary text-white' : (task.status === 'Cancelled' ? 'bg-danger text-white' : 'status-pending'))}">
             ${task.status === 'Done' ? '✅ Hoàn thành' : (task.status === 'Delivering' ? '🚚 Đang giao' : (task.status === 'Cancelled' ? '❌ Đã hủy' : '⏳ Chờ xử lý'))}
           </span>

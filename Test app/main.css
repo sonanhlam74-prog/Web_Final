@@ -291,7 +291,33 @@ body {
 #userMenuButton::after {
   display: none !important;
 }
-
+.dropdown::before {
+  content: '';
+  position: absolute;
+  top: 25px;
+  right: 1px;
+  width: 1px;
+  height: 12px;
+  background: #555;
+  z-index: 10;
+  transform: rotate(40deg);
+  transition: 0.5s;
+}
+.dropdown.active::before {
+  right:5px;
+}
+.dropdown::after {
+  content: '';
+  position: absolute;
+  top: 25px;
+  right: 8px;
+  width: 1px;
+  height: 12px;
+  background: #555;
+  z-index: 10;
+  transform: rotate(-40deg);
+  transition: 0.5s;
+}
 #userMenuButton.show::after {
   display: inline-block !important;
 }

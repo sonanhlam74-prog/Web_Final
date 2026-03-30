@@ -11,8 +11,12 @@ $(document).ready(function () {
     }
 
     function formatPrice(num) {
-        return new Intl.NumberFormat('vi-VN').format(num) + ' VND';
+        new Intl.NumberFormat('vi-VN').format(num) + ' VND';
+        if (num >= 1e6) return (num / 1e6).toFixed(2) + 'tr VND';
+        if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K VND';
+        return num + ' VND';
     }
+
 
     function renderStats(timeframe = 'week') {
         const allTasks = TaskService.getAll();
@@ -48,7 +52,9 @@ $(document).ready(function () {
 
         orders.forEach(order => {
             const rev = parseRevenue(order.description);
-            totalRevenue += rev;
+            if (order.status === 'Done') {
+                totalRevenue += rev;
+            } 
             if (order.status === 'Done') completed++;
             else if (order.status === 'Cancelled') cancelled++;
             else if (order.status === 'Delivering') delivering++;
