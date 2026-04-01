@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html class="light" lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>FlowerShop | Dashboard – Tổng quan cửa hàng</title>
+  <meta name="description" content="FlowerShop Admin Dashboard - Quản lý cửa hàng hoa cao cấp với giao diện hiện đại.">
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link href="dashboard.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Sidebar Overlay (mobile - if needed) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <a href="../Landingpage/landingpage.html" class="sidebar-logo">
+      <span>🌸</span> FlowerShop
+    </a>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="nav-link active">
+        <i class='bx bxs-dashboard'></i> Dashboard
+      </a>
+      <a href="../Stats/stats.html" class="nav-link">
+        <i class='bx bxs-bar-chart-alt-2'></i> Thống kê
+      </a>
+      <a href="../Tasks/admin.html" class="nav-link">
+        <i class='bx bxs-spreadsheet'></i> Quản lý Tasks
+      </a>
+      <a href="../Test app/main.html" class="nav-link">
+        <i class='bx bxs-store'></i> Cửa hàng
+      </a>
+      <a href="../Landingpage/landingpage.html" class="nav-link">
+        <i class='bx bxs-home'></i> Landing Page
+      </a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="../Landingpage/landingpage.html" class="sidebar-link-sm">
+        <i class='bx bx-link-external'></i> Xem Landing Page
+      </a>
+      <button class="sidebar-cta" id="btn-add-product">
+        <i class='bx bx-plus'></i> Thêm sản phẩm
+      </button>
+    </div>
+  </aside>
+
+  <!-- Top Header -->
+  <header class="top-header">
+    <div class="search-box">
+      <i class='bx bx-search search-icon'></i>
+      <input type="text" class="search-input" placeholder="Tìm kiếm hoa nhanh..." id="search-input">
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-icon">
+        <i class='bx bxs-bell'></i>
+        <span class="notification-dot"></span>
+      </button>
+
+      <div class="d-flex align-items-center gap-2">
+        <i class='bx bxs-sun theme-icon' id="theme-icon-indicator" style="display:none;"></i>
+        <span class="material-symbols-outlined theme-icon" id="theme-icon"
+          style="font-family: 'Material Symbols Outlined';">light_mode</span>
+        <div class="dark-toggle" id="dark-toggle" title="Chuyển đổi Dark Mode">
+          <div class="toggle-dot"></div>
+        </div>
+      </div>
+
+      <div class="admin-info">
+        <div class="text-end admin-text">
+          <p class="admin-name mb-0" id="headerAdminName">Admin</p>
+          <p class="admin-role mb-0">Shop Owner</p>
+        </div>
+        <img class="admin-avatar" id="headerAdminAvatar" alt="Admin Avatar" src="../Photo/person.png" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container-fluid p-0">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1>Tổng quan cửa hàng</h1>
+          <p>Theo dõi hiệu suất kinh doanh hoa mỗi ngày</p>
+        </div>
+        <button class="btn btn-primary-container px-4 py-2 rounded-pill d-flex align-items-center gap-2 m-0"
+          style="width: auto;">
+          <i class='bx bx-plus'></i> Thêm sản phẩm
+        </button>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="row g-4 mb-4">
+        <!-- Revenue -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon-wrap pink">
+                <i class='bx ml-2 bxs-wallet'></i>
+              </div>
+              <span class="stat-trend up">
+                <i class='bx bx-trending-up'></i>+12%
+              </span>
+            </div>
+            <p class="stat-label">Doanh thu hôm nay</p>
+            <h3 class="stat-value" id="stat-revenue">12.500.000đ</h3>
+          </div>
+        </div>
+        <!-- Orders -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon-wrap amber">
+                <i class='bx bxs-cart'></i>
+              </div>
+              <span class="stat-trend up">
+                <i class='bx bx-trending-up'></i>+5
+              </span>
+            </div>
+            <p class="stat-label">Số đơn hàng</p>
+            <h3 class="stat-value" id="stat-orders">48</h3>
+          </div>
+        </div>
+        <!-- Inventory -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon-wrap green">
+                <i class='bx bxs-box'></i>
+              </div>
+              <span class="stat-trend down">
+                <i class='bx bx-trending-down'></i>-8%
+              </span>
+            </div>
+            <p class="stat-label">Sản phẩm tồn kho</p>
+            <h3 class="stat-value" id="stat-inventory">156</h3>
+          </div>
+        </div>
+        <!-- Tasks from Admin -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon-wrap blue">
+                <i class='bx bxs-check-square'></i>
+              </div>
+              <span class="stat-trend up" id="stat-tasks-trend">
+                <i class='bx bx-trending-up'></i>+0%
+              </span>
+            </div>
+            <p class="stat-label">Tasks hoàn thành</p>
+            <h3 class="stat-value" id="stat-tasks">0 / 0</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Revenue Chart Section -->
+      <div class="chart-card">
+        <div class="chart-header flex-wrap gap-3">
+          <div>
+            <h2 class="text-section-title">📈 Biểu đồ doanh thu</h2>
+            <p class="text-muted mb-0 mt-1" style="font-size: 0.875rem;">Theo dõi xu hướng kinh doanh</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <!-- Chart Type Toggle -->
+            <div class="toggle-group">
+              <button class="toggle-btn chart-type-btn active" data-type="revenue">Doanh thu</button>
+              <button class="toggle-btn chart-type-btn" data-type="orders">Đơn hàng</button>
+            </div>
+            <!-- Period Toggle -->
+            <div class="toggle-group">
+              <button class="toggle-btn period-btn active" data-period="7">7 ngày</button>
+              <button class="toggle-btn period-btn" data-period="30">30 ngày</button>
+            </div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Bottom Content (Products & Tasks) -->
+      <div class="row g-4">
+        <!-- Featured Products -->
+        <div class="col-12 col-lg-8">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-section-title">🌸 Sản phẩm nổi bật</h2>
+            <a href="../Test app/main.html" class="text-section-link">Xem tất cả</a>
+          </div>
+          <div class="row g-3">
+            <!-- Product 1 -->
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="product-card">
+                <div class="product-image-wrapper">
+                  <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4DaQHIEAeJfrq41HPqJ-8AC9q9sCKuSmXSaXlJ4zHSFJq2pQJrzr7AT4u-zF09ueIkI4eqHifaso7Pt4vRXvDG0Nq181HOZ3jqIYuiCawLyitU3OL-0dN3DfAnVyXE3Vd-DPi6pnBDsaiu4vcYsIBerSW25Wwlt-XQ_WvjLGHu1f0Qj4bVh3kHVXJdHu2L8nLDAeWvCyzQ1npMuCFfnmRjWCS5V6ileTtEIZ23umKkOQs6PP_FnjYPflZql-YBOukEWRDXJI9H6h0"
+                    alt="Bó Hồng Đỏ Premium">
+                  <span class="product-badge">Còn 24</span>
+                </div>
+                <h4 class="product-title">Bó Hồng Đỏ Premium</h4>
+                <p class="product-price">350.000đ</p>
+                <div class="d-flex gap-2">
+                  <button class="btn-outline">Sửa</button>
+                  <button class="btn-primary-container">Xem</button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 2 -->
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="product-card">
+                <div class="product-image-wrapper">
+                  <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx08pPgnMlTEZCD-yBeGrDQYPRFqCoMYCuT-q9hHQq0xAnli65ZKd9lfRN0YwKskSQt2Og0G7V9NEqqsI2Mbiufq8aEJx-Lok3aC_icb86WDSnPCP56VI28FNXc6rrTIO5E7qHlAwDjC5csV9JbfwZHOqevDI8BEt1KLZYjG14TiF28Zwpuu3AtabwsoMySvaCJ465Aeeb1JAy2eRWdg9A_GlGHYyxjDHyzfa5LVFQqCSWTOEWRtYCkxlgkXzRZtG4ElB_wovBhS1I"
+                    alt="Hoa Ly Trắng Tinh Khôi">
+                  <span class="product-badge">Còn 18</span>
+                </div>
+                <h4 class="product-title">Hoa Ly Trắng Tinh Khôi</h4>
+                <p class="product-price">280.000đ</p>
+                <div class="d-flex gap-2">
+                  <button class="btn-outline">Sửa</button>
+                  <button class="btn-primary-container">Xem</button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 3 -->
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="product-card">
+                <div class="product-image-wrapper">
+                  <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa0PfEC1GAm5p1-AiMKIp5UvotYOx6ts0zKQu-CZx9A_L3PuHpt3r_pcQmYvHaPPoKcnYVYNsY-tLLdKaQjsifXBgX4155cyJI4JhSLP8UGrDadi6lX5HA0FZh7p0R6lWrLMHhkfV1wEQSNuLssuj1kLFA4LsZUaVG1Xj27Lz-jh6-d0D2bENZIYGBvz6RQrn5PBmUP-IsNCUwPAiMhIpfRLk_IFharBqHxVJug1ambPiYw_PqnxDqd2ccKZyGkX28kQq3TlSAJwf6"
+                    alt="Lan Hồ Điệp Tím">
+                  <span class="product-badge" style="background: var(--tertiary-container); color: var(--tertiary);">Còn
+                    8</span>
+                </div>
+                <h4 class="product-title">Lan Hồ Điệp Tím</h4>
+                <p class="product-price">450.000đ</p>
+                <div class="d-flex gap-2">
+                  <button class="btn-outline">Sửa</button>
+                  <button class="btn-primary-container">Xem</button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 4 -->
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="product-card">
+                <div class="product-image-wrapper">
+                  <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUsgPzmR65ao22V-NC1uUh4ilSYDPEUaQ6PPMMyYCl_FS18vKsl0tQK1UcYzhcJCJg11YXJGKa-GN9N9umOEvKptTbH4WVRpl9g5SXKoutxRzykvif5_SaCkvtn9iDKIIONpCPnwknSoJeZwNaxoOoySHvVvP-mSdKLyEzUZR-EiKJliaiGVQto0zN45xueFv-3cVU5fd2WE0QZNKRBBNM0WuztPp9gx-TA8oSaR66D7h4cknypPVNK9XsJTQb22M4ZSX4CSsj64OM"
+                    alt="Tulip Mix Pastel">
+                  <span class="product-badge">Còn 32</span>
+                </div>
+                <h4 class="product-title">Tulip Mix Pastel</h4>
+                <p class="product-price">320.000đ</p>
+                <div class="d-flex gap-2">
+                  <button class="btn-outline">Sửa</button>
+                  <button class="btn-primary-container">Xem</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Tasks -->
+        <div class="col-12 col-lg-4">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-section-title">📋 Tasks gần đây</h2>
+            <a href="../Tasks/admin.html" class="text-section-link">Xem tất cả</a>
+          </div>
+          <div class="recent-orders-card">
+            <table class="table table-hover table-orders mb-0">
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Thời hạn</th>
+                  <th class="text-end">Status</th>
+                </tr>
+              </thead>
+              <tbody id="recent-tasks-list">
+                <!-- JS Injected Content -->
+                <tr>
+                  <td colspan="3" class="text-center text-muted py-4">Đang tải dữ liệu tasks...</td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn-secondary-full" onclick="window.location.href='../Tasks/admin.html'">
+              XEM TẤT CẢ TASKS
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Custom JS -->
+  <script src="dashboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

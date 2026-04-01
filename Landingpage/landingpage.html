@@ -1,0 +1,401 @@
+<!doctype html>
+<html class="light" lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>FlowerShop | Hoa tươi mỗi ngày – Gửi trọn yêu thương 🌸</title>
+    <meta name="description"
+        content="FlowerShop - Cửa hàng hoa tươi cao cấp. Đặt hoa nhanh chóng, giao tận nơi trong 2 giờ. Thiết kế theo yêu cầu." />
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <!--Box Icons-->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="landingpage.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav class="navbar navbar-expand-lg navbar-flower sticky-top" id="main-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">🌸 FlowerShop</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#products">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Về chúng tôi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Liên hệ</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <!-- Dark Mode Toggle -->
+                <div class="d-flex align-items-center gap-2">
+                    <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 1rem;"
+                        id="theme-icon">light_mode</span>
+                    <div class="dark-toggle" id="dark-toggle" title="Dark Mode">
+                        <div class="toggle-dot"></div>
+                    </div>
+                </div>
+
+                <!-- Admin link -->
+                <a href="../Stats/stats.html" class="admin-link d-none d-md-inline-flex" title="Admin Dashboard">
+                    <span class="material-symbols-outlined" style="font-size: 0.875rem;">admin_panel_settings</span>
+                </a>
+
+                <!-- CTA -->
+                <button class="btn btn-primary-flower" id="btn-buy-now">Mua ngay</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- ==================== HERO SECTION ==================== -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6" style="position: relative; z-index: 10;">
+                        <span class="hero-badge">Premium Florist</span>
+                        <h1>
+                            Hoa tươi mỗi ngày – <br />
+                            <span class="text-italic">Gửi trọn yêu thương</span> 🌸
+                        </h1>
+                        <p class="hero-desc">
+                            Đặt hoa nhanh chóng, giao tận nơi trong 2 giờ. Mỗi bó hoa là một
+                            tác phẩm nghệ thuật truyền tải trọn vẹn cảm xúc của bạn.
+                        </p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <button class="btn btn-hero-primary"><a href="../Test app/main.html">Mua ngay</a></button>
+                            <button class="btn btn-hero-outline">Xem bộ sưu tập</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 d-none d-lg-block">
+                        <div class="hero-image-wrapper">
+                            <div class="hero-blur"></div>
+                            <img alt="Premium Floral Arrangement"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYGSE5Trv-C8pEie8OYzq_02Km5UphgYuiZDfUS3FM8_xC0owbrbiN4MO4ZmqyeTFY6FBoW9PvrbAJFImtoKaaysz9qzZq7HCWexDFsG9OpSU9QtuA9HyZQ-KodQgR2esU3-7zlcynQOHXeq0VsaxZW1o64fdhJCzj1sMlAORXf5Uqvph76PHi52iDnsENu89Wek9ZEzcQAygAG7GazQW1OJUtwJOPdLabsEycWXsGLesko_oc5ZBW_wHQ9Mb0vM6BAZOv5UEvCXCs" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== BENEFITS SECTION ==================== -->
+        <section class="benefits-section" id="about">
+            <div class="container">
+                <div class="text-center mb-5 fade-up">
+                    <h2 class="section-title display-5">Vì sao chọn FlowerShop?</h2>
+                    <p class="section-subtitle">
+                        Chúng tôi mang đến trải nghiệm mua hoa hoàn hảo nhất
+                    </p>
+                </div>
+                <div class="row g-5">
+                    <div class="col-md-4">
+                        <div class="benefit-card text-center fade-up">
+                            <div class="benefit-icon">
+                                <span class="material-symbols-outlined">rocket_launch</span>
+                            </div>
+                            <h3>Giao nhanh 2 giờ</h3>
+                            <p>
+                                Hoa tươi đến tay bạn nhanh chóng. Đảm bảo giao đúng hẹn mọi lúc,
+                                mọi nơi.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="benefit-card text-center fade-up" style="transition-delay: 0.1s;">
+                            <div class="benefit-icon">
+                                <span class="material-symbols-outlined">eco</span>
+                            </div>
+                            <h3>Hoa tươi mỗi ngày</h3>
+                            <p>
+                                Nhập hoa tươi mới mỗi sáng từ Đà Lạt. Cam kết chất lượng cao
+                                nhất.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="benefit-card text-center fade-up" style="transition-delay: 0.2s;">
+                            <div class="benefit-icon">
+                                <span class="material-symbols-outlined">palette</span>
+                            </div>
+                            <h3>Thiết kế theo yêu cầu</h3>
+                            <p>
+                                Bó hoa theo phong cách riêng của bạn. Đội ngũ nghệ nhân hàng
+                                đầu.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FEATURED PRODUCTS ==================== -->
+        <section class="products-section" id="products">
+            <div class="container">
+                <div
+                    class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 gap-3 fade-up">
+                    <div>
+                        <span class="section-badge">Bộ sưu tập</span>
+                        <h2 class="products-header-title display-5">Sản phẩm nổi bật</h2>
+                    </div>
+                    <a class="view-all-link" href="#">
+                        Xem tất cả sản phẩm
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </a>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Product 1 -->
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="product-card fade-up">
+                            <div class="card-img-wrapper">
+                                <img alt="Bó Hồng Đỏ Premium"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaDkjzRjpHHX5XZBNM2ixbOAccNNO6rLGaBHb7zHWcOIT6jSQ9CNXmMGjAcN0kFEtPy0BuDDazV0R3QM-7yf42mZ3EyZP_h4_UNP0SERZZhJyNWQg5hmDmtnJ-MywS_6udElZIer-ggJytjJSa6fL4kykZHtLXPiA6g2w0_YmmQK63K9qxaAwsB1pnTLDzCR4zDVrDrndtPOmSqlqGb4ombB4zq-iKRnoKUDSV-hOOtpTiyIZFglnGsQ8iqhiY157LS2KF11kS6ZBH" />
+                            </div>
+                            <h3>Bó Hồng Đỏ Premium</h3>
+                            <p class="product-price">350.000đ</p>
+                            <button class="btn-detail">Xem chi tiết</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="product-card fade-up" style="transition-delay: 0.1s;">
+                            <div class="card-img-wrapper">
+                                <img alt="Hoa Ly Trắng Tinh Khôi"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4-MsrcSnsQ1uHWSiYKgY_VndEnx-eUaMdCLRporaicmtjUgyJN3VU0LLCZR5EgcZsRbulDIxn5-Kj8R8vksi7-jBdPKGVVaGCZnf8HlzuWxsl3JwqRONtLkQPoxb04rlYawwmXWqIjldk_LCFprJv19ZbAYYUfEs0YMpDwPcgjafQRpya0ikT75vaoYuqMB1CTetzxpxmXuT-eXVtcOg0pIiP8nJ9VF39DXQHWRvm4ki1S91o4d4pI3qy5QODeuqjW0eukwVwCTUE" />
+                            </div>
+                            <h3>Hoa Ly Trắng Tinh Khôi</h3>
+                            <p class="product-price">280.000đ</p>
+                            <button class="btn-detail">Xem chi tiết</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="product-card fade-up" style="transition-delay: 0.2s;">
+                            <div class="card-img-wrapper">
+                                <img alt="Lan Hồ Điệp Tím"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqch61s6BJpPwBCzEZz_mdyD22cOVUgj3pAhQRIkAfszEUQZeDnG7LduGJK2CyIsJj8xLJsCKgPBW63Yh3ToGn74ki-jpEylf-9ohYvUsixz5IPEiY5Gae_zQ9fZ0t593NhnVHes_N2y_CILrt_0oFoqX__CjFAciThBga-StEJe1LDqgMnB9j5cw4vsvoNvD16inOOoO0NO9HK_c9VaWL54wsJUJAW7mBJQug5ZMjO79CkZgiPGzu8tdRRRFxYrqo-jRAUIguT54e" />
+                            </div>
+                            <h3>Lan Hồ Điệp Tím</h3>
+                            <p class="product-price">450.000đ</p>
+                            <button class="btn-detail">Xem chi tiết</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="product-card fade-up" style="transition-delay: 0.3s;">
+                            <div class="card-img-wrapper">
+                                <img alt="Tulip Mix Pastel"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCT3AuKrgNpWzzKdkRzoWjJLo5Mjy_cAur1KxiMCOTztXR8gZz5zZnz6gOb1vy6yu1vZnAED6mkH8TImsNVv2O2G45UMLLDko-PuUINvcGBl3KtCPa3CSNci3VqIoDrjYIYN0x8un5H-0Rhzd3LzZtA2qxBRIAyUnLDecaOBWoJVM-0jhImpEneXCFXiAesqm7jhJE4AWLQnWR5xfYCekqE6qwzhfBpMdOsrEGlUdOrSXDt1aZ7fqCbZUBS87mvGxeelVh3QTmedRw6" />
+                            </div>
+                            <h3>Tulip Mix Pastel</h3>
+                            <p class="product-price">320.000đ</p>
+                            <button class="btn-detail">Xem chi tiết</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TESTIMONIALS ==================== -->
+        <section class="testimonials-section">
+            <div class="bg-blob"></div>
+            <div class="container position-relative">
+                <div class="text-center mb-5 fade-up">
+                    <h2 class="section-title display-5">Khách hàng nói gì về chúng tôi</h2>
+                    <p class="section-subtitle">
+                        Sự hài lòng của khách hàng là niềm hạnh phúc lớn nhất của FlowerShop.
+                    </p>
+                </div>
+                <div class="row g-4">
+                    <!-- Testimonial 1 -->
+                    <div class="col-md-4">
+                        <div class="testimonial-card fade-up">
+                            <div class="stars">
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                            </div>
+                            <p class="quote-text">
+                                "Hoa rất tươi và đẹp, nhân viên tư vấn nhiệt tình. Dịch vụ giao
+                                hàng nhanh chóng, tôi rất hài lòng!"
+                            </p>
+                            <div class="d-flex align-items-center gap-3">
+                                <img alt="Avatar" class="reviewer-avatar"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB46-PiofMe_ZSi4kdXpZ974VhUtEek1-3i4sGAN66nc0gdwiXosQJo2OvdVglmpzrMb3cBLk0LvDYtK9nvNzyesRdF_SrUIH9dCOVH1k9Tc9AMRmPifmiseN2dCFBC5E1aAmVJIoVr8WzSfqpRSH_LkwI1ZYdghC8Rc70vwrlywE-J3Yr5LuE1nO0pJI2a_BmQNS1CtNmKe0WUO_5P-cW5C_Q9i9-qhB-BbMBQ40AacG7x264lSsBlI1PRNKb-FCz4o-CWsKc8V5V4" />
+                                <div>
+                                    <p class="reviewer-name">Nguyễn Thị Mai</p>
+                                    <p class="reviewer-role">Khách hàng thân thiết</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="col-md-4">
+                        <div class="testimonial-card fade-up" style="transition-delay: 0.1s;">
+                            <div class="stars">
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                            </div>
+                            <p class="quote-text">
+                                "Thiết kế bó hoa rất tinh tế, đúng ý mình! Đã đặt cho sinh nhật
+                                mẹ và bà rất hạnh phúc."
+                            </p>
+                            <div class="d-flex align-items-center gap-3">
+                                <img alt="Avatar" class="reviewer-avatar"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqoVL4knPUxn4de8t5HkcRhemlqbMScIYr03-994vXuPNgSaiVFH1zLnFtax1L2H9PUtvrqOwpF7gjkIvKjjMMHD1_xCPVOmSTJLn1vqanH3c7hgAcUQ4DusQX3m5C21fLlVYJnQ0KRLt5sMgx0PpafibYWHQKvKC2gDQgkuMdhvwwpP-_gB40t5Xzxal1DGJRDyFIqyYFMRmsMQfk45WA_4v-yOK_k8Yt8VTZxvPxHtdSmp2e5SDCRFNYGj9vuldoSY87GCHeiAVX" />
+                                <div>
+                                    <p class="reviewer-name">Trần Văn Hùng</p>
+                                    <p class="reviewer-role">Quản lý kinh doanh</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="col-md-4">
+                        <div class="testimonial-card fade-up" style="transition-delay: 0.2s;">
+                            <div class="stars">
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                                <span class="material-symbols-outlined filled">star</span>
+                            </div>
+                            <p class="quote-text">
+                                "Sẽ đặt lại lần nữa. Hoa đẹp, giá hợp lý, giao hàng cẩn thận.
+                                FlowerShop tuyệt vời!"
+                            </p>
+                            <div class="d-flex align-items-center gap-3">
+                                <img alt="Avatar" class="reviewer-avatar"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8Q3PyOm6sag9bW2TVCEWrebhleFk1b7m0wYpwe5BH-2XFK_Cro_KjlmcdVHYsmqlottfZ0BTOE8NDZRzr-rwPvpFY4ixH-XdyNpj1YVqOdRd2k_HLC6eUbwEAXEllTFIUgz5795xhKBAiItlt8ctkMXIMWrQJDtKtHwjsCuwRgGa3a_c8hEyoP8C1tcwMuNQgsKohGxT9zjvyc-qCGmqLdC_P_6fOmk95G5lfaarz8DDrs4BaJW2uKnP6LWdHJ8Wd5RF5qp_HrWhV" />
+                                <div>
+                                    <p class="reviewer-name">Lê Thị Hoa</p>
+                                    <p class="reviewer-role">Nhà thiết kế</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CTA BANNER ==================== -->
+        <section class="cta-banner fade-up" id="contact">
+            <div class="container">
+                <div class="cta-banner-inner">
+                    <div class="cta-bg-overlay"></div>
+                    <h2 class="display-5">Đặt hoa ngay hôm nay 💐</h2>
+                    <p class="cta-subtitle">
+                        Nhận ưu đãi 20% cho đơn hàng đầu tiên. Mang sắc hương thiên nhiên
+                        vào cuộc sống.
+                    </p>
+                    <button class="btn btn-cta">Đặt hoa ngay</button>
+                </div>
+            </div>
+        </section>
+        <a href="#" class="back-to-top" id="backToTopBtn" title="Lên đầu trang">
+            <i class='bx bx-up-arrow-alt'></i>
+        </a>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer-flower">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-md-3">
+                    <div class="footer-brand">🌸 FlowerShop</div>
+                    <p class="footer-desc">
+                        Cửa hàng hoa tươi nghệ thuật với sứ mệnh mang cái đẹp và niềm vui
+                        đến mọi không gian sống.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <span class="footer-heading">Khám phá</span>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a href="#products">Sản phẩm</a></li>
+                        <li><a href="#about">Về chúng tôi</a></li>
+                        <li><a href="#">Blog hoa tươi</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <span class="footer-heading">Liên hệ</span>
+                    <div class="contact-item">
+                        <span class="material-symbols-outlined">phone</span> 0123 456 789
+                    </div>
+                    <div class="contact-item">
+                        <span class="material-symbols-outlined">mail</span> hello@flowershop.vn
+                    </div>
+                    <div class="contact-item">
+                        <span class="material-symbols-outlined">location_on</span> 123 Nguyễn Huệ, Q1, HCM
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <span class="footer-heading">Kết nối</span>
+                    <div class="mb-3 d-flex gap-3">
+                        <a href="#" class="text-secondary text-decoration-none fs-4 footer-social-hover"><i
+                                class='bx bxl-facebook-circle'></i></a>
+                        <a href="#" class="text-secondary text-decoration-none fs-4 footer-social-hover"><i
+                                class='bx bxl-instagram-alt'></i></a>
+                        <a href="#" class="text-secondary text-decoration-none fs-4 footer-social-hover"><i
+                                class='bx bxl-youtube'></i></a>
+                        <a href="#" class="text-secondary text-decoration-none fs-4 footer-social-hover"><i
+                                class='bx bxl-tiktok'></i></a>
+                    </div>
+
+                    <p class="social-text">Facebook · Instagram · Youtube · Tiktok</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 FlowerShop. All rights reserved. Crafted with botanical love 🌸</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery 3.7 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap 5 JS Bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="landingpage.js"></script>
+
+</body>
+
+</html>

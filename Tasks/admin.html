@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html class="light" lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Quản Trị - Hệ Thống Quản Lý Công Việc</title>
+    <title>FlowerShop | Quản lý công việc</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -13,92 +16,194 @@
 
 <body>
 
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-
-    <div class="p-4" style="background-color: #f8fafc; min-height: 100vh;">
-
-        <div class="d-flex justify-content-center gap-2 mb-4">
-            <a href="../Test app/main.html" id="btnHome"
-                class="btn btn-primary rounded-pill px-4 shadow-sm  text-decoration-none"><i
-                    class='bx bxs-home'></i> Home</a>
-            <button id="btnTasks" class="btn btn-primary rounded-pill px-4 shadow-sm active"><i
-                    class='bx bxs-spreadsheet'></i> Tasks</button>
-            <a href="../Stats/stats.html" id="btnStats"
-                class="btn btn-primary rounded-pill px-4 shadow-sm text-decoration-none text-white"><i
-                    class='bx bxs-bar-chart-alt-2'></i> Thống kê</a>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <a href="../Landingpage/landingpage.html" class="sidebar-logo">
+            <span>🌸</span> FlowerShop
+        </a>
+        <nav class="sidebar-nav">
+            <a href="../Dashboard/dashboard.html" class="nav-link">
+                <i class='bx bxs-dashboard'></i> Dashboard
+            </a>
+            <a href="../Stats/stats.html" class="nav-link">
+                <i class='bx bxs-bar-chart-alt-2'></i> Thống kê
+            </a>
+            <a href="admin.html" class="nav-link active">
+                <i class='bx bxs-spreadsheet'></i> Quản lý Tasks
+            </a>
+            <a href="../Test app/main.html" class="nav-link">
+                <i class='bx bxs-store'></i> Cửa hàng
+            </a>
+            <a href="../Landingpage/landingpage.html" class="nav-link">
+                <i class='bx bxs-home'></i> Landing Page
+            </a>
+        </nav>
+        <div class="sidebar-bottom">
+            <a href="../Landingpage/landingpage.html" class="sidebar-link-sm">
+                <i class='bx bx-store'></i> Xem Landing Page
+            </a>
+            <button class="sidebar-cta" id="sidebarAddTask">
+                <i class='bx bx-plus'></i> Thêm task mới
+            </button>
         </div>
+    </aside>
 
+    <!-- Top Header Bar -->
+    <header class="top-header">
+        <div class="d-flex align-items-center gap-3 flex-1">
+            <!-- Mobile menu button -->
+            <button class="btn-icon mobile-menu-btn" id="btnOpenSidebar" title="Menu">
+                <i class='bx bx-menu'></i>
+            </button>
+            <!-- Search -->
+            <div class="search-box">
+                <i class='bx bx-search search-icon'></i>
+                <input class="search-input" type="text" placeholder="Tìm kiếm task nhanh..." id="searchInput">
+            </div>
+        </div>
+        <div class="header-actions">
+            <!-- Notifications -->
+            <button class="btn-icon" id="btnNotifications" title="Thông báo">
+                <i class='bx bx-bell'></i>
+                <span class="notification-dot"></span>
+            </button>
+            <!-- Dark Mode Toggle -->
+            <div class="d-flex align-items-center gap-2">
+                <i class='bx bx-sun theme-icon' id="themeIcon"></i>
+                <div class="dark-toggle" id="darkToggle" title="Chuyển đổi Dark Mode">
+                    <div class="toggle-dot"></div>
+                </div>
+            </div>
+            <!-- Admin Info -->
+            <div class="admin-info">
+                <div class="text-end admin-text">
+                    <p class="admin-name mb-0" id="headerAdminName">Admin</p>
+                    <p class="admin-role mb-0">Shop Owner</p>
+                </div>
+                <img class="admin-avatar" id="headerAdminAvatar" alt="Admin Avatar"
+                    src="../Photo/person.png" />
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Page Header -->
+        <section class="page-header d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+            <div>
+                <h1>Quản lý công việc</h1>
+                <p>Theo dõi & quản lý task hàng ngày của cửa hàng</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn-flower-primary" id="btnAddTask">
+                    <i class='bx bx-plus'></i> Thêm task mới
+                </button>
+                <a href="../Stats/stats.html" class="btn-flower-outline text-decoration-none">
+                    <i class='bx bx-bar-chart'></i> Xem thống kê
+                </a>
+            </div>
+        </section>
+
+        <!-- Stats Cards -->
         <div class="row g-3 mb-4">
-            <div class="col-md-4">
-                <div class="stat-card border-blue" title="Tổng số tất cả công việc">
-                    <div class="stat-label"><i class='bx bx-list-ul'></i> Tổng công việc</div>
-                    <div class="stat-value" id="totalTasks">0</div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card border-green" title="Công việc đã hoàn thành">
-                    <div class="stat-label text-success"><i class='bx bx-check-circle'></i> Hoàn thành</div>
-                    <div class="stat-value" id="completedTasks">0</div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card border-cyan" title="Công việc đang trong hàng đợi">
-                    <div class="stat-label text-info"><i class='bx bx-time'></i> Đang chờ</div>
-                    <div class="stat-value" id="pendingTasks">0</div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card border-red" title="Công việc đã quá hạn xử lý">
-                    <div class="stat-label text-danger"><i class='bx bx-error-alt'></i> Quá hạn</div>
-                    <div class="stat-value" id="overdueTasks">0</div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card border-orange" title="Công việc quan trọng mức độ Cao">
-                    <div class="stat-label text-warning"><i class='bx bx-up-arrow-alt'></i> Ưu tiên Cao</div>
-                    <div class="stat-value" id="highPriority">0</div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card border-teal" title="Công việc quan trọng mức độ Trung bình">
-                    <div class="stat-label text-secondary"><i class='bx bx-minus'></i> Ưu tiên Trung</div>
-                    <div class="stat-value" id="mediumPriority">0</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mb-4">
-            <button class="btn btn-primary px-3 shadow-sm me-2" title="Thêm một công việc mới"><i
-                    class='bx bx-plus'></i> Thêm task mới</button>
-            <a href="../Stats/stats.html" class="btn btn-outline-primary px-3 shadow-sm text-decoration-none"
-                title="Đi tới trang thống kê chi tiết"><i class='bx bx-bar-chart'></i> Xem thống kê</a>
-        </div>
-
-        <div class="card border-0 shadow-sm rounded-4">
-            <div class="card-body p-4">
-                <h5 class="fw-bold mb-4"><i class='bx bx-time-five'></i> Công việc gần đây</h5>
-                <div class="table-responsive">
-                    <table class="table align-middle text-center">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="py-3">Tiêu đề</th>
-                                <th>Ưu tiên</th>
-                                <th>Thời gian</th>
-                                <th>Trạng thái</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recentTasksList">
-                        </tbody>
-                    </table>
-                    <div id="noTasksMsg" class="text-center py-5 text-muted">
-                        Chưa có công việc nào
+            <div class="col-md-4 col-lg-2">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="stat-icon-wrap blue"><i class='bx bx-list-ul'></i></div>
                     </div>
+                    <p class="stat-label">Tổng công việc</p>
+                    <h3 class="stat-value" id="totalTasks">0</h3>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="stat-icon-wrap green"><i class='bx bx-check-circle'></i></div>
+                    </div>
+                    <p class="stat-label">Hoàn thành</p>
+                    <h3 class="stat-value" id="completedTasks">0</h3>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="stat-icon-wrap amber"><i class='bx bx-time'></i></div>
+                    </div>
+                    <p class="stat-label">Đang chờ</p>
+                    <h3 class="stat-value" id="pendingTasks">0</h3>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="stat-icon-wrap red"><i class='bx bx-error-alt'></i></div>
+                    </div>
+                    <p class="stat-label">Quá hạn</p>
+                    <h3 class="stat-value" id="overdueTasks">0</h3>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="stat-icon-wrap pink"><i class='bx bx-up-arrow-alt'></i></div>
+                    </div>
+                    <p class="stat-label">Ưu tiên Cao</p>
+                    <h3 class="stat-value" id="highPriority">0</h3>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="stat-icon-wrap teal"><i class='bx bx-minus'></i></div>
+                    </div>
+                    <p class="stat-label">Ưu tiên Trung</p>
+                    <h3 class="stat-value" id="mediumPriority">0</h3>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bundle.min.js"></script>
+        <!-- Recent Tasks Table -->
+        <div class="table-card">
+            <div class="card-header-flower">
+                <h5>Công việc gần đây</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-flower mb-0 align-middle text-center">
+                    <thead>
+                        <tr>
+                            <th class="text-start ps-4">Tiêu đề</th>
+                            <th>Ưu tiên</th>
+                            <th>Thời gian</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentTasksList">
+                    </tbody>
+                </table>
+                <div id="noTasksMsg" class="empty-state">
+                    <i class='bx bx-task d-block'></i>
+                    <p>Chưa có công việc nào</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="admin-footer">
+            <p class="mb-0 opacity-60 ">© 2024 FlowerShop | Version 1.0</p>
+            <div class="footer-links">
+                <a href="#">Hỗ trợ</a>
+                <a href="#">Bảo mật</a>
+                <a href="#">Điều khoản</a>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="tasks.js"></script>
     <script src="admin.js"></script>
 </body>

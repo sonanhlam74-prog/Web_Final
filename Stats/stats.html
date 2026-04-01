@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html class="light" lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thống Kê - Hệ Thống Quản Lý</title>
+    <title>FlowerShop | Thống kê doanh thu</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -14,100 +17,175 @@
 
 <body>
 
-    <div class="p-4" style="background-color: #f8fafc; min-height: 100vh;">
-        <!-- Navigation -->
-        <div class="d-flex justify-content-center gap-2 mb-4">
-            <a href="../Test app/main.html" class="btn btn-primary rounded-pill px-4  shadow-sm text-decoration-none"><i
-                    class='bx bxs-home'></i> Home</a>   
-            <a href="../Tasks/admin.html" class="btn btn-primary rounded-pill px-4 shadow-sm text-decoration-none"><i
-                    class='bx bxs-spreadsheet'></i> Tasks</a>
-            <a href="stats.html" class="btn btn-primary rounded-pill px-4 active shadow-sm text-decoration-none"><i
-                    class='bx bxs-bar-chart-alt-2'></i> Thống kê</a>
-        </div>
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h4 class="fw-bold mb-1 text-dark">Báo cáo doanh thu</h4>
-                <p class="text-secondary mb-0">Tổng quan tình hình kinh doanh của Flower Shop</p>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <a href="../Landingpage/landingpage.html" class="sidebar-logo">
+            <span>🌸</span> FlowerShop
+        </a>
+        <nav class="sidebar-nav">
+            <a href="../Dashboard/dashboard.html" class="nav-link">
+                <i class='bx bxs-dashboard'></i> Dashboard
+            </a>
+            <a href="stats.html" class="nav-link active">
+                <i class='bx bxs-bar-chart-alt-2'></i> Thống kê
+            </a>
+            <a href="../Tasks/admin.html" class="nav-link">
+                <i class='bx bxs-spreadsheet'></i> Quản lý Tasks
+            </a>
+            <a href="../Test app/main.html" class="nav-link">
+                <i class='bx bxs-store'></i> Cửa hàng
+            </a>
+            <a href="../Landingpage/landingpage.html" class="nav-link">
+                <i class='bx bxs-home'></i> Landing Page
+            </a>
+        </nav>
+        <div class="sidebar-bottom">
+            <a href="../Landingpage/landingpage.html" class="sidebar-link-sm">
+                <i class='bx bx-store'></i> Xem Landing Page
+            </a>
+            <button class="sidebar-cta" onclick="window.location.href='../Tasks/admin.html'">
+                <i class='bx bx-plus'></i> Thêm task mới
+            </button>
+        </div>
+    </aside>
+
+    <!-- Top Header Bar -->
+    <header class="top-header">
+        <div class="d-flex align-items-center gap-3 flex-1">
+            <!-- Mobile menu button -->
+            <button class="btn-icon mobile-menu-btn" id="btnOpenSidebar" title="Menu">
+                <i class='bx bx-menu'></i>
+            </button>
+            <!-- Search -->
+            <div class="search-box">
+                <i class='bx bx-search search-icon'></i>
+                <input class="search-input" type="text" placeholder="Tìm kiếm đơn hàng..." id="searchInput">
             </div>
-            <div class="d-flex gap-2">
-                <select id="timeframeSelect" class="form-select shadow-sm" style="width: auto;">
+        </div>
+        <div class="header-actions">
+            <!-- Notifications -->
+            <button class="btn-icon" id="btnNotifications" title="Thông báo">
+                <i class='bx bx-bell'></i>
+                <span class="notification-dot"></span>
+            </button>
+            <!-- Dark Mode Toggle -->
+            <div class="d-flex align-items-center gap-2">
+                <i class='bx bx-sun theme-icon' id="themeIcon"></i>
+                <div class="dark-toggle" id="darkToggle" title="Chuyển đổi Dark Mode">
+                    <div class="toggle-dot"></div>
+                </div>
+            </div>
+            <!-- Admin Info -->
+            <div class="admin-info">
+                <div class="text-end admin-text">
+                    <p class="admin-name mb-0" id="headerAdminName">Admin</p>
+                    <p class="admin-role mb-0">Shop Owner</p>
+                </div>
+                <img class="admin-avatar" id="headerAdminAvatar" alt="Admin Avatar" src="../Photo/person.png" />
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Page Header -->
+        <section class="page-header d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+            <div>
+                <h1>Báo cáo doanh thu</h1>
+                <p>Tổng quan tình hình kinh doanh của FlowerShop</p>
+            </div>
+            <div class="d-flex gap-2 align-items-center">
+                <select id="timeframeSelect" class="form-select form-select-flower">
                     <option value="today">Hôm nay</option>
                     <option value="week" selected>Tuần này</option>
                     <option value="month">Tháng này</option>
                     <option value="all">Tất cả</option>
                 </select>
-                <button class="btn btn-outline-secondary shadow-sm bg-white" id="btnExportStats"><i
-                        class='bx bx-export'></i> Xuất báo cáo</button>
+                <button class="btn-flower-outline" id="btnExportStats">
+                    <i class='bx bx-export'></i> Xuất báo cáo
+                </button>
             </div>
-        </div>
+        </section>
 
-        <!-- Summary Cards -->
-        <div class="row g-4 mb-4">
-            <div class="col-md-3">
-                <div class="stat-card d-flex align-items-center">
-                    <div class="stat-icon bg-primary bg-opacity-10 text-primary me-3">
-                        <i class='bx bx-money'></i>
+        <!-- Stats Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="stat-icon-wrap pink"><i class='bx bx-money'></i></div>
+                        <span class="stat-trend up"><i class='bx bx-trending-up'></i> +12%</span>
                     </div>
-                    <div>
-                        <p class="text-secondary mb-1" style="font-size: 0.85rem; font-weight: 600;">TỔNG DOANH THU</p>
-                        <h4 class="fw-bold mb-0 text-dark" id="totalRevenue">0 VND</h4>
-                    </div>
+                    <p class="stat-label">Tổng doanh thu</p>
+                    <h3 class="stat-value" id="totalRevenue">0 VND</h3>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-card d-flex align-items-center">
-                    <div class="stat-icon bg-info bg-opacity-10 text-info me-3">
-                        <i class='bx bx-shopping-bag'></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="stat-icon-wrap blue"><i class='bx bx-shopping-bag'></i></div>
+                        <span class="stat-trend up"><i class='bx bx-trending-up'></i> +5</span>
                     </div>
-                    <div>
-                        <p class="text-secondary mb-1" style="font-size: 0.85rem; font-weight: 600;">TỔNG ĐƠN HÀNG</p>
-                        <h4 class="fw-bold mb-0 text-dark" id="totalOrders">0</h4>
-                    </div>
+                    <p class="stat-label">Tổng đơn hàng</p>
+                    <h3 class="stat-value" id="totalOrders">0</h3>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-card d-flex align-items-center">
-                    <div class="stat-icon bg-success bg-opacity-10 text-success me-3">
-                        <i class='bx bx-check-circle'></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="stat-icon-wrap green"><i class='bx bx-check-circle'></i></div>
                     </div>
-                    <div>
-                        <p class="text-secondary mb-1" style="font-size: 0.85rem; font-weight: 600;">ĐÃ HOÀN THÀNH</p>
-                        <h4 class="fw-bold mb-0 text-dark" id="completedOrders">0</h4>
-                    </div>
+                    <p class="stat-label">Đã hoàn thành</p>
+                    <h3 class="stat-value" id="completedOrders">0</h3>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="stat-card d-flex align-items-center">
-                    <div class="stat-icon bg-warning bg-opacity-10 text-warning me-3">
-                        <i class='bx bx-time'></i>
+            <div class="col-md-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="stat-icon-wrap amber"><i class='bx bx-time'></i></div>
                     </div>
-                    <div>
-                        <p class="text-secondary mb-1" style="font-size: 0.85rem; font-weight: 600;">ĐANG CHỜ XỬ LÝ</p>
-                        <h4 class="fw-bold mb-0 text-dark" id="pendingOrders">0</h4>
-                    </div>
+                    <p class="stat-label">Đang chờ xử lý</p>
+                    <h3 class="stat-value" id="pendingOrders">0</h3>
                 </div>
             </div>
         </div>
 
         <!-- Charts Section -->
         <div class="row g-4 mb-4">
-            <div class="col-md-8">
-                <div class="card border-0 shadow-sm" style="border-radius: 12px;">
-                    <div class="card-body p-4">
-                        <h5 class="fw-bold mb-4 text-dark"><i class='bx bx-bar-chart'></i> Biểu đồ doanh thu</h5>
-                        <div style="height: 300px;">
+            <div class="col-lg-8">
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <div>
+                            <h5>Biểu đồ doanh thu</h5>
+                            <p>Theo dõi xu hướng kinh doanh</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" data-period="7">7 ngày</button>
+                                <button class="toggle-btn" data-period="30">30 ngày</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-card-body">
+                        <div class="chart-container">
                             <canvas id="revenueBarChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm" style="border-radius: 12px; height: 100%;">
-                    <div class="card-body p-4 d-flex flex-column align-items-center justify-content-center">
-                        <h5 class="fw-bold mb-4 text-dark w-100 text-start"><i class='bx bx-pie-chart-alt-2'></i> Trạng thái đơn</h5>
-                        <div style="height: 250px; width: 100%;">
+            <div class="col-lg-4">
+                <div class="chart-card" style="height: 100%;">
+                    <div class="chart-card-header">
+                        <div>
+                            <h5>Trạng thái đơn</h5>
+                            <p>Phân bổ trạng thái</p>
+                        </div>
+                    </div>
+                    <div class="chart-card-body d-flex align-items-center justify-content-center">
+                        <div class="chart-container" style="height: 250px;">
                             <canvas id="statusPieChart"></canvas>
                         </div>
                     </div>
@@ -115,35 +193,48 @@
             </div>
         </div>
 
-        <!-- Data Table -->
-        <div class="card border-0 shadow-sm" style="border-radius: 12px; overflow: hidden;">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0 align-middle">
-                        <thead>
-                            <tr>
-                                <th class="ps-4">Mã Đơn</th>
-                                <th>Ngày Đặt</th>
-                                <th>Khách Hàng & Thông Tin</th>
-                                <th>Doanh Thu</th>
-                                <th>Trạng Thái</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ordersTableBody">
-                            <!-- Dynamic rows -->
-                        </tbody>
-                    </table>
-                    <div id="noOrdersMsg" class="text-center py-5 text-muted d-none">
-                        Chưa có đơn hàng nào để thống kê
-                    </div>
+        <!-- Orders Data Table -->
+        <div class="table-card">
+            <div class="card-header-flower">
+                <h5>Chi tiết đơn hàng</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-flower mb-0 align-middle">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Mã đơn</th>
+                            <th>Ngày đặt</th>
+                            <th>Khách hàng & Thông tin</th>
+                            <th>Doanh thu</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                    </tbody>
+                </table>
+                <div id="noOrdersMsg" class="empty-state d-none">
+                    <i class='bx bx-package d-block'></i>
+                    <p>Chưa có đơn hàng nào để thống kê</p>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bundle.min.js"></script>
+        <!-- Footer -->
+        <footer class="admin-footer">
+            <p class="mb-0 opacity-60">© 2024 FlowerShop | Version 1.0</p>
+            <div class="footer-links">
+                <a href="#">Hỗ trợ</a>
+                <a href="#">Bảo mật</a>
+                <a href="#">Điều khoản</a>
+            </div>
+        </footer>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../Tasks/tasks.js"></script>
     <script src="stats.js"></script>
+
 </body>
 
 </html>

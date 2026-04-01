@@ -5,15 +5,20 @@
   <meta charset="UTF-8">
   <meta name="google" content="notranslate">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tiệm Hoa Tươi - Flower Shop</title>
+  <title>FlowerShop | Tiệm Hoa Tươi</title>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <!-- Boxicons -->
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="main.css">
 </head>
 
@@ -22,24 +27,23 @@
     <div class="container d-flex justify-content-between align-items-center">
       <div class="d-flex flex-column">
         <a href="#" class="logo-main text-decoration-none">
-          <i class='bx bxs-flower'></i> Flower Shop
+          🌸 FlowerShop
         </a>
-        <small class="text-muted ms-2">Đẳng cấp nhất thế giới</small>
+        <small class="text-muted ms-2">Hoa tươi mỗi ngày – Gửi trọn yêu thương</small>
       </div>
 
       <div class="d-flex align-items-center gap-4">
-        <span class="d-none d-md-block fw-medium">Chào mừng bạn!</span>
+        <span class="d-none d-md-block fw-medium ">Chào mừng bạn!</span>
       </div>
 
       <div class="d-flex align-items-center gap-2">
-        <a href="../Tasks/admin.html" id="adminBtn"
+        <a href="../Dashboard/dashboard.html" id="adminBtn"
           class="btn btn-light rounded-pill border d-none align-items-center gap-2">
           <i class='bx bxs-user-detail'></i> Quản trị
         </a>
         <a href="../cart/checkout.html" class="position-relative ms-2 text-decoration-none">
-          <div class="bg-primary text-white p-2 rounded-circle d-flex align-items-center justify-content-center"
-            style="width: 42px; height: 42px; transition: transform 0.2s;">
-            <i class='bx bx-shopping-bag fs-4'></i>
+          <div class="text-white p-2 rounded-circle d-flex align-items-center justify-content-center shopping-icon">
+            <i class='bx bx-shopping-bag fs-4 '></i>
             <span id="cart-badge"
               class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none"
               style="font-size: 0.7rem;">0</span>
@@ -48,10 +52,10 @@
 
         <!-- Dropdown Avatar User -->
         <div class="dropdown ms-3">
-          <a href="#" class="d-flex align-items-center justify-content-center text-decoration-none "
-            id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://ui-avatars.com/api/?name=User" id="userAvatarImg" class="rounded-circle border"
-              style="width: 42px; height: 42px; object-fit: cover;" alt="Avatar">
+          <a href="#" class="d-flex align-items-center justify-content-center text-decoration-none " id="userMenuButton"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://ui-avatars.com/api/?name=User" id="userAvatarImg" class="rounded-circle border avatar"
+              alt="Avatar">
           </a>
           <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userMenuButton">
             <li>
@@ -74,7 +78,7 @@
   </header>
 
   <div class="yellow-info-bar">
-    Tích lũy: 0đ — Còn 500,000đ để lên hạng Bạc
+    🌸 Tích lũy: 0đ — Còn 500,000đ để lên hạng Bạc
   </div>
 
   <section class="hero-banner">
@@ -141,10 +145,11 @@
             </div>
           </div>
         </div>
+
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
             <div class="card-img-container">
-              <img src="../Photo/dao_tet.png" alt="Hoa Đào">
+              <img src="../Photo/dao-nhat-tan.jpg" alt="Hoa Đào">
             </div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Hoa Đào Nhật Tân</h5>
@@ -159,7 +164,7 @@
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
             <div class="card-img-container">
-              <img src="../Photo/hoa_cuc.png" alt="Cúc mâm xôi">
+              <img src="../Photo/cuc-mam-xoi.jpg" alt="Cúc mâm xôi">
             </div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Hoa Cúc Mâm Xôi</h5>
@@ -176,7 +181,7 @@
             <div class="position-relative">
               <span class="position-absolute top-0 start-0 m-2 badge bg-primary" style="z-index: 1;">MỚI</span>
               <div class="card-img-container">
-                <img src="../Photo/lan_ho_diep.png" alt="Lan hồ điệp">
+                <img src="../Photo/lan-ho-diep.jpg" alt="Lan hồ điệp">
               </div>
             </div>
             <div class="card-body p-4">
@@ -195,8 +200,7 @@
       <div class="row g-4 mt-1 more-flowers d-none">
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/mai_vang.png" style="filter: hue-rotate(50deg);"
-                alt="Hoa Mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoatet.jpg" alt="Hoa Tết"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Tuyệt Phẩm Mới 1</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -207,7 +211,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/hoa_cuc.png" alt="Hoa Mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-cuc-trang.png" alt="Hoa Cúc Trắng"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Tuyệt Phẩm Mới 2</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -218,8 +222,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/lan_ho_diep.png" style="filter: hue-rotate(-50deg);"
-                alt="Hoa Mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-tulip.jpg" alt="Hoa Tulip"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Tuyệt Phẩm Mới 3</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -230,8 +233,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/dao_tet.png" style="filter: saturate(1.5);"
-                alt="Hoa Mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-cam-chuong.jpg" alt="Hoa Cẩm Chướng"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Tuyệt Phẩm Mới 4</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -244,7 +246,7 @@
 
       <div class="text-center mt-4">
         <button class="btn btn-primary rounded-pill px-4 fw-semibold xem-them-btn"
-          style="background-color: #0d6efd; border-color: #0d6efd;">Xem thêm <i class='bx bx-chevron-down'></i></button>
+          style="background-color: #7b5362; border-color: #7b5362;">Xem thêm <i class='bx bx-chevron-down'></i></button>
       </div>
     </section>
 
@@ -258,7 +260,7 @@
       <div class="row g-4">
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/chia_buon_1.png" alt="Hoa chia buồn"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-ly-trang.jpg" alt="Hoa chia buồn"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Thành Kính</h5>
               <p class="text-muted small mb-3">Lời tiễn biệt sâu sắc nhất</p>
@@ -270,7 +272,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/chia_buon_2.png" alt="Hoa chia buồn"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-cuc-trang.png" alt="Hoa chia buồn"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Cõi Vĩnh Hằng</h5>
               <p class="text-muted small mb-3">Yên nghỉ nơi cực lạc</p>
@@ -282,7 +284,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/chia_buon_3.png" alt="Hoa chia buồn"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-hong-trang.png" alt="Hoa chia buồn"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Nén Hương Trầm</h5>
               <p class="text-muted small mb-3">Chia sẻ nỗi đau mất mát</p>
@@ -294,7 +296,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/chia_buon_4.png" alt="Hoa chia buồn"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-hue-trang.png" alt="Hoa chia buồn"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Vô Cùng Thương Tiếc</h5>
               <p class="text-muted small mb-3">Vòng hoa tang lễ trang trọng</p>
@@ -310,8 +312,7 @@
       <div class="row g-4 mt-1 more-flowers d-none">
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/chia_buon_1.png" style="filter: hue-rotate(20deg);"
-                alt="Hoa chia buồn mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-cat-tuong.jpg" alt="Hoa chia buồn mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Nỗi Buồn Trắng</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -322,8 +323,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/chia_buon_2.png" style="filter: grayscale(0.5);"
-                alt="Hoa chia buồn mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-dong-tien.jpg" alt="Hoa chia buồn mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Kệ Hoa Kính Viếng</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -334,8 +334,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/chia_buon_3.png" style="filter: brightness(0.9);"
-                alt="Hoa chia buồn mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-phi-yen.jpg" alt="Hoa chia buồn mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Lẵng Hoa Ly Trắng</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -346,8 +345,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/chia_buon_4.png" style="filter: contrast(1.1);"
-                alt="Hoa chia buồn mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-moraka.jpg" alt="Hoa chia buồn mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Hoa Lan Cầu Nguyện</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -360,7 +358,7 @@
 
       <div class="text-center mt-4">
         <button class="btn btn-primary rounded-pill px-4 fw-semibold xem-them-btn"
-          style="background-color: #0d6efd; border-color: #0d6efd;">Xem thêm <i class='bx bx-chevron-down'></i></button>
+          style="background-color: #7b5362; border-color: #7b5362;">Xem thêm <i class='bx bx-chevron-down'></i></button>
       </div>
     </section>
 
@@ -374,7 +372,7 @@
       <div class="row g-4">
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/ke_hoa_1.png" alt="Hoa chúc mừng"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-hong-do.jpg" alt="Hoa chúc mừng"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Khai Trương Hồng Phát</h5>
               <p class="text-muted small mb-3">Tấn tài tấn lộc</p>
@@ -386,7 +384,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/ke_hoa_2.png" alt="Hoa chúc mừng"></div>
+            <div class="card-img-container"><img src="../Photo/huong-duong.jpg" alt="Hoa chúc mừng"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Vạn Sự Như Ý</h5>
               <p class="text-muted small mb-3">Thành công mỹ mãn</p>
@@ -398,7 +396,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/gio_hoa_1.png" alt="Hoa chúc mừng"></div>
+            <div class="card-img-container"><img src="../Photo/bo-hong-pastel.jpg" alt="Hoa chúc mừng"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Giỏ Hoa Thịnh Vượng</h5>
               <p class="text-muted small mb-3">Sang trọng và tinh tế</p>
@@ -410,7 +408,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/bo_hoa_1.png" alt="Hoa chúc mừng"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-hong-phan.jpg" alt="Hoa chúc mừng"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-2">Nắng Phương Nam</h5>
               <p class="text-muted small mb-3">Lời chúc rạng rỡ</p>
@@ -426,8 +424,7 @@
       <div class="row g-4 mt-1 more-flowers d-none">
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/ke_hoa_1.png" style="filter: hue-rotate(-20deg);"
-                alt="Hoa chúc mừng mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-cam-chuong.jpg" alt="Hoa chúc mừng mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Kệ Hoa Phát Tài</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -438,8 +435,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/gio_hoa_1.png" style="filter: saturate(1.2);"
-                alt="Hoa chúc mừng mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-baby.jpg" alt="Hoa chúc mừng mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Lẵng Hoa Hướng Dương</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -450,8 +446,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/bo_hoa_1.png" style="filter: contrast(1.15);"
-                alt="Hoa chúc mừng mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-tulip.jpg" alt="Hoa chúc mừng mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Bó Hoa Rực Rỡ</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -462,8 +457,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/ke_hoa_2.png" style="filter: hue-rotate(15deg);"
-                alt="Hoa chúc mừng mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-mau-don.jpg" alt="Hoa chúc mừng mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Bình Hoa Sang Trọng</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -476,7 +470,7 @@
 
       <div class="text-center mt-4">
         <button class="btn btn-primary rounded-pill px-4 fw-semibold xem-them-btn"
-          style="background-color: #0d6efd; border-color: #0d6efd;">Xem thêm <i class='bx bx-chevron-down'></i></button>
+          style="background-color: #7b5362; border-color: #7b5362;">Xem thêm <i class='bx bx-chevron-down'></i></button>
       </div>
     </section>
 
@@ -490,7 +484,7 @@
       <div class="row g-4">
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/sinh_nhat_1.png" alt="Hoa sinh nhật"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-hong-phan.jpg" alt="Hoa sinh nhật"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Tuổi Thần Tiên</h5>
               <p class="text-muted small mb-3">Ngọt ngào và đáng yêu</p>
@@ -502,7 +496,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/sinh_nhat_2.png" alt="Hoa sinh nhật"></div>
+            <div class="card-img-container"><img src="../Photo/bo-hong-pastel.jpg" alt="Hoa sinh nhật"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Niềm Tin Chiến Thắng</h5>
               <p class="text-muted small mb-3">Năng lượng tràn đầy</p>
@@ -514,7 +508,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/sinh_nhat_3.png" alt="Hoa sinh nhật"></div>
+            <div class="card-img-container"><img src="../Photo/huong-duong.jpg" alt="Hoa sinh nhật"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Giấc Mơ Xanh</h5>
               <p class="text-muted small mb-3">Bình yên và hy vọng</p>
@@ -526,7 +520,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/sinh_nhat_4.png" alt="Hoa sinh nhật"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-hong-do.jpg" alt="Hoa sinh nhật"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Tình Yêu Duy Nhất</h5>
               <p class="text-muted small mb-3">Bó hồng đỏ thắm</p>
@@ -542,8 +536,7 @@
       <div class="row g-4 mt-1 more-flowers d-none">
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/sinh_nhat_1.png" style="filter: hue-rotate(45deg);"
-                alt="Hoa sinh nhật mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-cat-tuong.jpg" alt="Hoa sinh nhật mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Bó Hoa Tuổi Trẻ</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -554,8 +547,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/sinh_nhat_2.png" style="filter: brightness(1.1);"
-                alt="Hoa sinh nhật mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-dong-tien.jpg" alt="Hoa sinh nhật mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Hộp Hoa Bất Ngờ</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -566,8 +558,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/sinh_nhat_3.png" style="filter: saturate(1.3);"
-                alt="Hoa sinh nhật mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-mau-don.jpg" alt="Hoa sinh nhật mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Lẵng Hoa Rực Rỡ</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -578,8 +569,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/sinh_nhat_4.png" style="filter: contrast(1.2);"
-                alt="Hoa sinh nhật mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-moraka.jpg" alt="Hoa sinh nhật mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Bó Quà Tặng Người Thương</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -592,7 +582,7 @@
 
       <div class="text-center mt-4">
         <button class="btn btn-primary rounded-pill px-4 fw-semibold xem-them-btn"
-          style="background-color: #0d6efd; border-color: #0d6efd;">Xem thêm <i class='bx bx-chevron-down'></i></button>
+          style="background-color: #7b5362; border-color: #7b5362;">Xem thêm <i class='bx bx-chevron-down'></i></button>
       </div>
     </section>
 
@@ -606,7 +596,7 @@
       <div class="row g-4">
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/hoa_cuoi_1.png" alt="Hoa cưới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-hong-trang.png" alt="Hoa cưới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Ngày Hạnh Phúc</h5>
               <p class="text-muted small mb-3">Bó hoa cầm tay cô dâu</p>
@@ -618,7 +608,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/hoa_cuoi_2.png" alt="Hoa cưới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-ly-trang.jpg" alt="Hoa cưới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Trọn Đời Bên Nhau</h5>
               <p class="text-muted small mb-3">Sắc trắng tinh khôi</p>
@@ -630,7 +620,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/hoa_cuoi_3.png" alt="Hoa cưới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-hue-trang.png" alt="Hoa cưới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Lâu Đài Tình Ái</h5>
               <p class="text-muted small mb-3">Hoa trang trí tiệc cưới</p>
@@ -642,7 +632,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/hoa_cuoi_4.png" alt="Hoa cưới"></div>
+            <div class="card-img-container"><img src="../Photo/bo-hong-pastel.jpg" alt="Hoa cưới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Mùa Yêu Thương</h5>
               <p class="text-muted small mb-3">Phong cách hiện đại</p>
@@ -658,8 +648,7 @@
       <div class="row g-4 mt-1 more-flowers d-none">
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/hoa_cuoi_1.png" style="filter: brightness(1.2);"
-                alt="Hoa cưới mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-baby.jpg" alt="Hoa cưới mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Xe Hoa Tình Yêu</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -670,8 +659,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/hoa_cuoi_2.png" style="filter: contrast(1.1);"
-                alt="Hoa cưới mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-phi-yen.jpg" alt="Hoa cưới mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Bộ Hoa Cô Dâu Tinh Khôi</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -682,8 +670,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/hoa_cuoi_3.png" style="filter: saturate(1.5);"
-                alt="Hoa cưới mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-cam-chuong.jpg" alt="Hoa cưới mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Decor Tiệc Cưới Cơ Bản</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -694,8 +681,7 @@
         </div>
         <div class="col-md-6 col-lg-3">
           <div class="card product-card">
-            <div class="card-img-container"><img src="../Photo/hoa_cuoi_4.png" style="filter: hue-rotate(30deg);"
-                alt="Hoa cưới mới"></div>
+            <div class="card-img-container"><img src="../Photo/hoa-tulip.jpg" alt="Hoa cưới mới"></div>
             <div class="card-body p-4">
               <h5 class="fw-bold mb-1">Cổng Hoa Khai Tiệc</h5>
               <div class="d-flex justify-content-between align-items-center mt-3"><span
@@ -708,25 +694,45 @@
 
       <div class="text-center mt-4">
         <button class="btn btn-primary rounded-pill px-4 fw-semibold xem-them-btn"
-          style="background-color: #0d6efd; border-color: #0d6efd;">Xem thêm <i class='bx bx-chevron-down'></i></button>
+          style="background-color: #7b5362; border-color: #7b5362;">Xem thêm <i class='bx bx-chevron-down'></i></button>
       </div>
     </section>
   </div>
 
-  <footer class="bg-dark text-light py-5 mt-5">
+  <footer class="footer-flower">
     <div class="container">
-      <div class="row g-4">
-        <!-- Branding & About -->
-        <div class="col-lg-4 col-md-6">
-          <div class="d-flex align-items-center mb-3">
-            <i class='bx bxs-flower fs-2 text-primary me-2'></i>
-            <h4 class="fw-bold mb-0">Flower Shop</h4>
-          </div>
-          <p class="text-secondary mb-4" style="line-height: 1.7;">
-            Thay lời muốn nói, chúng tôi mang đến những đóa hoa tươi thắm nhất, kết nối yêu thương và gửi gắm trọn vẹn
-            cảm xúc của bạn.
+      <div class="row g-5">
+        <div class="col-md-3">
+          <div class="footer-brand">🌸 FlowerShop</div>
+          <p class="footer-desc">
+            Cửa hàng hoa tươi nghệ thuật với sứ mệnh mang cái đẹp và niềm vui
+            đến mọi không gian sống.
           </p>
-          <div class="d-flex gap-3">
+        </div>
+        <div class="col-md-3">
+          <span class="footer-heading">Khám phá</span>
+          <ul class="footer-links">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="#products">Sản phẩm</a></li>
+            <li><a href="#about">Về chúng tôi</a></li>
+            <li><a href="#">Blog hoa tươi</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <span class="footer-heading">Liên hệ</span>
+          <div class="contact-item">
+            <span class="material-symbols-outlined">phone</span> 0123 456 789
+          </div>
+          <div class="contact-item">
+            <span class="material-symbols-outlined">mail</span> hello@flowershop.vn
+          </div>
+          <div class="contact-item">
+            <span class="material-symbols-outlined">location_on</span> 123 Nguyễn Huệ, Q1, HCM
+          </div>
+        </div>
+        <div class="col-md-3">
+          <span class="footer-heading">Kết nối</span>
+          <div class="mb-3 d-flex gap-3">
             <a href="#" class="text-secondary text-decoration-none fs-4 footer-social-hover"><i
                 class='bx bxl-facebook-circle'></i></a>
             <a href="#" class="text-secondary text-decoration-none fs-4 footer-social-hover"><i
@@ -736,59 +742,12 @@
             <a href="#" class="text-secondary text-decoration-none fs-4 footer-social-hover"><i
                 class='bx bxl-tiktok'></i></a>
           </div>
-        </div>
 
-        <!-- Quick Links -->
-        <div class="col-lg-2 col-md-6">
-          <h5 class="fw-bold mb-4 text-white">Liên Kết</h5>
-          <ul class="list-unstyled">
-            <li class="mb-3"><a href="#" class="text-secondary text-decoration-none footer-link-hover">Trang Chủ</a>
-            </li>
-            <li class="mb-3"><a href="#hoa-tet" class="text-secondary text-decoration-none footer-link-hover">Hoa Nổi
-                Bật</a></li>
-            <li class="mb-3"><a href="#" class="text-secondary text-decoration-none footer-link-hover">Chủ Đề Hoa</a>
-            </li>
-            <li class="mb-3"><a href="#" class="text-secondary text-decoration-none footer-link-hover">Bài Viết</a></li>
-          </ul>
-        </div>
-
-        <!-- Customer Support -->
-        <div class="col-lg-3 col-md-6">
-          <h5 class="fw-bold mb-4 text-white">Chính Sách</h5>
-          <ul class="list-unstyled">
-            <li class="mb-3"><a href="#" class="text-secondary text-decoration-none footer-link-hover">Hướng Dẫn Đặt
-                Hàng</a></li>
-            <li class="mb-3"><a href="#" class="text-secondary text-decoration-none footer-link-hover">Chính Sách Vận
-                Chuyển</a></li>
-            <li class="mb-3"><a href="#" class="text-secondary text-decoration-none footer-link-hover">Chính Sách Đổi
-                Trả</a></li>
-            <li class="mb-3"><a href="#" class="text-secondary text-decoration-none footer-link-hover">Điều Khoản Bảo
-                Mật</a></li>
-          </ul>
-        </div>
-
-        <!-- Newsletter & Contact -->
-        <div class="col-lg-3 col-md-6">
-          <h5 class="fw-bold mb-4 text-white">Liên Hệ</h5>
-          <ul class="list-unstyled text-secondary mb-4">
-            <li class="mb-3 d-flex align-items-start">
-              <i class='bx bx-map fs-5 me-2 text-primary'></i>
-              <span>123 Đường Hoa Vàng, Quận 1, TP. HCM</span>
-            </li>
-            <li class="mb-3 d-flex align-items-center">
-              <i class='bx bx-phone fs-5 me-2 text-primary'></i>
-              <span>1900 6789</span>
-            </li>
-            <li class="mb-3 d-flex align-items-center">
-              <i class='bx bx-envelope fs-5 me-2 text-primary'></i>
-              <span>cskh@flowershop.vn</span>
-            </li>
-          </ul>
+          <p class="social-text">Facebook · Instagram · Youtube · Tiktok</p>
         </div>
       </div>
-
-      <div class="text-center border-top border-secondary pt-4 mt-5 text-secondary small">
-        © 2026 Flower Shop. Tất cả quyền được bảo lưu.
+      <div class="footer-bottom">
+        <p>© 2024 FlowerShop. All rights reserved. Crafted with botanical love 🌸</p>
       </div>
     </div>
   </footer>
@@ -847,7 +806,7 @@
               <input type="file" accept="image/*" class="form-control" id="newAvatarFile" required>
             </div>
             <button type="submit" class="btn btn-primary w-100 rounded-pill"
-              style="background:#8b5cf6; border-color:#8b5cf6;">Cập nhật Avatar</button>
+              style="background:#7b5362; border-color:#7b5362;">Cập nhật Avatar</button>
           </form>
         </div>
       </div>
