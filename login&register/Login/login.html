@@ -11,6 +11,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Boxicons -->
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <!--Link css-->
   <link rel="stylesheet" href="login.css">
 </head>
 
@@ -35,14 +36,39 @@
       </div>
       <div id="loginError" class="alert alert-danger d-none py-2 text-center small">Sai tên đăng nhập hoặc mật
         khẩu</div>
-      <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-semibold"
-        style="background:#8b5cf6; border-color:#8b5cf6; box-shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.4);">Đăng
-        Nhập</button>
+
+      <div class="d-flex gap-2 mb-3">
+        <button type="button" class="btn btn-primary flex-fill">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ffffff">
+            <path
+              d="M13.397 20.997v-8.196h2.765l.411-3.209h-3.176V7.548c0-.926.258-1.56 1.587-1.56h1.684V3.127A22.336 22.336 0 0 0 14.201 3c-2.444 0-4.122 1.492-4.122 4.231v2.355H7.332v3.209h2.753v8.202h3.312z"
+              fill="#ffffff" />
+          </svg>
+        </button>
+        <button type="button" class="btn btn-secondary flex-fill">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ffffff">
+            <path
+              d="M20.283 10.356h-8.327v3.451h4.792c-.446 2.193-2.313 3.453-4.792 3.453a5.27 5.27 0 0 1-5.279-5.28 5.27 5.27 0 0 1 5.279-5.279c1.259 0 2.397.447 3.29 1.178l2.6-2.599c-1.584-1.381-3.615-2.233-5.89-2.233a8.908 8.908 0 0 0-8.934 8.934 8.907 8.907 0 0 0 8.934 8.934c4.467 0 8.529-3.249 8.529-8.934 0-.528-.081-1.097-.202-1.625z"
+              fill="#ffffff" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="checkbox d-flex gap-0  ">
+        <label class="container">
+          <input checked="checked" type="checkbox">
+          <div class="checkmark"></div>
+        </label>
+        <label for="remember">Ghi nhớ đăng nhập</label>
+      </div>
+      <button type="submit" class="btn-login w-100 rounded-pill py-2 fw-semibold mt-4">
+        Đăng nhập
+      </button>
+
     </form>
-    <div class="mt-4 text-center small text-muted">
-      <p class="mb-1"><strong>Tài khoản mẫu:</strong></p>
-      Admin: <code>admin</code> / <code>admin123</code><br>
-      User: <code>user</code> / <code>user123</code>
+    <div class="reg-for mt-5 text-center gap-5">
+      <div class="forgot mb-2"><a href="../Forgot/forgot.html">Không thể đăng nhập?</a></div>
+      <div class="register"><a href="../Register/register.html">Tạo tài khoản</a></div>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
