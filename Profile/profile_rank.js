@@ -1,7 +1,41 @@
-// 1. Auth check
-const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+// 0. Ensure Auth is loaded and currentUser is migrated
+if (window.Auth) {
+    window.Auth.getCurrentUser(); // This will trigger migration if needed
+}
+
+// 1. Auth check - Allow both authenticated and guest users
+let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+// If still no currentUser but we have Auth session, force migration
+if (!currentUser && window.Auth && window.Auth.getCurrentUser && window.Auth.getCurrentUser()) {
+    // Manually create currentUser from Auth session
+    const authUser = window.Auth.getCurrentUser();
+    const DEFAULT_AVATAR = "../Photo/person.png";
+    currentUser = {
+        id: authUser.id,
+        email: authUser.email,
+        name: authUser.displayName || authUser.email.split('@')[0],
+        username: authUser.email,
+        displayName: authUser.displayName,
+        avatar: authUser.avatar || DEFAULT_AVATAR,
+        role: authUser.email.startsWith("admin") ? "admin" : "user",
+        accumulatedSpend: 0
+    };
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+}
+
+// If no user at all, create a guest user
 if (!currentUser) {
-    window.location.href = '../login&register/Login/login.html';
+    currentUser = {
+        id: 'guest_' + Date.now(),
+        email: 'guest@example.com',
+        name: 'Khách',
+        username: 'guest',
+        displayName: 'Khách',
+        avatar: 'https://ui-avatars.com/api/?name=Guest&background=9ca3af&color=fff',
+        role: 'guest',
+        accumulatedSpend: 0
+    };
 }
 
 function calculateRank(spend) {
@@ -60,7 +94,15 @@ $(document).ready(function () {
     if ($('#profileName').length) {
         $('#profileName').text(currentUser.name);
         $('#profileUsername').text(currentUser.username);
-        $('#profileRole').text(currentUser.role === 'admin' ? 'Quản trị viên' : 'Người dùng');
+        
+        // Display role appropriately
+        let roleText = 'Người dùng';
+        if (currentUser.role === 'admin') {
+            roleText = 'Quản trị viên';
+        } else if (currentUser.role === 'guest') {
+            roleText = 'Khách';
+        }
+        $('#profileRole').text(roleText);
 
         $('#cardRankIcon').attr('src', rankInfo.icon);
         $('#cardRankName').text(rankInfo.name);
@@ -92,27 +134,53 @@ $(document).ready(function () {
     // 3. Logout
     $('#btnLogout').on('click', function (e) {
         e.preventDefault();
-        localStorage.removeItem('currentUser');
-        window.location.href = '../login&register/Login/login.html';
-    });
-
-    // 4. Change Avatar
-    $('#changeAvatarForm').on('submit', function (e) {
-        e.preventDefault();
-        const fileInput = $('#newAvatarFile')[0];
-        if (fileInput && fileInput.files && fileInput.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const base64Image = e.target.result;
-                currentUser.avatar = base64Image;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                $('#userAvatarImg, #profileAvatar').attr('src', base64Image);
-                $('#changeAvatarModal').modal('hide');
-                fileInput.value = '';
-            };
-            reader.readAsDataURL(fileInput.files[0]);
+        if (currentUser.role === 'guest') {
+            // Guest users switch to login
+            localStorage.removeItem('currentUser');
+            if (window.Auth?.logout) {
+                window.Auth.logout();
+            }
+            window.location.href = '../login&register/Login/login.html';
+        } else {
+            if (window.Auth) {
+                window.Auth.logout();
+            } else {
+                localStorage.removeItem('currentUser');
+            }
+            window.location.href = '../login&register/Login/login.html';
         }
     });
+
+    // 4. Change Avatar (only for logged-in users)
+    if (currentUser.role !== 'guest') {
+        $('#changeAvatarForm').on('submit', function (e) {
+            e.preventDefault();
+            const fileInput = $('#newAvatarFile')[0];
+            if (fileInput && fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const base64Image = e.target.result;
+                    
+                    // Update using Auth if available
+                    if (window.Auth && window.Auth.setCurrentUserAvatar) {
+                        window.Auth.setCurrentUserAvatar(base64Image);
+                    }
+                    
+                    // Also update localStorage for backward compatibility
+                    currentUser.avatar = base64Image;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    $('#userAvatarImg, #profileAvatar').attr('src', base64Image);
+                    $('#changeAvatarModal').modal('hide');
+                    fileInput.value = '';
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        });
+    } else {
+        // Hide avatar change button for guest users
+        $('[data-bs-target="#changeAvatarModal"]').hide();
+    }
 
     // 5. "Xem thêm" Expand/Collapse Logic (test.html)
     $('.xem-them-btn').on('click', function (e) {

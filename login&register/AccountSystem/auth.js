@@ -1,20 +1,19 @@
 (function (global) {
-  'use strict';
+  "use strict";
 
-  const USERS_KEY = 'auth.users.v1';
-  const SESSION_KEY = 'auth.session.v1';
-  const LOCKS_KEY = 'auth.locks.v1';
+  const USERS_KEY = "auth.users.v1";
+  const SESSION_KEY = "auth.session.v1";
+  const LOCKS_KEY = "auth.locks.v1";
 
   const PASSWORD_MIN_LEN = 8;
   const MAX_FAILS = 5;
   const LOCK_MS = 2 * 60 * 1000; // 2 minutes
 
-  const DEFAULT_AVATAR = '../../Photo/person.png';
+  const DEFAULT_AVATAR = "../../Photo/person.png";
 
+  const COMPAT_NAME_KEY = "userName";
+  const COMPAT_AVATAR_KEY = "avatarImage";
 
-  const COMPAT_NAME_KEY = 'userName';
-  const COMPAT_AVATAR_KEY = 'avatarImage';
-  
   function nowMs() {
     return Date.now();
   }
@@ -39,27 +38,49 @@
   }
 
   function normalizeEmail(email) {
-    return String(email || '').trim().toLowerCase();
+    return String(email || "")
+      .trim()
+      .toLowerCase();
   }
 
   function validatePasswordComplexity(password, label) {
-    const p = String(password || '');
-    const name = label || 'Mật khẩu';
+    const p = String(password || "");
+    const name = label || "Mật khẩu";
 
     if (PASSWORD_MIN_LEN > 0 && p.length < PASSWORD_MIN_LEN) {
-      return { ok: false, code: 'weak_password', message: `${name} tối thiểu ${PASSWORD_MIN_LEN} ký tự.` };
+      return {
+        ok: false,
+        code: "weak_password",
+        message: `${name} tối thiểu ${PASSWORD_MIN_LEN} ký tự.`,
+      };
     }
     if (/\s/.test(p)) {
-      return { ok: false, code: 'invalid_password', message: `${name} không được chứa khoảng trắng.` };
+      return {
+        ok: false,
+        code: "invalid_password",
+        message: `${name} không được chứa khoảng trắng.`,
+      };
     }
     if (!/[a-z]/.test(p)) {
-      return { ok: false, code: 'invalid_password', message: `${name} phải có ít nhất 1 chữ thường.` };
+      return {
+        ok: false,
+        code: "invalid_password",
+        message: `${name} phải có ít nhất 1 chữ thường.`,
+      };
     }
     if (!/[A-Z]/.test(p)) {
-      return { ok: false, code: 'invalid_password', message: `${name} phải có ít nhất 1 chữ in hoa.` };
+      return {
+        ok: false,
+        code: "invalid_password",
+        message: `${name} phải có ít nhất 1 chữ in hoa.`,
+      };
     }
     if (!/[0-9]/.test(p)) {
-      return { ok: false, code: 'invalid_password', message: `${name} phải có ít nhất 1 chữ số.` };
+      return {
+        ok: false,
+        code: "invalid_password",
+        message: `${name} phải có ít nhất 1 chữ số.`,
+      };
     }
     return { ok: true };
   }
@@ -75,24 +96,25 @@
     if (global.crypto?.getRandomValues) {
       global.crypto.getRandomValues(bytes);
     } else {
-      for (let i = 0; i < bytes.length; i += 1) bytes[i] = Math.floor(Math.random() * 256);
+      for (let i = 0; i < bytes.length; i += 1)
+        bytes[i] = Math.floor(Math.random() * 256);
     }
     const hex = Array.from(bytes)
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('');
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
     return `${prefix}_${hex}`;
   }
 
   async function sha256Hex(input) {
-    const text = String(input ?? '');
+    const text = String(input ?? "");
 
     if (global.crypto?.subtle && global.TextEncoder) {
       const data = new TextEncoder().encode(text);
-      const digest = await global.crypto.subtle.digest('SHA-256', data);
+      const digest = await global.crypto.subtle.digest("SHA-256", data);
       const bytes = new Uint8Array(digest);
       return Array.from(bytes)
-        .map((b) => b.toString(16).padStart(2, '0'))
-        .join('');
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
     }
 
     // Fallback (NOT cryptographically secure; avoids breaking on file:// where subtle may be unavailable)
@@ -115,7 +137,7 @@
 
   function getLocks() {
     const locks = loadObject(LOCKS_KEY, {});
-    return locks && typeof locks === 'object' ? locks : {};
+    return locks && typeof locks === "object" ? locks : {};
   }
 
   function setLocks(locks) {
@@ -191,7 +213,31 @@
   function getCurrentUser() {
     const session = getSession();
     if (!session?.userId) return null;
-    return findUserById(session.userId);
+    const user = findUserById(session.userId);
+    
+    // Migration: Ensure currentUser exists in localStorage for backward compatibility
+    if (user) {
+      try {
+        const existing = localStorage.getItem("currentUser");
+        if (!existing) {
+          const compatUser = {
+            id: user.id,
+            email: user.email,
+            name: user.displayName || user.email.split('@')[0],
+            username: user.email,
+            displayName: user.displayName,
+            avatar: user.avatar || DEFAULT_AVATAR,
+            role: user.email.startsWith("admin") ? "admin" : "user",
+            accumulatedSpend: 0
+          };
+          localStorage.setItem("currentUser", JSON.stringify(compatUser));
+        }
+      } catch {
+        // ignore
+      }
+    }
+    
+    return user;
   }
 
   function requireLogin(options) {
@@ -205,25 +251,33 @@
 
   async function register(params) {
     const email = normalizeEmail(params?.email);
-    const password = String(params?.password || '');
+    const password = String(params?.password || "");
 
     if (!isValidEmail(email)) {
-      return { ok: false, code: 'invalid_email', message: 'Email không hợp lệ.' };
+      return {
+        ok: false,
+        code: "invalid_email",
+        message: "Email không hợp lệ.",
+      };
     }
 
-    const pwCheck = validatePasswordComplexity(password, 'Mật khẩu');
+    const pwCheck = validatePasswordComplexity(password, "Mật khẩu");
     if (!pwCheck.ok) return pwCheck;
-      if (findUserByEmail(email)) {
-      return { ok: false, code: 'email_exists', message: 'Email này đã được đăng ký.' };
+    if (findUserByEmail(email)) {
+      return {
+        ok: false,
+        code: "email_exists",
+        message: "Email này đã được đăng ký.",
+      };
     }
 
     const passwordHash = await sha256Hex(password);
 
     const user = {
-      id: randomId('u'),
+      id: randomId("u"),
       email,
       passwordHash,
-      displayName: email.split('@')[0] || 'Người dùng',
+      displayName: email.split("@")[0] || "Người dùng",
       avatar: DEFAULT_AVATAR,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -234,33 +288,57 @@
     setUsers(users);
     clearLock(email);
 
-    return { ok: true, user: { id: user.id, email: user.email, displayName: user.displayName, avatar: user.avatar } };
+    return {
+      ok: true,
+      user: {
+        id: user.id,
+        email: user.email,
+        displayName: user.displayName,
+        avatar: user.avatar,
+      },
+    };
   }
 
   async function login(params) {
     const email = normalizeEmail(params?.email);
-    const password = String(params?.password || '');
+    const password = String(params?.password || "");
 
     if (!isValidEmail(email)) {
-      return { ok: false, code: 'invalid_email', message: 'Email không hợp lệ.' };
+      return {
+        ok: false,
+        code: "invalid_email",
+        message: "Email không hợp lệ.",
+      };
     }
 
     const lock = getLockState(email);
     if (lock.locked) {
       const seconds = Math.ceil(lock.remainingMs / 1000);
-      return { ok: false, code: 'locked', message: `Bạn nhập sai quá nhiều lần. Thử lại sau ${seconds}s.` };
+      return {
+        ok: false,
+        code: "locked",
+        message: `Bạn nhập sai quá nhiều lần. Thử lại sau ${seconds}s.`,
+      };
     }
 
     let user = findUserByEmail(email);
     if (!user) {
       registerFail(email);
-      return { ok: false, code: 'invalid_credentials', message: 'Sai email hoặc mật khẩu.' };
+      return {
+        ok: false,
+        code: "invalid_credentials",
+        message: "Sai email hoặc mật khẩu.",
+      };
     }
 
     const passwordHash = await sha256Hex(password);
     if (passwordHash !== user.passwordHash) {
       registerFail(email);
-      return { ok: false, code: 'invalid_credentials', message: 'Sai email hoặc mật khẩu.' };
+      return {
+        ok: false,
+        code: "invalid_credentials",
+        message: "Sai email hoặc mật khẩu.",
+      };
     }
 
     clearLock(email);
@@ -283,7 +361,7 @@
     }
 
     setSession({
-      token: randomId('s'),
+      token: randomId("s"),
       userId: user.id,
       email: user.email,
       loginAt: new Date().toISOString(),
@@ -291,34 +369,69 @@
 
     // Keep compatibility with existing UI that reads from localStorage
     try {
-      localStorage.setItem(COMPAT_NAME_KEY, user.displayName || 'Người dùng');
+      localStorage.setItem(COMPAT_NAME_KEY, user.displayName || "Người dùng");
       localStorage.setItem(COMPAT_AVATAR_KEY, user.avatar || DEFAULT_AVATAR);
+      
+      // Also set currentUser for backward compatibility with profile_rank.js
+      const compatUser = {
+        id: user.id,
+        email: user.email,
+        name: user.displayName || user.email.split('@')[0],
+        username: user.email,
+        displayName: user.displayName,
+        avatar: user.avatar || DEFAULT_AVATAR,
+        role: user.email.startsWith("admin") ? "admin" : "user",
+        accumulatedSpend: 0 // Default value, can be updated later
+      };
+      localStorage.setItem("currentUser", JSON.stringify(compatUser));
     } catch {
       // ignore
     }
 
-    return { ok: true, user: { id: user.id, email: user.email, displayName: user.displayName, avatar: user.avatar } };
+    return {
+      ok: true,
+      user: {
+        id: user.id,
+        email: user.email,
+        displayName: user.displayName,
+        avatar: user.avatar,
+      },
+    };
   }
 
   function logout() {
     clearSession();
+    // Also clear currentUser for backward compatibility
+    try {
+      localStorage.removeItem("currentUser");
+    } catch {
+      // ignore
+    }
   }
 
   async function changePassword(params) {
     const currentUser = getCurrentUser();
     if (!currentUser) {
-      return { ok: false, code: 'not_logged_in', message: 'Bạn chưa đăng nhập.' };
+      return {
+        ok: false,
+        code: "not_logged_in",
+        message: "Bạn chưa đăng nhập.",
+      };
     }
 
-    const oldPassword = String(params?.oldPassword || '');
-    const newPassword = String(params?.newPassword || '');
+    const oldPassword = String(params?.oldPassword || "");
+    const newPassword = String(params?.newPassword || "");
 
-    const pwCheck = validatePasswordComplexity(newPassword, 'Mật khẩu mới');
+    const pwCheck = validatePasswordComplexity(newPassword, "Mật khẩu mới");
     if (!pwCheck.ok) return pwCheck;
 
     const oldHash = await sha256Hex(oldPassword);
     if (oldHash !== currentUser.passwordHash) {
-      return { ok: false, code: 'wrong_old_password', message: 'Mật khẩu hiện tại không đúng.' };
+      return {
+        ok: false,
+        code: "wrong_old_password",
+        message: "Mật khẩu hiện tại không đúng.",
+      };
     }
 
     const newHash = await sha256Hex(newPassword);
@@ -326,7 +439,11 @@
     const users = getUsers();
     const idx = users.findIndex((u) => u.id === currentUser.id);
     if (idx === -1) {
-      return { ok: false, code: 'user_missing', message: 'Không tìm thấy tài khoản.' };
+      return {
+        ok: false,
+        code: "user_missing",
+        message: "Không tìm thấy tài khoản.",
+      };
     }
 
     users[idx] = {
@@ -336,29 +453,41 @@
     };
     setUsers(users);
 
-    return { ok: true, message: 'Đổi mật khẩu thành công.' };
+    return { ok: true, message: "Đổi mật khẩu thành công." };
   }
 
   function updateCurrentUserProfile(params) {
     const currentUser = getCurrentUser();
     if (!currentUser) {
-      return { ok: false, code: 'not_logged_in', message: 'Bạn chưa đăng nhập.' };
+      return {
+        ok: false,
+        code: "not_logged_in",
+        message: "Bạn chưa đăng nhập.",
+      };
     }
 
     const users = getUsers();
     const idx = users.findIndex((u) => u.id === currentUser.id);
     if (idx === -1) {
-      return { ok: false, code: 'user_missing', message: 'Không tìm thấy tài khoản.' };
+      return {
+        ok: false,
+        code: "user_missing",
+        message: "Không tìm thấy tài khoản.",
+      };
     }
 
     const nextDisplayName =
-      params?.displayName !== undefined ? String(params.displayName || '').trim() : users[idx].displayName;
+      params?.displayName !== undefined
+        ? String(params.displayName || "").trim()
+        : users[idx].displayName;
     const nextAvatar =
-      params?.avatar !== undefined ? String(params.avatar || '').trim() || DEFAULT_AVATAR : users[idx].avatar;
+      params?.avatar !== undefined
+        ? String(params.avatar || "").trim() || DEFAULT_AVATAR
+        : users[idx].avatar;
 
     users[idx] = {
       ...users[idx],
-      displayName: nextDisplayName || users[idx].displayName || 'Người dùng',
+      displayName: nextDisplayName || users[idx].displayName || "Người dùng",
       avatar: nextAvatar || DEFAULT_AVATAR,
       updatedAt: new Date().toISOString(),
     };
@@ -366,8 +495,14 @@
 
     // Keep compatibility with existing UI that reads from localStorage
     try {
-      localStorage.setItem(COMPAT_NAME_KEY, users[idx].displayName || 'Người dùng');
-      localStorage.setItem(COMPAT_AVATAR_KEY, users[idx].avatar || DEFAULT_AVATAR);
+      localStorage.setItem(
+        COMPAT_NAME_KEY,
+        users[idx].displayName || "Người dùng",
+      );
+      localStorage.setItem(
+        COMPAT_AVATAR_KEY,
+        users[idx].avatar || DEFAULT_AVATAR,
+      );
     } catch {
       // ignore
     }

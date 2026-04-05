@@ -1,122 +1,222 @@
-:root {
-    --accent: teal;
-    --text: #111827;
-    --muted: #6b7280;
-    --border: #d1d5db;
-    --bg: #f3f4f6;
-    --card: #ffffff;
+body 
+{
+  font-family: "Inter", sans-serif;
+  background: #FFFAF0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.side-image
+{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  z-index: -1;
+}
+.side-image > img:first-child
+{
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  object-fit: cover;
 }
 
-* {
-    box-sizing: border-box;
+.brand-name {
+  position: absolute;
+  bottom: 100px;
+  left: 40px;
+  z-index: 100;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+.brand-text {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  z-index: 100;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+.icon-flower {
+  position: absolute;
+  bottom: 170px;
+  left: 40px;
+  z-index: 100;
+  width: 80px;
+  height: auto;
+}
+.login-card 
+{
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  position: absolute;
+  margin-left: 50%;
 }
 
-body {
-    margin: 0;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
-        "Apple Color Emoji", "Segoe UI Emoji";
-    color: var(--text);
-    background: radial-gradient(1200px 600px at 20% 10%, #dbeafe 0%, transparent 60%),
-        radial-gradient(1200px 600px at 80% 90%, #ccfbf1 0%, transparent 60%),
-        var(--bg);
+.login-card h3 
+{
+  font-weight: 700;
+  color: #555555;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
-html , body {
-    height: 100%;
+.reg-for a
+{
+  text-decoration: none;
+  cursor: pointer;
+  color : rgb(74, 74, 74);
 }
-.page {
-    min-height: 100%;
-    display: grid;
-    place-items: center;
-    padding : 28px 16px;
+.reg-for a:hover
+{
+  color: #000;
 }
-.form-container {
-    width: min(420px, 100%);
-    background-color: var(--card);
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 12px 30px;
-    border-radius: 14px;
-    padding: 24px 22px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-}
-.title {
-    text-align: center;
-    margin : 6px 0 18px 0;
-    font-size: 26px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-}
-.form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin-bottom: 15px;
-}
-.field {
-    display: grid;
-    gap: 6px;
+.btn-login {
+  background-color: #5B5B5B;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s, transform 0.1s;
 }
 
-.field-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--muted);
-    letter-spacing: 0.01em;
+.btn-login:hover {
+  background-color: #333333;
 }
 
-.input {
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    outline: 0;
-    padding: 12px 12px;
-    font-size: 14px;
-    background: #fff;
-    transition: border-color 120ms ease, box-shadow 120ms ease;
+.btn-login:active {
+  transform: scale(0.98);
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: #dee2e6;
+}
+.container {
+  padding-left: 0;
+}
+.container input {
+ position: absolute;
+ opacity: 0;
+ cursor: pointer;
+ height: 0;
+ width: 0;
 }
 
-.input::placeholder {
-    color: #9ca3af;
+.checkmark {
+ position: relative;
+ top: 0;
+ left: 0;
+ height: 1.3em;
+ width: 1.3em;
+ background-color: #adabab;
+ border-radius: 5px;
+ transition: all 0.5s;
 }
 
-.input:focus {
-    border-color: rgba(0, 128, 128, 0.7);
-    box-shadow: 0 0 0 4px rgba(0, 128, 128, 0.15);
+.container input:checked ~ .checkmark {
+ background-color: #f0f0f0;
+ border: 2px solid #343434;
 }
 
-.form-message {
-    margin: 0 0 12px 0;
-    min-height: 18px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #b91c1c;
+.checkmark:after {
+ content: "";
+ position: absolute;
+ display: none;
+ filter: drop-shadow(0 0 10px #888);
 }
 
-.form-message.is-success {
-    color: #065f46;
-}
-.submit-button {
-    padding : 12px 14px;
-    border-radius: 12px;
-    border: 0 !important;
-    outline: 0 !important;
-    background-color: var(--accent);
-    color: white;
-    cursor: pointer;
-    box-shadow: rgba(0, 0, 0, 0.18) 0px 8px 18px;
-    font-weight: 800;
-    font-size: 14px;
-    transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+.container input:checked ~ .checkmark:after {
+ display: block;
 }
 
-.redirect-text {
-    margin: 12px 0 0;
-    font-size: 13px;
-    color: var(--muted);
-    text-align: center;
+
+.container .checkmark:after {
+ left: 0.4em;
+ top: 0.15em;
+ width: 0.4em;
+ height: 0.65em;
+ border: solid #343434;
+ border-width: 0 0.2em 0.2em 0;
+ border-radius: 3px;
+ transform: rotate(45deg);
+ animation: bounceFadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.redirect-link {
-    color: var(--accent);
-    font-weight: 800;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+@keyframes bounceFadeIn {
+ from {
+  transform: translate(0, -10px) rotate(45deg);
+  opacity: 0;
+ }
+
+ to {
+  transform: translate(0, 0) rotate(45deg);
+  opacity: 1;
+ }
+}
+
+.eye-container {
+  --color: #a5a5b0;
+  --size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-size: var(--size);
+  user-select: none;
+  fill: var(--color);
+  padding : 5px;
+}
+
+.eye-container .eye {
+  position: absolute;
+  animation: keyframes-fill .5s;
+}
+
+.eye-container .eye-slash {
+  position: absolute;
+  animation: keyframes-fill .5s;
+  display: none;
+}
+
+/* ------ On check event ------ */
+.eye-container input:checked ~ .eye {
+  display: none;
+}
+
+.eye-container input:checked ~ .eye-slash {
+  display: block;
+}
+
+/* ------ Hide the default checkbox ------ */
+.eye-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* ------ Animation ------ */
+@keyframes keyframes-fill {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
 }

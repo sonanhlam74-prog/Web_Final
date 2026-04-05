@@ -1,40 +1,53 @@
-const registerForm = document.getElementById('registerForm');
-const registerMessage = document.getElementById('registerMessage');
-
-function setMessage(text, kind) {
-  if (!registerMessage) return;
-  registerMessage.textContent = text || '';
-  registerMessage.classList.toggle('is-success', kind === 'success');
-}
-
-if (registerForm) {
-  registerForm.addEventListener('submit', async (e) => {
+$(document).ready(function () {
+  $("#registerForm").on("submit", async function (e) {
     e.preventDefault();
 
     if (!window.Auth) {
-      return setMessage('Thiếu auth.js. Hãy kiểm tra đường dẫn script.', 'error');
+      alert("Hệ thống xác thực chưa được tải.");
+      return;
     }
 
-    const formData = new FormData(registerForm);
-    const email = String(formData.get('email') || '').trim();
-    const password = String(formData.get('password') || '');
-    const confirmPassword = String(formData.get('confirmPassword') || '');
+    const email = $("#email").val().trim();
+    const password = $("#password").val();
+    const confirmPassword = $("#confirmPassword").val();
 
-    setMessage('');
+    const msg = $("#registerMessage");
+    msg.addClass("d-none").removeClass("alert-danger alert-success alert-info");
 
     if (password !== confirmPassword) {
-      return setMessage('Mật khẩu xác nhận không khớp.', 'error');
+      msg.text("Mật khẩu xác nhận không khớp.").addClass("alert-danger").removeClass("d-none");
+      return;
     }
 
-    const result = await window.Auth.register({ email, password });
-    if (!result.ok) {
-      return setMessage(result.message || 'Đăng ký thất bại.', 'error');
+    const res = await Auth.register({ email, password });
+    if (!res.ok) {
+      msg.text(res.message || "Đăng ký thất bại.").addClass("alert-danger").removeClass("d-none");
+      return;
     }
 
-    setMessage('Đăng ký thành công! Đang chuyển sang trang đăng nhập...', 'success');
-
+    msg.text("Đăng ký thành công! Đang chuyển trang...").addClass("alert-success").removeClass("d-none");
     setTimeout(() => {
-      window.location.href = '../Login/login.html?registered=1';
-    }, 700);
+      window.location.href = "../Login/login.html";
+    }, 1500);
   });
-}
+
+  // Toggle password visibility
+  $("#togglePasswordBtn").on("change", function () {
+    const passwordInput = $("#password");
+    if ($(this).is(":checked")) {
+      passwordInput.attr("type", "text");
+    } else {
+      passwordInput.attr("type", "password");
+    }
+  });
+
+  // Toggle confirm password visibility
+  $("#toggleConfirmPasswordBtn").on("change", function () {
+    const passwordInput = $("#confirmPassword");
+    if ($(this).is(":checked")) {
+      passwordInput.attr("type", "text");
+    } else {
+      passwordInput.attr("type", "password");
+    }
+  });
+});

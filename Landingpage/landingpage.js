@@ -1,4 +1,37 @@
 $(function () {
+  // ===== LOAD CURRENT USER AND CHECK ADMIN =====
+  if (window.Auth) {
+    window.Auth.getCurrentUser();
+  }
+  
+  let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if (!currentUser && window.Auth && window.Auth.getCurrentUser && window.Auth.getCurrentUser()) {
+    const authUser = window.Auth.getCurrentUser();
+    currentUser = {
+      id: authUser.id,
+      email: authUser.email,
+      name: authUser.displayName || authUser.email.split('@')[0],
+      username: authUser.email,
+      displayName: authUser.displayName,
+      avatar: authUser.avatar || 'https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff',
+      role: authUser.email.startsWith("admin") ? "admin" : "user",
+      accumulatedSpend: 0
+    };
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  }
+  
+  // Show admin link only for admins
+  const adminLink = document.querySelector('.admin-link');
+  if (adminLink) {
+    if (currentUser && currentUser.role === 'admin') {
+      adminLink.classList.remove('d-none');
+      adminLink.classList.add('d-md-inline-flex');
+    } else {
+      adminLink.classList.add('d-none');
+      adminLink.classList.remove('d-md-inline-flex');
+    }
+  }
+
   // ===== DARK MODE (jQuery) =====
   var $html = $("html");
   var $toggle = $("#dark-toggle");

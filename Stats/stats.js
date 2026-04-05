@@ -1,3 +1,12 @@
+// ===== AUTH GUARD =====
+// Redirect to login if not authenticated
+if (window.Auth) {
+  const currentUser = window.Auth.getCurrentUser();
+  if (!currentUser) {
+    window.location.href = "../login&register/Login/login.html";
+  }
+}
+
 // ===== LOAD AVATAR & NAME FROM LOCALSTORAGE =====
 (function loadHeaderProfile() {
   const DEFAULT_AVATAR = "../Photo/person.png";

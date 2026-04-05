@@ -64,10 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Priority: per-user key (set by Profile.js) → compat key → Auth user.avatar
         // Only accept data: URLs or http(s) URLs; skip relative paths (e.g. ../../Photo/...)
         const isValidSrc = (s) => s && (s.startsWith('data:') || s.startsWith('http'));
-        const src =
-          (isValidSrc(localStorage.getItem(`avatarImage:${user.id}`)) && localStorage.getItem(`avatarImage:${user.id}`)) ||
-          (isValidSrc(localStorage.getItem('avatarImage'))             && localStorage.getItem('avatarImage'))             ||
-          (isValidSrc(user.avatar)                                     && user.avatar);
+        let src = null;
+        
+        if (isValidSrc(localStorage.getItem(`avatarImage:${user.id}`))) {
+          src = localStorage.getItem(`avatarImage:${user.id}`);
+        } else if (isValidSrc(localStorage.getItem('avatarImage'))) {
+          src = localStorage.getItem('avatarImage');
+        } else if (isValidSrc(user.avatar)) {
+          src = user.avatar;
+        }
+        
         if (src) {
           avatarEl.src = src;
         } else {

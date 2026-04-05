@@ -1,36 +1,79 @@
 $(document).ready(function () {
-  // If already logged in, redirect
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  if (currentUser) {
-    if (currentUser.role === 'admin') window.location.href = '../../Tasks/admin.html';
-    else window.location.href = '../../Test app/main.html';
+  function createGuestUser() {
+    return {
+      id: "guest_" + Date.now(),
+      email: "guest@example.com",
+      name: "Khach",
+      username: "guest",
+      displayName: "Khach",
+      avatar: "https://ui-avatars.com/api/?name=Guest&background=9ca3af&color=fff",
+      role: "guest",
+      accumulatedSpend: 0,
+    };
   }
 
-  $('#loginForm').on('submit', function (e) {
-    e.preventDefault();
-    const username = $('#username').val().trim();
-    const password = $('#password').val().trim();
+  if (window.Auth) {
+    // If already logged in, redirect
+    const currentUser = Auth.getCurrentUser();
+    if (currentUser) {
+      const userRole = currentUser.email.startsWith("admin") ? "admin" : "user";
+      if (userRole === "admin") {
+        window.location.href = "../../Tasks/admin.html";
+      } else {
+        window.location.href = "../../Test app/main.html";
+      }
+      return; // Stop further execution
+    }
+  }
 
-    if (username === 'admin' && password === 'admin123') {
-      localStorage.setItem('currentUser', JSON.stringify({
-        username: 'admin',
-        role: 'admin',
-        name: 'Quản trị viên',
-        avatar: 'https://ui-avatars.com/api/?name=Admin&background=8b5cf6&color=fff',
-        accumulatedSpend: 1500000
-      }));
-      window.location.href = '../../Tasks/admin.html';
-    } else if (username === 'user' && password === 'user123') {
-      localStorage.setItem('currentUser', JSON.stringify({
-        username: 'user',
-        role: 'user',
-        name: 'Người dùng',
-        avatar: 'https://ui-avatars.com/api/?name=User&background=60a5fa&color=fff',
-        accumulatedSpend: 150000
-      }));
-      window.location.href = '../../Test app/main.html';
+  $("#loginForm").on("submit", async function (e) {
+    e.preventDefault();
+    const email = $("#email").val().trim();
+    const password = $("#password").val().trim();
+
+    if (!window.Auth) {
+      alert("Hệ thống xác thực chưa được tải.");
+      return;
+    }
+
+    const res = await Auth.login({ email, password });
+    if (res.ok) {
+      const userRole = email.startsWith("admin") ? "admin" : "user";
+      
+      // Ensure currentUser role is set correctly
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      if (currentUser && !currentUser.role) {
+        currentUser.role = userRole;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      }
+      
+      if (userRole === "admin") {
+        window.location.href = "../../Tasks/admin.html";
+      } else {
+        window.location.href = "../../Test app/main.html";
+      }
     } else {
-      $('#loginError').removeClass('d-none');
+      $("#loginError").text(res.message).removeClass("d-none");
+    }
+  });
+
+  $("#guestLoginBtn").on("click", function () {
+    const guestUser = createGuestUser();
+    localStorage.setItem("currentUser", JSON.stringify(guestUser));
+    if (window.Auth?.logout) {
+      // Ensure no previous authenticated session blocks guest flow
+      window.Auth.logout();
+      localStorage.setItem("currentUser", JSON.stringify(guestUser));
+    }
+    window.location.href = "../../Test app/main.html";
+  });
+
+  $("#togglePasswordBtn").on("change", function () {
+    const passwordInput = $("#password");
+    if ($(this).is(":checked")) {
+      passwordInput.attr("type", "text");
+    } else {
+      passwordInput.attr("type", "password");
     }
   });
 });

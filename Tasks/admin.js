@@ -1,18 +1,56 @@
-// Require Admin Login
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-if (!currentUser || currentUser.role !== "admin") {
+// ===== ENSURE AUTH MIGRATION =====
+if (window.Auth) {
+  window.Auth.getCurrentUser(); // This will trigger migration if needed
+}
+
+// ===== AUTH GUARD =====
+// Redirect to login if not authenticated
+let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+// If still no currentUser but we have Auth session, force migration
+if (!currentUser && window.Auth && window.Auth.getCurrentUser && window.Auth.getCurrentUser()) {
+  // Manually create currentUser from Auth session
+  const authUser = window.Auth.getCurrentUser();
+  const DEFAULT_AVATAR = "../Photo/person.png";
+  currentUser = {
+    id: authUser.id,
+    email: authUser.email,
+    name: authUser.displayName || authUser.email.split('@')[0],
+    username: authUser.email,
+    displayName: authUser.displayName,
+    avatar: authUser.avatar || DEFAULT_AVATAR,
+    role: authUser.email.startsWith("admin") ? "admin" : "user",
+    accumulatedSpend: 0
+  };
+  localStorage.setItem('currentUser', JSON.stringify(currentUser));
+}
+
+// Check if user exists and is admin
+if (!currentUser) {
   window.location.href = "../login&register/Login/login.html";
+}
+
+// Verify admin role
+if (currentUser.role !== 'admin') {
+  window.location.href = "../Test app/main.html";
 }
 
 // ===== LOAD AVATAR & NAME FROM LOCALSTORAGE =====
 (function loadHeaderProfile() {
-  const DEFAULT_AVATAR = "../Photo/person.png";
+  const DEFAULT_AVATAR = "https://ui-avatars.com/api/?name=Admin&background=3b82f6&color=fff";
 
   // Priority: auth compat keys > currentUser object > defaults
   const savedAvatar = localStorage.getItem("avatarImage");
   const savedName = localStorage.getItem("userName");
 
-  const avatarSrc = savedAvatar || (currentUser && currentUser.avatar) || DEFAULT_AVATAR;
+  const isValidSrc = (s) => s && (s.startsWith('data:') || s.startsWith('http'));
+  let avatarSrc = DEFAULT_AVATAR;
+  if (isValidSrc(savedAvatar)) {
+    avatarSrc = savedAvatar;
+  } else if (currentUser && isValidSrc(currentUser.avatar)) {
+    avatarSrc = currentUser.avatar;
+  }
+  
   const displayName = savedName || (currentUser && currentUser.displayName) || (currentUser && currentUser.email) || "Admin";
 
   // Apply to header elements when DOM is ready
@@ -31,7 +69,8 @@ if (!currentUser || currentUser.role !== "admin") {
       const nameEl = document.getElementById("headerAdminName");
 
       if (e.key === "avatarImage" && avatarEl) {
-        avatarEl.src = e.newValue || DEFAULT_AVATAR;
+        const newVal = e.newValue;
+        avatarEl.src = (newVal && (newVal.startsWith('data:') || newVal.startsWith('http'))) ? newVal : DEFAULT_AVATAR;
       }
       if (e.key === "userName" && nameEl) {
         nameEl.textContent = e.newValue || "Admin";

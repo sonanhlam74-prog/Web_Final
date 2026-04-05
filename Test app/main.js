@@ -116,6 +116,106 @@ function showToast(message) {
 
 window.showToast = showToast;
 
+// ===== LOAD CURRENT USER AND SHOW ADMIN BUTTON =====
+// Ensure Auth is loaded and currentUser is migrated
+if (window.Auth) {
+  window.Auth.getCurrentUser(); // This will trigger migration if needed
+}
+
+let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+if (!currentUser && window.Auth && window.Auth.getCurrentUser && window.Auth.getCurrentUser()) {
+  const authUser = window.Auth.getCurrentUser();
+  const DEFAULT_AVATAR = "../Photo/person.png";
+  currentUser = {
+    id: authUser.id,
+    email: authUser.email,
+    name: authUser.displayName || authUser.email.split('@')[0],
+    username: authUser.email,
+    displayName: authUser.displayName,
+    avatar: authUser.avatar || DEFAULT_AVATAR,
+    role: authUser.email.startsWith("admin") ? "admin" : "user",
+    accumulatedSpend: 0
+  };
+  localStorage.setItem('currentUser', JSON.stringify(currentUser));
+}
+
+// Setup UI when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  // Show admin button only for admins
+  const adminBtn = document.getElementById('adminBtn');
+  if (adminBtn) {
+    if (currentUser && currentUser.role === 'admin') {
+      adminBtn.classList.remove('d-none');
+      adminBtn.classList.add('d-flex');
+    } else {
+      adminBtn.classList.add('d-none');
+      adminBtn.classList.remove('d-flex');
+    }
+  }
+
+  // Setup user avatar and greeting
+  const userAvatarImg = document.getElementById('userAvatarImg');
+  const userGreetingName = document.getElementById('userGreetingName');
+  
+  if (currentUser) {
+    if (userAvatarImg) {
+      const isValidSrc = (s) => s && (s.startsWith('data:') || s.startsWith('http'));
+      const src = isValidSrc(currentUser.avatar) ? currentUser.avatar : 
+                  `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name || 'User')}&background=3b82f6&color=fff`;
+      userAvatarImg.src = src;
+    }
+    if (userGreetingName) {
+      userGreetingName.textContent = `Xin chào, ${currentUser.name}!`;
+    }
+  } else {
+    // Guest user
+    if (userAvatarImg) {
+      userAvatarImg.src = 'https://ui-avatars.com/api/?name=Guest&background=9ca3af&color=fff';
+    }
+    if (userGreetingName) {
+      userGreetingName.textContent = 'Xin chào, Khách!';
+    }
+  }
+
+  // Setup logout button
+  const btnLogout = document.getElementById('btnLogout');
+  const changeAvatarLink = document.querySelector('[data-bs-target="#changeAvatarModal"]');
+  if (btnLogout) {
+    if (currentUser && currentUser.role !== 'guest') {
+      btnLogout.style.display = '';
+      btnLogout.textContent = ' Đăng xuất';
+    } else if (currentUser && currentUser.role === 'guest') {
+      btnLogout.style.display = '';
+      btnLogout.textContent = ' Đăng xuất';
+    } else {
+      btnLogout.style.display = 'none';
+    }
+    btnLogout.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (currentUser && currentUser.role === 'guest') {
+        localStorage.removeItem('currentUser');
+        if (window.Auth?.logout) {
+          window.Auth.logout();
+        }
+        window.location.href = '../login&register/Login/login.html';
+      } else if (window.Auth) {
+        window.Auth.logout();
+        window.location.href = '../login&register/Login/login.html';
+      } else {
+        localStorage.removeItem('currentUser');
+        window.location.href = '../login&register/Login/login.html';
+      }
+    });
+  }
+  
+  // Hide change avatar for guest users
+  if (changeAvatarLink) {
+    if (currentUser && currentUser.role === 'guest') {
+      changeAvatarLink.parentElement.style.display = 'none';
+    }
+  }
+});
+
 const userDropdown = document.querySelector('.dropdown');
 if (userDropdown) {
   userDropdown.addEventListener('shown.bs.dropdown', function () {
