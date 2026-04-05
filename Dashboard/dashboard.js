@@ -1,3 +1,32 @@
+// ===== AUTH GUARD (ADMIN ONLY) =====
+(function enforceAdminAccess() {
+    if (window.Auth) {
+        const authUser = window.Auth.getCurrentUser();
+        if (!authUser) {
+            window.location.href = '../login&register/Login/login.html';
+            return;
+        }
+        if ((authUser.role || 'user') !== 'admin') {
+            window.location.href = '../Test app/main.html';
+            return;
+        }
+    } else {
+        let currentUser = null;
+        try {
+            currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        } catch {
+            currentUser = null;
+        }
+        if (!currentUser) {
+            window.location.href = '../login&register/Login/login.html';
+            return;
+        }
+        if ((currentUser.role || 'user') !== 'admin') {
+            window.location.href = '../Test app/main.html';
+        }
+    }
+})();
+
 $(document).ready(function() {
     // ===== START INITIALIZATION =====
     initTheme();

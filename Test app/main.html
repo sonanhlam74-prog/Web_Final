@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" translate="no">
+<html class="light" lang="vi" translate="no">
 
 <head>
   <meta charset="UTF-8">
@@ -32,11 +32,15 @@
         <small class="text-muted ms-2">Hoa tươi mỗi ngày – Gửi trọn yêu thương</small>
       </div>
 
-      <div class="d-flex align-items-center gap-4">
+      <div class="d-flex align-items-center gap-5">
         <span class="d-none d-md-block fw-medium ">Chào mừng bạn!</span>
       </div>
 
       <div class="d-flex align-items-center gap-2">
+        <i class='bx bx-sun theme-icon' id="themeIcon"></i>
+        <div class="dark-toggle" id="darkToggle" title="Chuyển đổi Dark Mode">
+          <div class="toggle-dot"></div>
+        </div>
         <a href="../Dashboard/dashboard.html" id="adminBtn"
           class="btn btn-light rounded-pill border d-none align-items-center gap-2">
           <i class='bx bxs-user-detail'></i> Quản trị
@@ -96,7 +100,7 @@
       <a href="#hoa-sinh-nhat" class="cat-pill nav-link-internal"><i class='bx bxs-cake'></i> Hoa Sinh Nhật</a>
       <a href="#hoa-cuoi" class="cat-pill nav-link-internal"><i class='bx bxs-heart'></i> Hoa Cưới</a>
     </nav>
-
+    
     <div class="search-box">
       <i class='bx bx-search fs-4 text-muted'></i>
       <input type="text" class="search-input" id="mainSearchInput" placeholder="Tìm kiếm hoa...">
@@ -104,7 +108,54 @@
       <i class='bx bx-x fs-4 text-white bg-danger rounded-circle p-1 ms-2' id="clearSearchBtn"
         style="cursor: pointer;"></i>
     </div>
+    <div class="filter-popover-wrap mb-3">
+      <button type="button" class="btn btn-outline-dark d-inline-flex align-items-center gap-2" id="filterToggleBtn"
+        aria-expanded="false" aria-controls="filterPopoverPanel">
+        <i class='bx bx-filter-alt'></i>
+        Bộ lọc
+      </button>
 
+      <div class="filter-popover-panel d-none" id="filterPopoverPanel" role="dialog" aria-label="Bộ lọc sản phẩm">
+        <div class="filter-popover-title">Bộ lọc sản phẩm</div>
+        <div class="filter-popover-content">
+          <div class="row g-2">
+            <div class="col-6">
+              <label class="form-label small mb-1" for="minPriceFilter">Giá từ</label>
+              <input type="number" class="form-control form-control-sm" id="minPriceFilter" min="0" step="10000"
+                placeholder="0">
+            </div>
+            <div class="col-6">
+              <label class="form-label small mb-1" for="maxPriceFilter">Giá đến</label>
+              <input type="number" class="form-control form-control-sm" id="maxPriceFilter" min="0" step="10000"
+                placeholder="5000000">
+            </div>
+            <div class="col-6">
+              <label class="form-label small mb-1" for="flowerTypeFilter">Loại hoa</label>
+              <select class="form-select form-select-sm" id="flowerTypeFilter">
+                <option value="all">Tất cả</option>
+                <option value="tet">Hoa Tết</option>
+                <option value="chia_buon">Hoa Chia Buồn</option>
+                <option value="chuc_mung">Hoa Chúc Mừng</option>
+                <option value="sinh_nhat">Hoa Sinh Nhật</option>
+                <option value="cuoi">Hoa Cưới</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label small mb-1" for="stockStatusFilter">Tình trạng</label>
+              <select class="form-select form-select-sm" id="stockStatusFilter">
+                <option value="all">Tất cả</option>
+                <option value="available">Còn hàng</option>
+                <option value="out_of_stock">Hết hàng</option>
+              </select>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end gap-2 mt-3">
+            <button class="btn btn-sm btn-outline-secondary" type="button" id="resetFilterBtn">Đặt lại</button>
+            <button class="btn btn-sm btn-dark" type="button" id="applyFilterBtn">Áp dụng</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="tag-cloud">
       <a href="#" class="flower-tag">Hoa Mai Vàng</a>
       <a href="#" class="flower-tag">Hoa Đào Nhật Tân</a>
@@ -120,7 +171,7 @@
       <a href="#" class="flower-tag">Hoa Cẩm Chướng</a>
       <a href="#" class="flower-tag">Hoa Hồng Phấn</a>
     </div>
-
+    
     <!-- Hoa Tet Section -->
     <section id="hoa-tet" class="mb-5">
       <div class="product-section-header">
@@ -747,7 +798,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2024 FlowerShop. All rights reserved. Crafted with botanical love 🌸</p>
+        <p>© 2026 FlowerShop. All rights reserved. Crafted with botanical love 🌸</p>
       </div>
     </div>
   </footer>
@@ -851,7 +902,7 @@
   <script src="../login&register/AccountSystem/auth.js"></script>
   <script src="../cart/cart.js?v=2"></script>
   <script src="../Profile/profile_rank.js?v=2"></script>
-  <script src="main.js?v=2"></script>
+  <script src="main.js?v=4"></script>
 </body>
 
 </html>

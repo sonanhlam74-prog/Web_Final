@@ -4,6 +4,8 @@ if (window.Auth) {
   const currentUser = window.Auth.getCurrentUser();
   if (!currentUser) {
     window.location.href = "../login&register/Login/login.html";
+  } else if ((currentUser.role || "user") !== "admin") {
+    window.location.href = "../Test app/main.html";
   }
 }
 

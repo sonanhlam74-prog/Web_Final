@@ -14,7 +14,8 @@ $(function () {
       username: authUser.email,
       displayName: authUser.displayName,
       avatar: authUser.avatar || 'https://ui-avatars.com/api/?name=User&background=3b82f6&color=fff',
-      role: authUser.email.startsWith("admin") ? "admin" : "user",
+      role: authUser.role || (authUser.email.startsWith("admin") ? "admin" : "user"),
+      status: authUser.status || 'active',
       accumulatedSpend: 0
     };
     localStorage.setItem('currentUser', JSON.stringify(currentUser));

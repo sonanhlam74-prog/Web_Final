@@ -16,7 +16,7 @@ $(document).ready(function () {
     // If already logged in, redirect
     const currentUser = Auth.getCurrentUser();
     if (currentUser) {
-      const userRole = currentUser.email.startsWith("admin") ? "admin" : "user";
+      const userRole = (currentUser.role || "user").toLowerCase();
       if (userRole === "admin") {
         window.location.href = "../../Tasks/admin.html";
       } else {
@@ -38,15 +38,15 @@ $(document).ready(function () {
 
     const res = await Auth.login({ email, password });
     if (res.ok) {
-      const userRole = email.startsWith("admin") ? "admin" : "user";
-      
-      // Ensure currentUser role is set correctly
-      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      if (currentUser && !currentUser.role) {
+      const userRole = (res.user?.role || "user").toLowerCase();
+
+      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+      if (currentUser) {
         currentUser.role = userRole;
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        currentUser.status = res.user?.status || currentUser.status || "active";
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
       }
-      
+
       if (userRole === "admin") {
         window.location.href = "../../Tasks/admin.html";
       } else {

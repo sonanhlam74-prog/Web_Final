@@ -18,7 +18,8 @@ if (!currentUser && window.Auth && window.Auth.getCurrentUser && window.Auth.get
         username: authUser.email,
         displayName: authUser.displayName,
         avatar: authUser.avatar || DEFAULT_AVATAR,
-        role: authUser.email.startsWith("admin") ? "admin" : "user",
+        role: authUser.role || (authUser.email.startsWith("admin") ? "admin" : "user"),
+        status: authUser.status || 'active',
         accumulatedSpend: 0
     };
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -99,6 +100,8 @@ $(document).ready(function () {
         let roleText = 'Người dùng';
         if (currentUser.role === 'admin') {
             roleText = 'Quản trị viên';
+        } else if (currentUser.role === 'staff') {
+            roleText = 'Nhân viên';
         } else if (currentUser.role === 'guest') {
             roleText = 'Khách';
         }

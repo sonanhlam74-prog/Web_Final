@@ -25,6 +25,67 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html.dark {
+  --primary: #ff9bb8;
+  --primary-rgb: 255, 155, 184;
+  --primary-light: #2b2330;
+  --primary-container: #3b2f39;
+  --on-primary-container: #ffe1ec;
+  --yellow-bar: #3a2c34;
+  --bg: #16131a;
+  --text: #f8f2f6;
+  --muted: #c5bac0;
+}
+
+html.dark body {
+  background: radial-gradient(circle at top right, #2d2130, #16131a 42%, #121018 100%);
+  color: var(--text);
+}
+
+html.dark .top-header,
+html.dark .search-box,
+html.dark .cat-pill,
+html.dark .product-card,
+html.dark .dropdown-menu,
+html.dark .modal-content {
+  background: #221c28 !important;
+  color: var(--text);
+  border-color: #3b3345 !important;
+}
+
+html.dark .yellow-info-bar,
+html.dark .search-input,
+html.dark .flower-tag {
+  color: var(--text);
+}
+
+html.dark .search-input {
+  background: transparent;
+}
+
+html.dark .hero-banner {
+  background: linear-gradient(90deg, #3f2f4f, #3a2b45, #2f314d);
+  color: #f8f2f6;
+}
+
+html.dark .text-muted,
+html.dark .footer-flower .footer-desc,
+html.dark .footer-flower .footer-links a,
+html.dark .footer-flower .contact-item,
+html.dark .footer-flower .social-text {
+  color: #c5bac0 !important;
+}
+
+html.dark .btn.btn-outline-dark {
+  border-color: #5a4a5f;
+  color: #f8f2f6;
+}
+
+html.dark .btn.btn-outline-dark:hover,
+html.dark .dark-toggle:hover {
+  background: #3a2f43;
+}
+
 /* Header */
 .top-header {
   background: white;
@@ -39,6 +100,46 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.theme-icon {
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.dark-toggle {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #d3c2c6;
+  flex-shrink: 0;
+}
+
+.dark-toggle .toggle-dot {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.3s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+html.dark .dark-toggle {
+  background-color: #FF9BB8;
+}
+
+html.dark .dark-toggle .toggle-dot {
+  transform: translateX(24px);
+}
+
+html.dark .theme-icon {
+  color: #e3d8dd;
 }
 
 .badge-rank {
@@ -128,6 +229,59 @@ body {
   outline: none;
 }
 
+.filter-popover-wrap {
+  position: relative;
+}
+
+.filter-popover-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 1090;
+  width: min(430px, calc(100vw - 2rem));
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 14px;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+}
+
+.filter-popover-title {
+  padding: 12px 15px;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f8f9fa;
+}
+
+.filter-popover-content {
+  padding: 14px;
+  color: #4f4447;
+  font-size: 0.95rem;
+}
+
+html.dark .filter-popover-panel {
+  background: #261f2d;
+  border-color: #4a3a51;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+}
+
+html.dark .filter-popover-title {
+  background: #302736;
+  border-color: #4a3a51;
+}
+
+html.dark .filter-popover-content,
+html.dark .filter-popover-content .form-label {
+  color: #e6dce1;
+}
+
+html.dark .filter-popover-content .form-control,
+html.dark .filter-popover-content .form-select {
+  background: #2f2737;
+  color: #f8f2f6;
+  border-color: #57465d;
+}
+
 .tag-cloud {
   display: flex;
   flex-wrap: wrap;
@@ -169,6 +323,37 @@ body {
 
 .product-card:hover {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.product-card.is-out-of-stock {
+  opacity: 0.72;
+}
+
+.stock-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  margin-bottom: 0.55rem;
+}
+
+.stock-status-badge.available {
+  background: rgba(25, 135, 84, 0.14);
+  color: #198754;
+}
+
+.stock-status-badge.out_of_stock {
+  background: rgba(220, 53, 69, 0.15);
+  color: #dc3545;
+}
+
+.btn-cart-pink[disabled] {
+  background: #d8cdd2;
+  color: #8f7c84;
+  cursor: not-allowed;
 }
 
 .card-img-container {
