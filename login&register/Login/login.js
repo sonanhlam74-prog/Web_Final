@@ -1,79 +1,48 @@
 $(document).ready(function () {
-  function createGuestUser() {
-    return {
-      id: "guest_" + Date.now(),
-      email: "guest@example.com",
-      name: "Khach",
-      username: "guest",
-      displayName: "Khach",
-      avatar: "https://ui-avatars.com/api/?name=Guest&background=9ca3af&color=fff",
-      role: "guest",
-      accumulatedSpend: 0,
-    };
+
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if (currentUser) {
+    if (currentUser.role === 'admin')
+      window.location.href = '../../Tasks/admin.html';
+    else
+      window.location.href = '../../Test app/main.html';
   }
 
-  if (window.Auth) {
-    // If already logged in, redirect
-    const currentUser = Auth.getCurrentUser();
-    if (currentUser) {
-      const userRole = (currentUser.role || "user").toLowerCase();
-      if (userRole === "admin") {
-        window.location.href = "../../Tasks/admin.html";
-      } else {
-        window.location.href = "../../Test app/main.html";
-      }
-      return; // Stop further execution
-    }
-  }
-
-  $("#loginForm").on("submit", async function (e) {
+  $('#loginForm').on('submit', function (e) {
     e.preventDefault();
-    const email = $("#email").val().trim();
-    const password = $("#password").val().trim();
 
-    if (!window.Auth) {
-      alert("Hệ thống xác thực chưa được tải.");
-      return;
+    const username = $('#username').val().trim();
+    const password = $('#password').val().trim();
+
+    // ADMIN
+    if (username === 'admin' && password === 'admin123') {
+      localStorage.setItem('currentUser', JSON.stringify({
+        username: 'admin',
+        password: 'admin123',
+        role: 'admin',
+        name: 'Quản trị viên',
+        avatar: 'https://ui-avatars.com/api/?name=Admin',
+        accumulatedSpend: 1500000
+      }));
+      window.location.href = '../../Tasks/admin.html';
     }
 
-    const res = await Auth.login({ email, password });
-    if (res.ok) {
-      const userRole = (res.user?.role || "user").toLowerCase();
-
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
-      if (currentUser) {
-        currentUser.role = userRole;
-        currentUser.status = res.user?.status || currentUser.status || "active";
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
-      }
-
-      if (userRole === "admin") {
-        window.location.href = "../../Tasks/admin.html";
-      } else {
-        window.location.href = "../../Test app/main.html";
-      }
-    } else {
-      $("#loginError").text(res.message).removeClass("d-none");
+    // USER
+    else if (username === 'user' && password === 'user123') {
+      localStorage.setItem('currentUser', JSON.stringify({
+        username: 'user',
+        password: 'user123',
+        role: 'user',
+        name: 'Người dùng',
+        avatar: 'https://ui-avatars.com/api/?name=User',
+        accumulatedSpend: 150000
+      }));
+      window.location.href = '../../Test app/main.html';
     }
-  });
 
-  $("#guestLoginBtn").on("click", function () {
-    const guestUser = createGuestUser();
-    localStorage.setItem("currentUser", JSON.stringify(guestUser));
-    if (window.Auth?.logout) {
-      // Ensure no previous authenticated session blocks guest flow
-      window.Auth.logout();
-      localStorage.setItem("currentUser", JSON.stringify(guestUser));
-    }
-    window.location.href = "../../Test app/main.html";
-  });
-
-  $("#togglePasswordBtn").on("change", function () {
-    const passwordInput = $("#password");
-    if ($(this).is(":checked")) {
-      passwordInput.attr("type", "text");
-    } else {
-      passwordInput.attr("type", "password");
+    else {
+      $('#loginError').removeClass('d-none');
     }
   });
+
 });
