@@ -100,7 +100,7 @@
       <a href="#hoa-sinh-nhat" class="cat-pill nav-link-internal"><i class='bx bxs-cake'></i> Hoa Sinh Nhật</a>
       <a href="#hoa-cuoi" class="cat-pill nav-link-internal"><i class='bx bxs-heart'></i> Hoa Cưới</a>
     </nav>
-    
+
     <div class="search-box">
       <i class='bx bx-search fs-4 text-muted'></i>
       <input type="text" class="search-input" id="mainSearchInput" placeholder="Tìm kiếm hoa...">
@@ -171,7 +171,7 @@
       <a href="#" class="flower-tag">Hoa Cẩm Chướng</a>
       <a href="#" class="flower-tag">Hoa Hồng Phấn</a>
     </div>
-    
+
     <!-- Hoa Tet Section -->
     <section id="hoa-tet" class="mb-5">
       <div class="product-section-header">
@@ -806,6 +806,30 @@
   <a href="#" class="back-to-top" id="backToTopBtn" title="Lên đầu trang">
     <i class='bx bx-up-arrow-alt'></i>
   </a>
+
+  <!-- Popup thêm vào giỏ hàng -->
+  <div class="modal fade" id="cartPopupModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 12px;">
+        <div class="modal-header border-0 pb-1">
+          <h5 class="modal-title fw-bold text-success d-flex align-items-center gap-2">
+            <i class='bx bx-check-circle fs-4'></i> Thêm thành công
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center pt-2 pb-4">
+          <p class="mb-4 fs-6">Sản phẩm <strong id="cartPopupProductName" class="text-primary"></strong> đã được thêm
+            vào giỏ hàng của bạn.</p>
+          <div class="d-flex justify-content-center gap-2">
+            <button type="button" class="btn btn-outline-secondary rounded-pill fw-medium" data-bs-dismiss="modal">Tiếp
+              tục mua sắm</button>
+            <a href="../cart/checkout.html" class="btn btn-primary rounded-pill px-4 fw-medium"
+              style="background-color: #7b5362; border-color: #7b5362;">Đến giỏ hàng</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast Container -->
   <div class="toast-container position-fixed top-0 end-0 p-3 mt-4" style="z-index: 1055;">

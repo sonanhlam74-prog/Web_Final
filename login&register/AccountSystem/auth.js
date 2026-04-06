@@ -117,11 +117,11 @@
     const p = String(password || "");
     const name = label || "Mật khẩu";
 
-    if (PASSWORD_MIN_LEN > 0 && p.length < PASSWORD_MIN_LEN) {
+    if (p.length < 6) {
       return {
         ok: false,
         code: "weak_password",
-        message: `${name} tối thiểu ${PASSWORD_MIN_LEN} ký tự.`,
+        message: `${name} tối thiểu 6 ký tự.`,
       };
     }
     if (/\s/.test(p)) {
@@ -131,32 +131,13 @@
         message: `${name} không được chứa khoảng trắng.`,
       };
     }
-    if (!/[a-z]/.test(p)) {
-      return {
-        ok: false,
-        code: "invalid_password",
-        message: `${name} phải có ít nhất 1 chữ thường.`,
-      };
-    }
-    if (!/[A-Z]/.test(p)) {
-      return {
-        ok: false,
-        code: "invalid_password",
-        message: `${name} phải có ít nhất 1 chữ in hoa.`,
-      };
-    }
-    if (!/[0-9]/.test(p)) {
-      return {
-        ok: false,
-        code: "invalid_password",
-        message: `${name} phải có ít nhất 1 chữ số.`,
-      };
-    }
     return { ok: true };
   }
 
   function isValidEmail(email) {
     const e = normalizeEmail(email);
+    // Allow mock usernames
+    if (e === "admin" || e === "user") return true;
     // reasonable client-side check, not RFC-complete
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
   }

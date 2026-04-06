@@ -40,24 +40,35 @@ if (!currentUser) {
 }
 
 function calculateRank(spend) {
-    if (spend < 500000) return { name: 'Đồng', nextLimit: 500000, nextName: 'Bạc', icon: 'https://pathfinder.w3schools.com/images/leagues/bronze.svg' };
-    if (spend < 2000000) return { name: 'Bạc', nextLimit: 2000000, nextName: 'Vàng', icon: 'https://pathfinder.w3schools.com/images/leagues/silver.svg' };
-    if (spend < 5000000) return { name: 'Vàng', nextLimit: 5000000, nextName: 'Bạch Kim', icon: 'https://pathfinder.w3schools.com/images/leagues/gold.svg' };
-    return { name: 'Bạch Kim', nextLimit: null, nextName: null, icon: 'https://pathfinder.w3schools.com/images/leagues/platinum.svg' };
+    if (spend < 500000) return { name: 'Đồng', currentLimit: 0, nextLimit: 500000, nextName: 'Bạc', icon: 'https://pathfinder.w3schools.com/images/leagues/bronze.svg' };
+    if (spend < 2000000) return { name: 'Bạc', currentLimit: 500000, nextLimit: 2000000, nextName: 'Vàng', icon: 'https://pathfinder.w3schools.com/images/leagues/silver.svg' };
+    if (spend < 5000000) return { name: 'Vàng', currentLimit: 2000000, nextLimit: 5000000, nextName: 'Bạch Kim', icon: 'https://pathfinder.w3schools.com/images/leagues/gold.svg' };
+    return { name: 'Bạch Kim', currentLimit: 5000000, nextLimit: null, nextName: null, icon: 'https://pathfinder.w3schools.com/images/leagues/platinum.svg' };
 }
 
 function getDiscountCodes(rankName) {
     const codes = [
         { code: 'FREESHIP', desc: 'Miễn phí vận chuyển toàn quốc' }
     ];
+    
+    if (['Đồng', 'Bạc', 'Vàng', 'Bạch Kim'].includes(rankName)) {
+        codes.push({ code: 'HOA5K', desc: 'Giảm 5K cho mọi đơn hàng hoa' });
+    }
+    
     if (['Bạc', 'Vàng', 'Bạch Kim'].includes(rankName)) {
         codes.push({ code: 'GIAM10K', desc: 'Giảm 10K cho đơn > 200K' });
+        codes.push({ code: 'TANGTHIEP', desc: 'Tặng thiệp viết tay miễn phí' });
     }
+    
     if (['Vàng', 'Bạch Kim'].includes(rankName)) {
         codes.push({ code: 'GIAM50K', desc: 'Giảm 50K cho đơn > 500K' });
+        codes.push({ code: 'MUA1TANG1', desc: 'Mua 1 bó lớn tặng 1 cành hoa hồng' });
     }
+    
     if (rankName === 'Bạch Kim') {
         codes.push({ code: 'GIAM100K', desc: 'Giảm 100K cho đơn > 1 Triệu' });
+        codes.push({ code: 'VIPCARE', desc: 'Giao hàng hỏa tốc trong 1h miễn phí' });
+        codes.push({ code: 'HOANTIEN20', desc: 'Hoàn tiền 20% xu vào ví' });
     }
     return codes;
 }
@@ -114,7 +125,12 @@ $(document).ready(function () {
         if (rankInfo.nextLimit) {
             const needed = rankInfo.nextLimit - spend;
             $('#nextRankText').text(`Cần ${needed.toLocaleString('vi-VN')}đ để lên hạng ${rankInfo.nextName}`);
-            const percent = (spend / rankInfo.nextLimit) * 100;
+            
+            // Tính % tương đối giữa khoảng cách của hạng hiện tại và hạng tiếp theo
+            const currentLevelSpan = rankInfo.nextLimit - rankInfo.currentLimit;
+            const spendInCurrentLevel = spend - rankInfo.currentLimit;
+            const percent = (spendInCurrentLevel / currentLevelSpan) * 100;
+            
             $('#rankProgressBar').css('width', `${percent}%`);
         } else {
             $('#nextRankText').text('Đạt hạng tối đa');

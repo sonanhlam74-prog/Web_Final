@@ -28,8 +28,10 @@ const CartService = {
         
         this.saveCart(cart);
         
-        // Show lightweight feedback (could use Bootstrap toast)
-        if (typeof showToast === 'function') {
+        // Show lightweight feedback (could use Bootstrap toast or modal)
+        if (typeof showCartPopup === 'function') {
+            showCartPopup(product.name);
+        } else if (typeof showToast === 'function') {
             showToast('Đã thêm ' + product.name + ' vào giỏ hàng!');
         } else {
             console.log('Added to cart:', product.name);
@@ -91,7 +93,7 @@ $(document).ready(function() {
     CartService.updateBadge();
 
     // 2. Add to Cart Logic (for test.html)
-    $('.btn-cart-pink').on('click', function(e) {
+    $(document).on('click', '.btn-cart-pink', function(e) {
         e.preventDefault();
         
         // Traverse DOM to find product details
@@ -223,6 +225,22 @@ Tổng tiền: ${totalText}`;
                 });
             } else {
                 console.error("TaskService is not loaded!");
+            }
+
+            // Tích điểm hạng thành viên
+            const totalNum = parseInt(totalText.replace(/[^0-9]/g, '')) || 0;
+            let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser && currentUser.role !== 'guest') {
+                currentUser.accumulatedSpend = (currentUser.accumulatedSpend || 0) + totalNum;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Đồng bộ vào hệ thống Auth
+                let authUsers = JSON.parse(localStorage.getItem('auth.users.v1') || '[]');
+                let idx = authUsers.findIndex(u => u.id === currentUser.id || u.email === currentUser.email);
+                if (idx !== -1) {
+                    authUsers[idx].accumulatedSpend = currentUser.accumulatedSpend;
+                    localStorage.setItem('auth.users.v1', JSON.stringify(authUsers));
+                }
             }
 
             const modal = new bootstrap.Modal(document.getElementById('successModal'));

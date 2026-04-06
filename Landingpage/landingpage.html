@@ -182,7 +182,10 @@
                             </div>
                             <h3>Bó Hồng Đỏ Premium</h3>
                             <p class="product-price">350.000đ</p>
-                            <button class="btn-detail">Xem chi tiết</button>
+                            <div class="d-flex gap-2">
+                                <button class="btn-detail">Xem chi tiết</button>
+                                <button class="btn btn-cart-pink" onclick="showCartPopup('Bó Hồng Đỏ Premium')"><i class='bx bx-plus'></i> Thêm vào giỏ</button>
+                            </div>
                         </div>
                     </div>
 
@@ -195,7 +198,10 @@
                             </div>
                             <h3>Hoa Ly Trắng Tinh Khôi</h3>
                             <p class="product-price">280.000đ</p>
-                            <button class="btn-detail">Xem chi tiết</button>
+                            <div class="d-flex gap-2">
+                                <button class="btn-detail">Xem chi tiết</button>
+                                <button class="btn btn-cart-pink" onclick="showCartPopup('Hoa Ly Trắng Tinh Khôi')"><i class='bx bx-plus'></i> Thêm vào giỏ</button>
+                            </div>
                         </div>
                     </div>
 
@@ -208,7 +214,10 @@
                             </div>
                             <h3>Lan Hồ Điệp Tím</h3>
                             <p class="product-price">450.000đ</p>
-                            <button class="btn-detail">Xem chi tiết</button>
+                            <div class="d-flex gap-2">
+                                <button class="btn-detail">Xem chi tiết</button>
+                                <button class="btn btn-cart-pink" onclick="showCartPopup('Lan Hồ Điệp Tím')"><i class='bx bx-plus'></i> Thêm vào giỏ</button>
+                            </div>
                         </div>
                     </div>
 
@@ -221,7 +230,10 @@
                             </div>
                             <h3>Tulip Mix Pastel</h3>
                             <p class="product-price">320.000đ</p>
-                            <button class="btn-detail">Xem chi tiết</button>
+                            <div class="d-flex gap-2">
+                                <button class="btn-detail">Xem chi tiết</button>
+                                <button class="btn btn-cart-pink" onclick="showCartPopup('Tulip Mix Pastel')"><i class='bx bx-plus'></i> Thêm vào giỏ</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -390,11 +402,43 @@
         </div>
     </footer>
 
-    <!-- jQuery 3.7 -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- Bootstrap 5 JS Bundle (Popper included) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="landingpage.js"></script>
+        <!-- Cart Popup Modal -->
+        <div class="modal fade" id="cartPopupModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg" style="border-radius: 12px;">
+                    <div class="modal-header border-0 pb-1">
+                        <h5 class="modal-title fw-bold text-success d-flex align-items-center gap-2">
+                            <i class='bx bx-check-circle fs-4'></i> Thêm thành công
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center pt-2 pb-4">
+                        <p class="mb-4 fs-6">Sản phẩm <strong id="cartPopupProductName" class="text-primary"></strong> đã được thêm vào giỏ hàng của bạn.</p>
+                        <a href="../cart/checkout.html" class="btn btn-success rounded-pill px-4">Xem giỏ hàng</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- jQuery 3.7 -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <!-- Bootstrap 5 JS Bundle (Popper included) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="landingpage.js"></script>
+
+        <script>
+            function showCartPopup(productName) {
+                const nameEl = document.getElementById("cartPopupProductName");
+                if (nameEl) nameEl.textContent = productName || "Sản phẩm";
+                const modalEl = document.getElementById("cartPopupModal");
+                if (modalEl) {
+                    const modal = new bootstrap.Modal(modalEl);
+                    modal.show();
+                } else {
+                    alert('Đã thêm ' + productName + ' vào giỏ hàng!');
+                }
+            }
+        </script>
 
 </body>
 

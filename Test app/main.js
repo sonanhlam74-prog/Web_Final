@@ -75,6 +75,21 @@ function showToast(message) {
 
 window.showToast = showToast;
 
+function showCartPopup(productName) {
+  const nameEl = document.getElementById("cartPopupProductName");
+  if (nameEl) nameEl.textContent = productName || "Sản phẩm";
+  
+  const modalEl = document.getElementById("cartPopupModal");
+  if (modalEl) {
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
+  } else {
+    // Fallback to toast if modal HTML is missing
+    showToast('Đã thêm ' + productName + ' vào giỏ hàng!');
+  }
+}
+window.showCartPopup = showCartPopup;
+
 $(document).ready(function () {
   const $searchInput = $("#mainSearchInput");
   const $clearSearchBtn = $("#clearSearchBtn");
